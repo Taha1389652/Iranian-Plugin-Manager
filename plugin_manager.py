@@ -326,7 +326,11 @@ class StartupTasks:
         if not babase.app.config["Community Plugin Manager"]["Settings"]["Auto Update Plugins"]:
             return
         await self.plugin_manager.setup_index()
-        all_plugins = await self.plugin_manager.categories["All"].get_plugins()  # "All" به جای "همه"
+        # استفاده از کلید "All" (دسته‌ی همه)
+        if "All" not in self.plugin_manager.categories:
+            # اگر دسته‌ی All وجود نداشت، صبر کن تا setup_index کامل بشه
+            await asyncio.sleep(0.5)
+        all_plugins = await self.plugin_manager.categories["All"].get_plugins()
         plugins_to_update = []
         for plugin in all_plugins:
             if plugin.is_installed and await plugin.get_local().is_enabled() and plugin.has_update():
@@ -496,7 +500,7 @@ class Category:
 class CategoryAll(Category):
     def __init__(self, plugins={}):
         super().__init__(meta_url=None)
-        self._name = "All"  # اسم داخلی انگلیسی
+        self._name = "All"
         self._description = "All plugins"
         self._plugins = plugins
 
@@ -2164,16 +2168,17 @@ class PluginCustomSourcesWindow(popup.PopupWindow):
 
     async def add_source(self):
         source = bui.textwidget(query=self._add_source_widget)
-        # External source URIs can optionally suffix `@branchname`, for example:
-        # `bombsquad-community/sample-plugin-source@experimental`
         source_splits = source.split("@", maxsplit=1)
         if len(source_splits) == 1:
-            # Fallack to `main` if `@branchname` isn't specified in an external source URI.
             source_repo, source_tag = source_splits[0], "main"
         else:
             source_repo, source_tag = source_splits
+
+        # استفاده از PluginManager برای دریافت index (رفع خطای KeyError)
+        pm = PluginManager()
+        await pm.setup_index()
         meta_url = partial_format(
-            _CACHE["index"]["external_source_url"],
+            pm._index["external_source_url"],
             repository=source_repo,
         )
         category = Category(meta_url, tag=source_tag)
@@ -2263,7 +2268,7 @@ class PluginManagerWindow(bui.MainWindow):
     ):
         self.plugin_manager = PluginManager()
         self.category_selection_button = None
-        self.selected_category = 'All'  # کلید داخلی انگلیسی
+        self.selected_category = 'All'
         self.plugins_in_current_view = {}
         self.selected_alphabet_order = 'a_z'
         self.alphabet_order_selection_button = None
@@ -2407,7 +2412,7 @@ class PluginManagerWindow(bui.MainWindow):
     async def draw_index(self):
         self.draw_search_bar()
         self.draw_plugins_scroll_bar()
-        self.draw_category_selection_button(post_label="همه")  # نمایش فارسی
+        self.draw_category_selection_button(post_label="همه")
         self.draw_refresh_icon()
         self.draw_settings_icon()
         with self.exception_handler():
@@ -2418,7 +2423,7 @@ class PluginManagerWindow(bui.MainWindow):
                 bui.textwidget(edit=self._plugin_manager_status_text, text="")
             except:
                 pass
-            await self.select_category("All")  # کلید داخلی
+            await self.select_category("All")
 
     def draw_plugins_scroll_bar(self):
         scroll_size_x = self.scrollx = (515 if _uiscale() is babase.UIScale.SMALL else
@@ -2726,7 +2731,7 @@ class PluginManagerWindow(bui.MainWindow):
         for i, plugin in enumerate(plugin_names_ready_to_draw):
             await self.draw_plugin_name(plugin, plugin_names_ready_to_draw)
         kids = self._columnwidget.get_children()
-        if kids:  # بررسی خالی نبودن لیست برای جلوگیری از خطای slice step
+        if kids:  # جلوگیری از خطای slice step
             first_child, last_child = kids[::len(kids)-1]
             bui.widget(first_child, up_widget=self._filter_widget)
             bui.widget(last_child, down_widget=self._back_button)
