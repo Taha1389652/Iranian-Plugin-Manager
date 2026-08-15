@@ -115,6 +115,25 @@
           "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
         }
       }
+    },
+    "3783_6723251168": {
+      "description": "API 9",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "f0447ecfa74b73c8e32abe4697c088ca54a41394",
+          "released_on": "15-08-2026",
+          "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
+        }
+      }
     }
   }
 }
