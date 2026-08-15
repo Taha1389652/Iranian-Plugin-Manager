@@ -140,6 +140,25 @@
           "md5sum": "574595672518429c459ffff921502c26"
         }
       }
+    },
+    "Self_6723251168": {
+      "description": "Self",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "ce21ed1922a871c77066bc79e978d002daa8c891",
+          "released_on": "16-08-2026",
+          "md5sum": "574595672518429c459ffff921502c26"
+        }
+      }
     }
   }
 }
