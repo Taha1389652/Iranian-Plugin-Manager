@@ -27,6 +27,25 @@
           "md5sum": "574595672518429c459ffff921502c26"
         }
       }
+    },
+    "Taha_6723251168": {
+      "description": "✅ API ثبت شد!\n\nحالا یه توضیح کوتاه درباره مود بنویس:\nمثلاً: این مود قدرت ضربه رو ۱۰ برابر می‌کنه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "ebad7b70d5bb700628e3cc0ed9c3742105740ce0",
+          "released_on": "16-08-2026",
+          "md5sum": "574595672518429c459ffff921502c26"
+        }
+      }
     }
   }
 }
