@@ -1,0 +1,15 @@
+{
+  "plugin_manager_url": "https://github.com/Taha1389652/Iranian-Plugin-Manager/{content_type}/{tag}/plugin_manager.py",
+  "versions": {
+    "1.0.0": {
+      "api_version": 9,
+      "commit_sha": "05f69bd",
+      "released_on": "15-08-2026",
+      "md5sum": "your_md5_here"
+    }
+  },
+  "categories": [
+    "https://raw.githubusercontent.com/Taha1389652/Iranian-Plugin-Manager/main/custom.json"
+  ],
+  "external_source_url": "https://github.com/{repository}/{content_type}/{tag}/category.json"
+}
