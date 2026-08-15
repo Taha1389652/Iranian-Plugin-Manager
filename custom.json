@@ -77,6 +77,25 @@
           "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
         }
       }
+    },
+    "Taha_6723251168": {
+      "description": "taha",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "e8dd11b0dec2e4136cf0bdc386a1faa03f12faf3",
+          "released_on": "15-08-2026",
+          "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
+        }
+      }
     }
   }
 }
