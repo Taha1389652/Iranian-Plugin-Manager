@@ -39,6 +39,25 @@
           "md5sum": "c3b90b25eaf21103d69ca08f39e2acf1"
         }
       }
+    },
+    "Test2": {
+      "description": "10",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "طاها",
+          "email": "tahabigpro@gmail.com",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "c60db60384939c4e0b89dc5b88d287048ea5d02d",
+          "released_on": "15-08-2026",
+          "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
+        }
+      }
     }
   }
 }
