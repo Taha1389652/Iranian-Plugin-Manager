@@ -140,6 +140,25 @@
           "md5sum": "574595672518429c459ffff921502c26"
         }
       }
+    },
+    "BsRush_6723251168": {
+      "description": "self",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha",
+          "email": "tahabigpro@gmail.com",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "429accafb49d968affcbd1af80774f0332d29946",
+          "released_on": "15-08-2026",
+          "md5sum": "574595672518429c459ffff921502c26"
+        }
+      }
     }
   }
 }
