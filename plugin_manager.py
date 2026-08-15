@@ -326,7 +326,7 @@ class StartupTasks:
         if not babase.app.config["Community Plugin Manager"]["Settings"]["Auto Update Plugins"]:
             return
         await self.plugin_manager.setup_index()
-        all_plugins = await self.plugin_manager.categories["All"].get_plugins()
+        all_plugins = await self.plugin_manager.categories["All"].get_plugins()  # "All" به جای "همه"
         plugins_to_update = []
         for plugin in all_plugins:
             if plugin.is_installed and await plugin.get_local().is_enabled() and plugin.has_update():
@@ -496,8 +496,8 @@ class Category:
 class CategoryAll(Category):
     def __init__(self, plugins={}):
         super().__init__(meta_url=None)
-        self._name = "همه"
-        self._description = "همه پلاگین‌ها"
+        self._name = "All"  # اسم داخلی انگلیسی
+        self._description = "All plugins"
         self._plugins = plugins
 
 
@@ -948,7 +948,7 @@ class PluginManager:
 
     async def setup_plugin_categories(self, plugin_index):
         # A hack to have the "All" category show at the top.
-        self.categories["همه"] = None
+        self.categories["All"] = None
 
         requests = []
         for meta_url in plugin_index["categories"]:
@@ -975,7 +975,7 @@ class PluginManager:
         for category in categories:
             self.categories[await category.get_name()] = category
             all_plugins.extend(await category.get_plugins())
-        self.categories["همه"] = CategoryAll(plugins=all_plugins)
+        self.categories["All"] = CategoryAll(plugins=all_plugins)
 
     def cleanup(self):
         for category in self.categories.values():
@@ -1603,7 +1603,7 @@ class PluginWindow(popup.PopupWindow):
                     )
                 )
             )
-        # navigation #XXX
+        # navigation
         if button1 and button2 and button3:
             # three buttons
             leftmost_button = button1
@@ -2263,7 +2263,7 @@ class PluginManagerWindow(bui.MainWindow):
     ):
         self.plugin_manager = PluginManager()
         self.category_selection_button = None
-        self.selected_category = 'همه'
+        self.selected_category = 'All'  # کلید داخلی انگلیسی
         self.plugins_in_current_view = {}
         self.selected_alphabet_order = 'a_z'
         self.alphabet_order_selection_button = None
@@ -2407,7 +2407,7 @@ class PluginManagerWindow(bui.MainWindow):
     async def draw_index(self):
         self.draw_search_bar()
         self.draw_plugins_scroll_bar()
-        self.draw_category_selection_button(post_label="همه")
+        self.draw_category_selection_button(post_label="همه")  # نمایش فارسی
         self.draw_refresh_icon()
         self.draw_settings_icon()
         with self.exception_handler():
@@ -2418,7 +2418,7 @@ class PluginManagerWindow(bui.MainWindow):
                 bui.textwidget(edit=self._plugin_manager_status_text, text="")
             except:
                 pass
-            await self.select_category("همه")
+            await self.select_category("All")  # کلید داخلی
 
     def draw_plugins_scroll_bar(self):
         scroll_size_x = self.scrollx = (515 if _uiscale() is babase.UIScale.SMALL else
@@ -2512,7 +2512,7 @@ class PluginManagerWindow(bui.MainWindow):
                          )
         filter_text = bui.textwidget(parent=self._root_widget, query=self._filter_widget)
         if self.plugin_manager.categories != {}:
-            if self.plugin_manager.categories['همه'] is not None:
+            if self.plugin_manager.categories['All'] is not None:
                 await self.draw_plugin_names(
                     self.selected_category, search_term=filter_text, refresh=True, order=self.selected_alphabet_order
                 )
@@ -2667,8 +2667,8 @@ class PluginManagerWindow(bui.MainWindow):
 
         try:
             if self.plugin_manager.categories != {}:
-                if self.plugin_manager.categories['همه'] is not None:
-                    category_plugins = await self.plugin_manager.categories[category if category != 'نصب شده' else 'همه'].get_plugins()
+                if self.plugin_manager.categories['All'] is not None:
+                    category_plugins = await self.plugin_manager.categories[category if category != 'نصب شده' else 'All'].get_plugins()
                 else:
                     return
             else:
@@ -2726,9 +2726,10 @@ class PluginManagerWindow(bui.MainWindow):
         for i, plugin in enumerate(plugin_names_ready_to_draw):
             await self.draw_plugin_name(plugin, plugin_names_ready_to_draw)
         kids = self._columnwidget.get_children()
-        first_child, last_child = kids[::len(kids)-1]
-        bui.widget(first_child, up_widget=self._filter_widget)
-        bui.widget(last_child, down_widget=self._back_button)
+        if kids:  # بررسی خالی نبودن لیست برای جلوگیری از خطای slice step
+            first_child, last_child = kids[::len(kids)-1]
+            bui.widget(first_child, up_widget=self._filter_widget)
+            bui.widget(last_child, down_widget=self._back_button)
 
     async def draw_plugin_name(self, plugin, plugins_list):
 
@@ -2796,7 +2797,9 @@ class PluginManagerWindow(bui.MainWindow):
 
     async def select_category(self, category):
         self.plugins_in_current_view.clear()
-        self.draw_category_selection_button(post_label=category)
+        # برای نمایش، اسم دسته رو به فارسی تبدیل کن
+        display_name = "همه" if category == "All" else category
+        self.draw_category_selection_button(post_label=display_name)
         await self.draw_plugin_names(
             category, search_term=self._last_filter_text, refresh=True, order=self.selected_alphabet_order)
         self.selected_category = category
