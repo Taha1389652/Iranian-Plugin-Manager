@@ -96,6 +96,25 @@
           "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
         }
       }
+    },
+    "pothoph_6723251168": {
+      "description": "egrg",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "f25c4357149b243ac34e1c8463bdc47698dc9b8c",
+          "released_on": "15-08-2026",
+          "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
+        }
+      }
     }
   }
 }
