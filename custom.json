@@ -58,6 +58,25 @@
           "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
         }
       }
+    },
+    "نخقل_6723251168": {
+      "description": "افق",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "2187630d0e3c6a112eef2ef563c9cc92b9aa0ddb",
+          "released_on": "15-08-2026",
+          "md5sum": "531d4b62aaf1d7485187c0b474ffda3d"
+        }
+      }
     }
   }
 }
