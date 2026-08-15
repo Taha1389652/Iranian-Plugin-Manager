@@ -140,25 +140,6 @@
           "md5sum": "574595672518429c459ffff921502c26"
         }
       }
-    },
-    "Topmsg_7110546568": {
-      "description": "این مود کاری میکنه که وقتی شما چت رو ببندین پیام هایی که بقیه ارسال میکنن بالا سمت چپ براتون کوچیک بیاد",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "Revive",
-          "email": "Reviver3000@gmail.com",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "b424c2eb4d10952774af13962a41f493d54ccfe3",
-          "released_on": "16-08-2026",
-          "md5sum": "70980bd0861af06d2345336e350fb672"
-        }
-      }
     }
   }
 }
