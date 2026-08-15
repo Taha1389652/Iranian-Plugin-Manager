@@ -8,7 +8,7 @@
       "external_url": "",
       "authors": [
         {
-          "name": "Taha",
+          "name": "Taha_OstadSharif",
           "email": "",
           "discord": ""
         }
@@ -17,6 +17,12 @@
         "1.0.0": {
           "api_version": 9,
           "commit_sha": "a63c91a19ca30edc261f8533d3be2d19868b8c9c",
+          "released_on": "16-08-2026",
+          "md5sum": "574595672518429c459ffff921502c26"
+        },
+        "1.0.1": {
+          "api_version": 9,
+          "commit_sha": "85b6e2d432c161f48bf6284f3092aa7cbb4340f3",
           "released_on": "16-08-2026",
           "md5sum": "574595672518429c459ffff921502c26"
         }
