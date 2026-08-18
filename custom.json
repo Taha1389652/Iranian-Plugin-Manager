@@ -46,7 +46,7 @@
       "external_url": "",
       "authors": [
         {
-          "name": "داش تایسون",
+          "name": "Tyson_bx",
           "email": "",
           "discord": ""
         }
@@ -55,6 +55,12 @@
         "1.0.0": {
           "api_version": 9,
           "commit_sha": "e7d4ba8e69be859239a66c542dc616d93b2fadd2",
+          "released_on": "19-08-2026",
+          "md5sum": "93abc31278934a0fffb7696728b202b6"
+        },
+        "1.0.1": {
+          "api_version": 9,
+          "commit_sha": "bd5fa7caf900f5b7b3c1800af98437981f67c679",
           "released_on": "19-08-2026",
           "md5sum": "93abc31278934a0fffb7696728b202b6"
         }
