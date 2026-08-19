@@ -78,6 +78,25 @@
           "md5sum": "957a98e49b24ff08349fb067e3f2eaa6"
         }
       }
+    },
+    "Football_6106367330": {
+      "description": "فوتبال",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "آریا یا همون بلینگهام",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "c3a317c1fb5d23b3e1fc4bfa8d79f98d0a5e6c12",
+          "released_on": "19-08-2026",
+          "md5sum": "cf0500c9442d2add6a1bd0fd652ac971"
+        }
+      }
     }
   }
 }
