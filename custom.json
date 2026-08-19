@@ -116,6 +116,25 @@
           "md5sum": "93abc31278934a0fffb7696728b202b6"
         }
       }
+    },
+    "Soccer_Mod_6106367330": {
+      "description": "این مود درحال تست است و یک مپ فوتبال است",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "darkofgang",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "aff7c94ea7be8dc720294151ee486ac7ba94f52b",
+          "released_on": "19-08-2026",
+          "md5sum": "53a4f5139e2b69e0dd11784fe070212c"
+        }
+      }
     }
   }
 }
