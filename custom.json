@@ -97,6 +97,25 @@
           "md5sum": "cf0500c9442d2add6a1bd0fd652ac971"
         }
       }
+    },
+    "Football_5817007309": {
+      "description": "این مود صرفا جهت تست ساخته شده.",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن کیان",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "5ea4b946cf53f3f002cd60707240728be97335ac",
+          "released_on": "19-08-2026",
+          "md5sum": "17b748a5f1c0d42919b02d3e0678acbb"
+        }
+      }
     }
   }
 }
