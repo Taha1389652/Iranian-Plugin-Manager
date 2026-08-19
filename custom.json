@@ -135,6 +135,25 @@
           "md5sum": "53a4f5139e2b69e0dd11784fe070212c"
         }
       }
+    },
+    "BsRush12_6723251168": {
+      "description": "تست مود",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "ecf5233bb4b0ca382fa62df851d2e93ad8241ec5",
+          "released_on": "19-08-2026",
+          "md5sum": "b24c52f8dd5d793196cf15eb1279d634"
+        }
+      }
     }
   }
 }
