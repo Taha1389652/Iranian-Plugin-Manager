@@ -79,25 +79,6 @@
         }
       }
     },
-    "Tyson_ai_chat_5696269841": {
-      "description": "برای راهنمایی با زدن دکمه بخش help رو بخونید",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "داش تایسون",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "40de573866de6be5ee653be788b8d63c3bdfb973",
-          "released_on": "19-08-2026",
-          "md5sum": "93abc31278934a0fffb7696728b202b6"
-        }
-      }
-    },
     "Soccer_Mod_6106367330": {
       "description": "این مود درحال تست است و یک مپ فوتبال است",
       "external_url": "",
