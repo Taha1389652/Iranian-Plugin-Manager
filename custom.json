@@ -59,6 +59,25 @@
           "md5sum": "93abc31278934a0fffb7696728b202b6"
         }
       }
+    },
+    "Soccer_Bomb_6106367330": {
+      "description": "این یک مود شبی سازی فوتبال است که راحت میتونید با اون در کنار رفیقاتون بازی کنین",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "آریا ملقب به(Belingham)",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "dd66434848da2e0c9019a46b786d2544490392ce",
+          "released_on": "19-08-2026",
+          "md5sum": "957a98e49b24ff08349fb067e3f2eaa6"
+        }
+      }
     }
   }
 }
