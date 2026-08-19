@@ -116,6 +116,25 @@
           "md5sum": "1be24026e77732f19df686bbede2613c"
         }
       }
+    },
+    "Tyson_ai_chat_5696269841": {
+      "description": "برای راهنمایی با زدن دکمه بخش help رو بخونید",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "داش تایسون",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "13c9026c56b5af1ba59e3ebfd8b88296eb48a537",
+          "released_on": "19-08-2026",
+          "md5sum": "93abc31278934a0fffb7696728b202b6"
+        }
+      }
     }
   }
 }
