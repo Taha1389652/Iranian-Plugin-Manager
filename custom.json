@@ -41,25 +41,6 @@
         }
       }
     },
-    "Tyson_ai_chat_5696269841": {
-      "description": "قسمت help را بخونید\nکد کنسول اگر کار نداد از این استفاده کنین:\nimport urllib.request; import _babase; import os; url=\"https://raw.githubusercontent.com/mahdiahmadi123412/Tyson_mods/refs/heads/main/tyson_ai_chat.py\"; plugin_path=os.path.join(_babase.env()['python_directory_user'], 'Tyson_ai_chat.py'); file=urllib.request.urlretrieve(url)[0]; fl=open(file,'r', encoding='utf-8'); f=open(plugin_path,'w+', encoding='utf-8'); f.write(fl.read()); fl.close(); f.close(); print('SUCCESS')",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "داش تایسون",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "ada359112fc7bcaacc48c6dd7519bf6ad3f6691b",
-          "released_on": "19-08-2026",
-          "md5sum": "93abc31278934a0fffb7696728b202b6"
-        }
-      }
-    },
     "Soccer_Bomb_6106367330": {
       "description": "این یک مود شبی سازی فوتبال است که راحت میتونید با اون در کنار رفیقاتون بازی کنین",
       "external_url": "",
