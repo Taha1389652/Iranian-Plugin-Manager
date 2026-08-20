@@ -135,6 +135,25 @@
           "md5sum": "93abc31278934a0fffb7696728b202b6"
         }
       }
+    },
+    "Self_8037116762": {
+      "description": "این مود یه کاراکتر جدید به بمب اسکواد اضافه میکنه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "VM_MV7",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "b47f30b8687f469270651a39a3ca89b36d74029a",
+          "released_on": "20-08-2026",
+          "md5sum": "da6e9a261a3fb93f89925a60d7a9756e"
+        }
+      }
     }
   }
 }
