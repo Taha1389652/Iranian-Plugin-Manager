@@ -192,6 +192,25 @@
           "md5sum": "e1b2099ea103a0b10aa196c9ce5b15a4"
         }
       }
+    },
+    "Menu_cheet_api9_7611383992": {
+      "description": "قدرت ضربه را خیلی زیاد میکنه جون بینهایت میده می تونیم پرواز کنیم و...",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Batmany",
+          "email": "mohsen1.3.9.2mn@gmail.com",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "a932f21a19ccbeae19b9fac0e17e28cd8fded7f2",
+          "released_on": "21-08-2026",
+          "md5sum": "e1b2099ea103a0b10aa196c9ce5b15a4"
+        }
+      }
     }
   }
 }
