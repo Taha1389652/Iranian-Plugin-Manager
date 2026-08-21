@@ -173,6 +173,25 @@
           "md5sum": "504f6987cf7729fabc30a2369e6f951a"
         }
       }
+    },
+    "Menu_cheet_7611383992": {
+      "description": "قدرت ضربه را خیلی زیاد میکنه جون بینهایت میده می تونیم پرواز کنیم و... ساخته شده توسط batmany",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Batmany",
+          "email": "mohsen1.3.9.2mn@gmail.com",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 7,
+          "commit_sha": "4da66768f7282c08f77d62af51a63a02c77713a2",
+          "released_on": "21-08-2026",
+          "md5sum": "e1b2099ea103a0b10aa196c9ce5b15a4"
+        }
+      }
     }
   }
 }
