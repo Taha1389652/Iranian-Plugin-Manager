@@ -287,6 +287,25 @@
           "md5sum": "578e1335a1f9d5b3863598e7234ffa80"
         }
       }
+    },
+    "Camera_API_8_7757041451": {
+      "description": "دوربین",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "fix",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "5a4a4db88b91b80dccb22bf602406e36b2a9f0a2",
+          "released_on": "22-08-2026",
+          "md5sum": "578e1335a1f9d5b3863598e7234ffa80"
+        }
+      }
     }
   }
 }
