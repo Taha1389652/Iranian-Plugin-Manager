@@ -249,6 +249,25 @@
           "md5sum": "eb917ca19d206dfd19667181dacc1df5"
         }
       }
+    },
+    "Boxing_8916614334": {
+      "description": "این گیم‌مود جدید داخل بازی بوکس بینهایت میده ولی نمیتونی بمب بندازی",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Bombintor",
+          "email": "behradacontt64@gmail.com",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "bbaf65f8efd682056cde8aceb2ed38aabdcd5024",
+          "released_on": "22-08-2026",
+          "md5sum": "9789ad3583f1d92d4e4b7bc03d09591d"
+        }
+      }
     }
   }
 }
