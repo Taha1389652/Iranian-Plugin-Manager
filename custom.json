@@ -230,6 +230,25 @@
           "md5sum": "e1b2099ea103a0b10aa196c9ce5b15a4"
         }
       }
+    },
+    "Infinity_shield_8916614334": {
+      "description": "این مود سپر شما را بینهایت می کنه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "8916614334",
+          "email": "behradacontt64@gmail.com",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "f728449e7a2d24ca16f1fd9908685380847f63e5",
+          "released_on": "22-08-2026",
+          "md5sum": "eb917ca19d206dfd19667181dacc1df5"
+        }
+      }
     }
   }
 }
