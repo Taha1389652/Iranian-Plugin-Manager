@@ -325,6 +325,25 @@
           "md5sum": "578e1335a1f9d5b3863598e7234ffa80"
         }
       }
+    },
+    "Mrmazi_7599273870": {
+      "description": "سرعت کدش ۱۰ بزار بشه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "مازیار منصوری",
+          "email": "hosein999178@gmail.com",
+          "discord": "Mazi_23"
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "052331354bbbedb6e8c573b8c6741200bab1a742",
+          "released_on": "22-08-2026",
+          "md5sum": "7da7fae6ddf2560789bbef56f4ff5bd6"
+        }
+      }
     }
   }
 }
