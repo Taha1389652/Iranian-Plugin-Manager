@@ -350,7 +350,7 @@
       "external_url": "",
       "authors": [
         {
-          "name": "ممد بکن کیان",
+          "name": "MmdPvB",
           "email": "",
           "discord": ""
         }
@@ -359,6 +359,12 @@
         "1.0.0": {
           "api_version": 9,
           "commit_sha": "daa9ffc1824d67935a46992d71439317ccb91f23",
+          "released_on": "26-08-2026",
+          "md5sum": "ee225b737f62a3c07024ae808652fb27"
+        },
+        "1.0.1": {
+          "api_version": 9,
+          "commit_sha": "c163260d8f26d6e02a803e603fb65dfa705eb38b",
           "released_on": "26-08-2026",
           "md5sum": "ee225b737f62a3c07024ae808652fb27"
         }
