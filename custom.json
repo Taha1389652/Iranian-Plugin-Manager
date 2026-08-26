@@ -369,6 +369,25 @@
           "md5sum": "ee225b737f62a3c07024ae808652fb27"
         }
       }
+    },
+    "Unlimited_Bomb_Tokhmi_5817007309": {
+      "description": "این مود به شما قابلیت اینو میده که بمب بی نهایت داشته باشید سازنده تضمینی ندارم که کار کنه یا نه سازنده: ممد بکن کیان",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن کیان",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "a3e5cb9e0089d3518d48e32fed8912c4010ef893",
+          "released_on": "26-08-2026",
+          "md5sum": "76ddb484bb164c9a1c7cf06016f62741"
+        }
+      }
     }
   }
 }
