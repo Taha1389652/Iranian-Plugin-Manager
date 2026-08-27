@@ -483,6 +483,25 @@
           "md5sum": "b18c647fe79cf685040d0641a5bc3549"
         }
       }
+    },
+    "FootTokhmi4_5817007309": {
+      "description": "این مود برای کردن طاها هست جهت کردن طاها این مد را نصب کنید. با تشکر",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "a866fbce7451a3a8d43340496802777e741cf07b",
+          "released_on": "28-08-2026",
+          "md5sum": "b18c647fe79cf685040d0641a5bc3549"
+        }
+      }
     }
   }
 }
