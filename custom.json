@@ -407,6 +407,25 @@
           "md5sum": "39b09f4784c8247dcc375e6a7efa6383"
         }
       }
+    },
+    "TysonRangeMod_5696269841": {
+      "description": "این مود محدوده مشت حریف و بمب هارا نشون میده.\nاز منو میتونید محدود مشت رو فعال یا غیرفعال کنید.",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "تایسون",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "2dbf5dc1951b97ad91d2f3fc5085174c131914ad",
+          "released_on": "27-08-2026",
+          "md5sum": "67ab2898014f8c4d655ced0637e42488"
+        }
+      }
     }
   }
 }
