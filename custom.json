@@ -445,6 +445,25 @@
           "md5sum": "80016ca4189775dabda8622103e59cb7"
         }
       }
+    },
+    "FootTokhmi2_5817007309": {
+      "description": "این مود شاید تخمی باشد با تشکر",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن کیان",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "2f3bce086c4efa60fc77d93e56385d55dae96b8c",
+          "released_on": "28-08-2026",
+          "md5sum": "fa6b4b993ede0b9fa68e3f2770ba6ddb"
+        }
+      }
     }
   }
 }
