@@ -426,6 +426,25 @@
           "md5sum": "67ab2898014f8c4d655ced0637e42488"
         }
       }
+    },
+    "Ripli_8513632007": {
+      "description": "ریپلای",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "پارسا",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "42ccd056ff42b52a1526817870b60b380f55e311",
+          "released_on": "27-08-2026",
+          "md5sum": "80016ca4189775dabda8622103e59cb7"
+        }
+      }
     }
   }
 }
