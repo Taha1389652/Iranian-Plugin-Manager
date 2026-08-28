@@ -521,6 +521,25 @@
           "md5sum": "ee4f7e3e88c2982bc8290e204b10b050"
         }
       }
+    },
+    "WWE_Map_5817007309": {
+      "description": "مشتیا ایندفعه ممد بکن طاها براتون مپ کشتی اورده",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "b08449f824ddaf30bfc7c00b67591a77209f5364",
+          "released_on": "28-08-2026",
+          "md5sum": "fc5be9570a89760af666d9afedaf77ed"
+        }
+      }
     }
   }
 }
