@@ -540,6 +540,25 @@
           "md5sum": "fc5be9570a89760af666d9afedaf77ed"
         }
       }
+    },
+    "Self_farsi_tokhmi_5817007309": {
+      "description": "سلف فارسی",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "d5b3d4f17961e2e6087ee5a57c98b4ec4886d802",
+          "released_on": "28-08-2026",
+          "md5sum": "504f6987cf7729fabc30a2369e6f951a"
+        }
+      }
     }
   }
 }
