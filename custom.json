@@ -635,6 +635,25 @@
           "md5sum": "628d89ecf4315201d18367b11b156720"
         }
       }
+    },
+    "Noko_7757041451": {
+      "description": "هیچ",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Fix_Bomb",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "9a0ad457aa01a29404be1376025a10e7a7397bc3",
+          "released_on": "28-08-2026",
+          "md5sum": "48e8d830f389db2b298bc2628ad5f2a3"
+        }
+      }
     }
   }
 }
