@@ -559,6 +559,25 @@
           "md5sum": "504f6987cf7729fabc30a2369e6f951a"
         }
       }
+    },
+    "Buffon_Creator_api9_6502587028": {
+      "description": "قابلیت شوت خودکار",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Buffon",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "e42bbb601e7814a88c7ace920228ac6a870d6ae9",
+          "released_on": "28-08-2026",
+          "md5sum": "c30d667cd4dfa08bc09778d98bf767fc"
+        }
+      }
     }
   }
 }
