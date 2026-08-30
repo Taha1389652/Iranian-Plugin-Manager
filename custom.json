@@ -98,25 +98,6 @@
         }
       }
     },
-    "soccermod_6106367330": {
-      "description": "درحال تست",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "darkofgang",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 8,
-          "commit_sha": "e4d95b922c9806374d7a3254b8103912fbd3518f",
-          "released_on": "19-08-2026",
-          "md5sum": "1be24026e77732f19df686bbede2613c"
-        }
-      }
-    },
     "Tyson_ai_chat_5696269841": {
       "description": "برای راهنمایی با زدن دکمه بخش help رو بخونید",
       "external_url": "",
