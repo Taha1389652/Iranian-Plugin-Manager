@@ -673,6 +673,25 @@
           "md5sum": "efb40880634b137398d87b375a065de8"
         }
       }
+    },
+    "ArmsRace_7160055069": {
+      "description": "با این گیم مود باید یکی رو با بمب بکشی تا بمب عوض شه تا بازی تموم شه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "DARK_ANGEL",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "55a38bc9f83820904c22ab2e3e345176334875c6",
+          "released_on": "31-08-2026",
+          "md5sum": "4feb8d6a90fee305ea70531fc9bb0e31"
+        }
+      }
     }
   }
 }
