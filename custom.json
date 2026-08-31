@@ -692,6 +692,25 @@
           "md5sum": "4feb8d6a90fee305ea70531fc9bb0e31"
         }
       }
+    },
+    "botsVSbots_7160055069": {
+      "description": "شما باید بین تیم آبی و قرمز یکی رو انتخاب کنید و ببنید کدوم تیم در جنگ برنده میشه؟",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "DARK_ANGEL",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "17b219ad9a593fa18ed909050f9ef7e0ba8cc5da",
+          "released_on": "31-08-2026",
+          "md5sum": "d0bd3ee5a83d877dfcca74a7768024e0"
+        }
+      }
     }
   }
 }
