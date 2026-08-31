@@ -730,6 +730,25 @@
           "md5sum": "a2d73ebe4cb84b723242c187ad5b5fbb"
         }
       }
+    },
+    "RankSystem_7160055069": {
+      "description": "دیگه بمب اسکواد شما رنک لوکال داره باید بازی کنید تا رنکتون بره بالا",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "DARK_ANGEL",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "08a98c37c451cd56970431e4448f86579a10e34a",
+          "released_on": "31-08-2026",
+          "md5sum": "487c0520dc833f15942941e0dbc82f1e"
+        }
+      }
     }
   }
 }
