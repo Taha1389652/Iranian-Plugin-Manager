@@ -711,6 +711,25 @@
           "md5sum": "d0bd3ee5a83d877dfcca74a7768024e0"
         }
       }
+    },
+    "VolleyPunch_7160055069": {
+      "description": "والی پانچ بی اس راش ولی آفلاین!",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "DARK_ANGEL",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "c554ec69ea2325d1c72b318e9e5d796b375dc678",
+          "released_on": "31-08-2026",
+          "md5sum": "a2d73ebe4cb84b723242c187ad5b5fbb"
+        }
+      }
     }
   }
 }
