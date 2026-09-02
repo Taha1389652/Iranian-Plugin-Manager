@@ -749,25 +749,6 @@
           "md5sum": "487c0520dc833f15942941e0dbc82f1e"
         }
       }
-    },
-    "Y_7465401342": {
-      "description": "H",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "BsNokia",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "5d79c19a6cbe9199a1f0820ce9fdf776f1fe26db",
-          "released_on": "03-09-2026",
-          "md5sum": "2179efb4d30c497a0c09fd9d5e93e24e"
-        }
-      }
     }
   }
 }
