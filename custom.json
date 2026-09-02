@@ -749,6 +749,25 @@
           "md5sum": "487c0520dc833f15942941e0dbc82f1e"
         }
       }
+    },
+    "PunchMax_6915756036": {
+      "description": "پانچ بینهایت برای آفلاین",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "6915756036",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "8e367c4f2adfb6e582bb1df09040b7765e643321",
+          "released_on": "03-09-2026",
+          "md5sum": "b89031378de96cfdb9d598fdbf94491a"
+        }
+      }
     }
   }
 }
