@@ -749,25 +749,6 @@
           "md5sum": "487c0520dc833f15942941e0dbc82f1e"
         }
       }
-    },
-    "King_7465401342": {
-      "description": "هیچی",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "BsNokia",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "0dae9dc373a85192936b40f8a3f48d1eb0829ed1",
-          "released_on": "03-09-2026",
-          "md5sum": "2179efb4d30c497a0c09fd9d5e93e24e"
-        }
-      }
     }
   }
 }
