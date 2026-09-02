@@ -749,6 +749,25 @@
           "md5sum": "487c0520dc833f15942941e0dbc82f1e"
         }
       }
+    },
+    "PunchMax_6915756036": {
+      "description": "پانچ بینهایت آفلاین",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "POYA",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "41b95f5e20a3de53a74195e3c13089bdc4927f57",
+          "released_on": "03-09-2026",
+          "md5sum": "a90aa28dc2f54c1a0b5135d02537839c"
+        }
+      }
     }
   }
 }
