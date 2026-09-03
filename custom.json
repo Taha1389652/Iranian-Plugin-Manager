@@ -863,25 +863,6 @@
           "md5sum": "60cf574b2b0b22aed444b8a6dfbd9f79"
         }
       }
-    },
-    "PingAzR_6915756036": {
-      "description": "نمایش پینگ",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "POYA",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "1d80066b0265043ea828e71ffec59f1f32b722eb",
-          "released_on": "03-09-2026",
-          "md5sum": "ccfae85534fe54e10ea91b8ad3b18fb1"
-        }
-      }
     }
   }
 }
