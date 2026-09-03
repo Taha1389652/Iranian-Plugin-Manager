@@ -844,6 +844,25 @@
           "md5sum": "0e1287021cb279416366fe092dc4b60b"
         }
       }
+    },
+    "FootBall_7160055069": {
+      "description": "فوتبال api 9 تضمینی",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "7160055069",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "7a98ac5d2e1ea0ee24920b3b3cf5935d483d761f",
+          "released_on": "03-09-2026",
+          "md5sum": "263425aa22a4e50f479259832c52339b"
+        }
+      }
     }
   }
 }
