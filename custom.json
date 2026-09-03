@@ -844,6 +844,25 @@
           "md5sum": "263425aa22a4e50f479259832c52339b"
         }
       }
+    },
+    "HealMax_6915756036": {
+      "description": "جون بی‌نهایت",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "POYA",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "3a18c788c13acc543cf8d94d175bc3d7c221db01",
+          "released_on": "03-09-2026",
+          "md5sum": "60cf574b2b0b22aed444b8a6dfbd9f79"
+        }
+      }
     }
   }
 }
