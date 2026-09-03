@@ -787,6 +787,25 @@
           "md5sum": "b6e27e4c4c8ccd14100bc4cb88edc42b"
         }
       }
+    },
+    "BotsCanAccpetPowerups_7160055069": {
+      "description": "سمی ترین مود دنیا چون این مود اجازه میده بات ها هم به پاور آپ ها دسترسی داشته باشند",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "DARK_ANGEL",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "165ebd062073469846b1364fb22811f18b56bd2f",
+          "released_on": "03-09-2026",
+          "md5sum": "ff0ed2dfada025c9d7269eaac1091062"
+        }
+      }
     }
   }
 }
