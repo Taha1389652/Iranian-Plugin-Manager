@@ -844,25 +844,6 @@
           "md5sum": "263425aa22a4e50f479259832c52339b"
         }
       }
-    },
-    "HealMax_6915756036": {
-      "description": "جون بینهایت",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "POYA",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "59c21328e83ad91b26ba9c5bc5c227bb8328b7b6",
-          "released_on": "03-09-2026",
-          "md5sum": "adf12792deee4c4181063bfcc2e7d03e"
-        }
-      }
     }
   }
 }
