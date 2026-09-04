@@ -882,6 +882,25 @@
           "md5sum": "500dd3bc0f35b809cc2cb40086165d1f"
         }
       }
+    },
+    "UltraPartyWindows_7949096995": {
+      "description": "این مود چت رو کاملا هوشمند میکنه ، کد زدن هم داره",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Hunter_Sorena",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 7,
+          "commit_sha": "c77bf3c0f3a0ed8e3d013bdfaaa46a7d7c87ded7",
+          "released_on": "05-09-2026",
+          "md5sum": "7da7fae6ddf2560789bbef56f4ff5bd6"
+        }
+      }
     }
   }
 }
