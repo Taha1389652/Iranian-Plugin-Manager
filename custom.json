@@ -863,6 +863,25 @@
           "md5sum": "60cf574b2b0b22aed444b8a6dfbd9f79"
         }
       }
+    },
+    "PingAzrael_6915756036": {
+      "description": "نمایش پینگ بر ثانیه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Poya",
+          "email": "",
+          "discord": "@Javidan1405"
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "5b2394563c5fb1311df72324d10fad560bd0f9c8",
+          "released_on": "05-09-2026",
+          "md5sum": "5212f64708ef7d1a964459fb7959631e"
+        }
+      }
     }
   }
 }
