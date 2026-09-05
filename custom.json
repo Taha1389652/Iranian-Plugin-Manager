@@ -863,25 +863,6 @@
           "md5sum": "60cf574b2b0b22aed444b8a6dfbd9f79"
         }
       }
-    },
-    "PingAz_6915756036": {
-      "description": "نمایش پینگ بر ثانیه",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "POYA",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "9f2d1da21418cf5cf36749e99bba6ba74dd4fbe9",
-          "released_on": "04-09-2026",
-          "md5sum": "500dd3bc0f35b809cc2cb40086165d1f"
-        }
-      }
     }
   }
 }
