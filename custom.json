@@ -888,9 +888,9 @@
       "external_url": "",
       "authors": [
         {
-          "name": "PoYa",
+          "name": "6915756036",
           "email": "",
-          "discord": "@Javidan1405\n『 @AzraelMods 』"
+          "discord": ""
         }
       ],
       "versions": {
@@ -899,6 +899,12 @@
           "commit_sha": "476ab60f60862adfd60fe8d441bff99515fa2267",
           "released_on": "08-09-2026",
           "md5sum": "0c421a93f6e6c36b3ce1e839ea1d7355"
+        },
+        "1.0.1": {
+          "api_version": 9,
+          "commit_sha": "8f062a07bec105d94fd607d92f582f67e2f7f9be",
+          "released_on": "08-09-2026",
+          "md5sum": "eeff6a2a1bd6c83091a8b8673d4056e9"
         }
       }
     }
