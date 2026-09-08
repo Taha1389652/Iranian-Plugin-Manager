@@ -901,6 +901,25 @@
           "md5sum": "2e328cb9cee206624764244f4b00c5a2"
         }
       }
+    },
+    "ModPoya_6915756036": {
+      "description": "نمایش \nپینگ \nساعت\nآی پی و پورت سرور فعلی",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "PoYa",
+          "email": "",
+          "discord": "@Javidan1405\n『 @AzraelMods 』"
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "476ab60f60862adfd60fe8d441bff99515fa2267",
+          "released_on": "08-09-2026",
+          "md5sum": "0c421a93f6e6c36b3ce1e839ea1d7355"
+        }
+      }
     }
   }
 }
