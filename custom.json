@@ -888,7 +888,7 @@
       "external_url": "",
       "authors": [
         {
-          "name": "6915756036",
+          "name": "POYAAZR",
           "email": "",
           "discord": ""
         }
@@ -905,6 +905,12 @@
           "commit_sha": "8f062a07bec105d94fd607d92f582f67e2f7f9be",
           "released_on": "08-09-2026",
           "md5sum": "eeff6a2a1bd6c83091a8b8673d4056e9"
+        },
+        "1.0.2": {
+          "api_version": 9,
+          "commit_sha": "64d2e4ce1e87aed3def11edea232bb2e67f62297",
+          "released_on": "10-09-2026",
+          "md5sum": "2c0e54d13d85272a78d636cb0749dbfc"
         }
       }
     }
