@@ -919,6 +919,25 @@
           "md5sum": "8bc9a847be5fa92f7dd3fbb6da6368a6"
         }
       }
+    },
+    "Smash_7279306431": {
+      "description": ".",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ARMAND_1395",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "e0b354389853b9ec2d11fbc6db0874939bf1cdb4",
+          "released_on": "11-09-2026",
+          "md5sum": "b22ef09b5ae2b910014e066f45c1c917"
+        }
+      }
     }
   }
 }
