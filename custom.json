@@ -956,6 +956,25 @@
           "md5sum": "b22ef09b5ae2b910014e066f45c1c917"
         }
       }
+    },
+    "ModPiyamPoya_8195328393": {
+      "description": "Ppp",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Javidan1405",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "c46fe8da5a9d51bcaeca2610f6a4e4db05cc1699",
+          "released_on": "12-09-2026",
+          "md5sum": "2e328cb9cee206624764244f4b00c5a2"
+        }
+      }
     }
   }
 }
