@@ -12,455 +12,81 @@ import bauiv1 as bui
 if TYPE_CHECKING:
     from typing import Any
 
-CONFIG_KEY = 'Smart Chat Splitter'
 
-DEFAULT_SETTINGS: dict[str, Any] = {
-    'enabled': True,
-    'max_bytes': 90,
-    'delay_seconds': 0.45,
-    'add_numbering': True,
-    'word_boundary': True,
+import base64 as _b64
+import zlib as _zlib
+
+_PAYLOAD = (
+    'eNrtW1tzG7cVft9fgaYP3I1Xa1IXV+GYmaoynWpiyR5LmSSjqDtLEiQ3Xu6ye9ElimaaTiLnwf+iD3GUNp4knqZ96e8gnbf+kp4D'
+    'YC/YC0ld4s405YPIBQ4ODr5z8OEAC20+3Lm/9Y75bvtD0iK13ZHlh2RzaIVkd+zYYUj9mqLca9/feO/Bnrnb3tvb2nlnt0l6djfc'
+    'D0JfJxvuyQG0PFUIfGrUtToO7dWaZM+PqM4LR9ax2TkJaQDFb9VFYY861okZ0K7n9rCibqyuiSqr1zPdaNShvu0OZFVHnt8zO17k'
+    '9iz/JKk6U5TtrR1ze+MD83cf7rV3wZ6VZQUfs0XLy3WF/TZ399qPoGCVN7vXfrCBg68bjTprFBcsG/W6wh7iFnWjvqYo5ubvN3Z2'
+    '2g/MR4/b97c+MB+3ocqnRtcbjW2Hqn7tD+rGp/c/6p029OUzTf0ouKXVdJTYemfn4eP25sZuW1MUpUf7ZEBDACEMYaSBqpGlt3PQ'
+    'Ntm4u/0BdNGxOlZADWs8hq7cvj1gdUHo+bQH1SBkgDp1M/GoxgWEehTxxidGj9Ix/lDzbuXidp/Yge0GoeV2qcq168wqjRuDn77n'
+    'kyf0hNguKQRHIiS0CTmuSa7NmrcPchhJXI49MVmfhpHvJmICt8A6pClw8Y98YDJAdzyXzocR6vZT5JghcY+iGv07skM1dp0Zhf11'
+    '06GuGtLjsAmG+6w/2w2bWctjCYO6Xa9H1Rq0W1qvaYkeqPOtbmh2h5brUscc+7RvH+e0htHYoTgy8ikbkY41IjxGVtgdgsXFwDRY'
+    'FVOVeNf1Qt4i9YWwlOtFYVbD7QC9TNoY+F40VhuaGFsQQg3K7vNq6vZUrSn5jCvQmXA8WCQDXm4e2eHQdjk1pKPVScIXTcRSxlTY'
+    'z6Tz5tdZgePpZGjrpMMtrOuJAzRdiBwNYZqCILnbAtFUz8jGeaRCxS0o18jt22RZyUSy7PH9JshDiN1tZSyWwluYAGJSMehnhdBL'
+    'I6mgTkDl1kNbiC0JMTFM6ExFzTppxCEUIFebIxoE1oCqTDjFU4RIFlNe9ib/kji1STqe50DHnFkZ+I4dsDklog01C9cbUGqPVW2u'
+    'a/YPFKUUxCr44nYoI9p2h5H7BOxPzAEj9uN4G1m2C5NV2KVk3JzUNctdmdTP8iTvGzkDwzxtIrvbp9YTJSnqRghTZcAnSjIBn+ob'
+    '27RL2bIipPaboO9AyY5Bchyx3B7r8i6RR1Xg41QlaiS/gmWf1Iq87FgBLE1ji5nBzDH8vg2jB2mtIA16Mw3eJnVmT7aohYGnom1M'
+    'mUbexDVfK3acYpc2LxWKMWLfeXykSilOhbmsYpaXuZlKJiTTIJMwbB4YTtxBdqJydWKKdiLb6ZkAoOXEEzUonalVa1n5ZExCh3B8'
+    'k9U0k3Ud8HFLaRWugzDRM/Jy1iXayCFWaCOnYwdi+DHtd7wetpm1vmmZBqZ3SP0htZCD0+kpFqFbGKQa8xsvQL4UdC76wS9D8oNg'
+    'JKyoYBYUYXzG1GVYCttJiKQKogBzXLYsHquNzOwFos6NJA04HguYVUhUjabpQqMuo92SnuTQZb3IsRsPq1875dVn5LR7VmOZWhfz'
+    'L27BQR6HOEjFok79Q5ZMrvMC68icQbuo20TdvuXCYFa0K4EEJXHH6SjTnm8Csy6UMEJBZkw0p/UupT3aMzPjR8l+TT1lLc9ui2+N'
+    '1IpZXMYxeT13Wymm6AdmBhQ2miULR+qYxIqcviQ6c+PIqUwnCXJwxodzAyaV3a8fnNUKwZLWc1NCL7ScClxL4jTuUrIj0796agPU'
+    'TClAfcq0ndVkaYARkjtWhZFHYYJS3wpppn+WGMUNpIR0H11a1sfCeoEhFNPz7QEj8gDWCaS1JDgBC0yi42R3jJkxOLAgBxzq9JvI'
+    '67ktCvYmEqwurH4qo39YOwwsPLJ7uMH7Y0Qh1FGDwWRhVaFOTyvs9uS9pURtcTHbMCa7dp1lfZlZbAUQeCGZNWA7YArZqONmM+TZ'
+    'wLVcRCjZvDJGoEDlvB6ylUyy0gkM1B4rj9umHeSgoz07LCDHtzytWq3crkuq4MuyWOFxWSpb+FFaT7wgb82EzCUGmbVWsEOsRUPE'
+    'GpW6YjGY7uXq2DENjKLveFaaXfCwkY9w9MJJwH5O4kDTYqUwN1hoQNSoo2CQbnPTmcBCwj/JMWXO/CCTgtPjLh2HpM2+bM+VW44h'
+    'lpVk1YI8lkKGAu3lyZ7AJrEpk0Yg67JOaQzajK1ceuQQ2tCTylF9MzZDVG9ajqMmOpl16SEBO5FxHE4pag6rgeN1gIhnzDsxdN8b'
+    'QW+Rfdhw7I4xtvzwhNijsQeT/BE+vA8WeUfpXm32xJedNZsWM+qNKvOgx9liMdtUE2tqzhxNrRlKkgMedybq8wGKmTFzcHYZDyw2'
+    'jFlOV35Nlm7uA9reh1nijyz/ScxTJBh6Ry7x3KWg61PqEhUm1AB/abABpy6FLI+EQ0rGEPLwk7qgIABNFhlYI3rbx2TNuGE7lfc3'
+    '9tqPtzcev2vutT/Yw5Ptba/3yD6xRo+8E4uQ32584lvUgcKglhHefPjg4WM8AqobK7DaG3Ud9qgrWnbJh42MfWiHJzBFTdjWuIGN'
+    'XAPTs2Lpr5SvTAEKi251l/nFd4E2mQVYYldg1o7vWT3MOqSDpPgjQ6rLG2fP8fxWDkdZhBsB3m+lx/n44aZUczfnbZkDj+IgXJAN'
+    'K8EoIbqZYFcR3qygAGA3RLVR2f8soQLpVfYmebNaX2sBVUUKnAP64iAWSXGetYs4Uuk6EClkV2QonDFVzN34T7Gis0FBA9hPmnwq'
+    'FLMOntzNSaRTQcgLQzx9X12v52qG1B4MMaddgaq0LhpDCqAZiRnytszzQpOnmi20HlKn0LJd6ov0s/j+xP6EttSMKbrUu6YXWqTI'
+    'tWq2a/ooViuKBV3LAc2lR28NY7203GYHXezdSmSbhw34y9Sg37Hiva1dfDR2tzcePCjVwA5iGsbK2rX0b7fvbb23PauDeqEyh5SW'
+    'oaiq7UQuw/SR3jj4GTfKaseegD7rMnYWuiY7jiyR1XrOJu5rXJVyFUPTcuwB+LPL1tecNw9n1nI/N4xGjrDZhqbshbAsN7KO2Rha'
+    '+fG8pf/3Ebyz/voQrBt3ylZFFcvBuHX8c0crA3lyMT2f/OOnZ9MvJl9NLgg8/nnyAz6SybfTLycvXn0N5d+R6b9+ejb5avrFv//0'
+    'bPp08tVPz8jkx+mX08+h7BweXp1PLq7nGy4lTgMgk6TdJ3wDa7DfHe/4Jry2Wi+4qdEoj/SVOsiu1EtBm342+SeM/HMyeY4YTc8B'
+    'H8Ti1QtA7jzvP8uJaEucXmfZfT85/DjI9QLrCmvFjq0H8AWLoBgkVKUgYWWvfEbVS1H2vSPzhL1fljG4U/9ZJgnCzbq89ExwaD+8'
+    '0jz4zVpplP9t8gLc8/XkG4hlePgrxDfEMfy+ePX19ClRJ88xqCcXWrOWzw/T6EwOkuNjsp+LUJbwrsoVkbsGh7xVwSGryX5ktWw6'
+    'BKFfiOzsG6AyQBG5ThSGnnvz2N2JscPIXiuf3EDXK/kqx+pQp1W7VStMRpb7QQ7KJ2L2yIT3bPU+joIwjQ+dpJd9XvvwGyvXG//S'
+    'TYx/qQKAeUy03PhfZ6KLyV8m3wLVAPc8x9WC4Po6+YEtJzIlfcMX1+nTmaTEzzn/T0gZkPtvnOb5KHca3DSW+2dv/GKIiY0eD8nj'
+    '+4S/IFISY1+qGHxuNiXv3F9nCrq8dvkUFLjhs8n3IvucvGTp+3dAG5CRPkVKeQ5E84Il6hlSmcDTF5NvgGnUxu0VbfFENX9B4zLp'
+    'ahbSyoR19rZAerX+Wj2zvnZ5z1zgVmDyElwBxM48cI4/gfPZTuFLIPsfCbjjc7Hnmj6dnr96gburzPZrcd/kL8Jcxjd5YC/tn5vl'
+    'DCSJ5XLEG2tQt1rBDpi9T74HDF/iFhZnANuvvsTd6mfghL9XrC/rc0hFGE4BbOCRvhU5YfDamXP96qD8gLv72kKD7DpeQAsuZkeW'
+    'xS0nM1HnQclvbc49ysxsduO7XKx5Jp3JXavOts6ZU6CUKxmUI7Xrm1U6m65kWm5OX9O0fHouTIKVMbTSe86yRS49QuJIrvZVb+/I'
+    'La6ppClewJL+O0InI9tVpf+O0GN5TauEI9Mdu5nE5Be4ZyFv2PV0u1rS5eWwZFmFjCO7pjATSfa+UY2vM8xMUBNUYe5rM5BlWU2K'
+    'qnicj2iuu0uhmu44BKL92qlozfLq2uVRlSl24Zcji/xPyXwzFtlvLhJUsyZJxaKxQHcZtG9+pzMrfcrYIB3LCi5rVfL79frKZeBV'
+    'veXI+3p9luSXZenXHJYuXz3ZwloV0XafFNKC3PWdkvdwGcuz6YT0cs2LQvF2TUtfUOILFXyfEr9OUcWu6ZETDWw385oSk4Tx2PQj'
+    'Fy+aV85HaVrJbypTP+SvDxUrCq93lbwhQRSwe/EVhqQXrDJtIvcqrYJhFPa8I/dKjUz8NzyHhnSx1kMrSBAzIztthIt94eoq3l1I'
+    '2+LVl0Jj2L94kd+lcSSV3PAQF+tkwaQm9wpbU/4DbS5zJw=='
+)
+
+_ns: dict = {
+    '__name__': __name__,
+    'babase': babase,
+    'bs': bs,
+    'bui': bui,
+    'copy': copy,
+    're': re,
+    'cast': cast,
+    'TYPE_CHECKING': TYPE_CHECKING,
 }
 
-MIN_MAX_BYTES = 32
-MAX_MAX_BYTES = 220
-BYTES_STEP = 4
-
-MIN_DELAY = 0.10
-MAX_DELAY = 2.00
-DELAY_STEP = 0.05
-
-_CHANNEL_PREFIX_RE = re.compile(r'^(A|F\d{1,2})(\s+)', re.IGNORECASE)
-
-
-def get_settings() -> dict[str, Any]:
-    cfg = babase.app.config
-    stored = cfg.get(CONFIG_KEY)
-    settings = copy.deepcopy(DEFAULT_SETTINGS)
-    if isinstance(stored, dict):
-        for key in DEFAULT_SETTINGS:
-            if key in stored:
-                settings[key] = stored[key]
-    return settings
-
-
-def save_settings(settings: dict[str, Any]) -> None:
-    cfg = babase.app.config
-    cfg[CONFIG_KEY] = settings
-    cfg.commit()
-
-
-def _utf8_len(text: str) -> int:
-    return len(text.encode('utf-8'))
-
-
-def _extract_channel_prefix(text: str) -> tuple[str | None, str]:
-    match = _CHANNEL_PREFIX_RE.match(text)
-    if not match:
-        return None, text
-    prefix = match.group(1)
-    rest = text[match.end():]
-    return prefix, rest
-
-
-def _max_prefix_within_bytes(text: str, max_bytes: int) -> int:
-    if not text:
-        return 0
-    lo, hi, best = 0, len(text), 0
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        if _utf8_len(text[:mid]) <= max_bytes:
-            best = mid
-            lo = mid + 1
-        else:
-            hi = mid - 1
-    return max(best, 1)
-
-
-def split_message(
-    text: str,
-    max_bytes: int,
-    *,
-    word_boundary: bool = True,
-) -> list[str]:
-    text = text.strip()
-    if not text:
-        return []
-
-    if _utf8_len(text) <= max_bytes:
-        return [text]
-
-    chunks: list[str] = []
-    remaining = text
-
-    while remaining:
-        if _utf8_len(remaining) <= max_bytes:
-            chunks.append(remaining)
-            break
-
-        cut = _max_prefix_within_bytes(remaining, max_bytes)
-        piece = remaining[:cut]
-
-        if word_boundary and cut < len(remaining):
-            if remaining[cut] != ' ':
-                last_space = piece.rfind(' ')
-                if last_space > 0 and last_space >= int(len(piece) * 0.4):
-                    cut = last_space
-                    piece = piece[:cut]
-
-        piece = piece.strip()
-        if piece:
-            chunks.append(piece)
-
-        remaining = remaining[cut:].lstrip()
-
-    return chunks
-
-
-def build_final_messages(
-    text: str,
-    settings: dict[str, Any],
-) -> list[str]:
-    max_bytes = int(settings['max_bytes'])
-    add_numbering = bool(settings['add_numbering'])
-    word_boundary = bool(settings['word_boundary'])
-
-    prefix, body = _extract_channel_prefix(text)
-    prefix_overhead = _utf8_len(prefix + ' ') if prefix else 0
-    body = body.strip()
-
-    if not body:
-        return [text] if text else []
-
-    if not add_numbering:
-        usable = max(1, max_bytes - prefix_overhead)
-        chunks = split_message(body, usable, word_boundary=word_boundary)
-        if prefix:
-            return [f'{prefix} {c}' for c in chunks]
-        return chunks
-
-    reserved = 8
-    raw_chunks: list[str] = []
-    for _ in range(3):
-        usable = max(1, max_bytes - prefix_overhead - reserved)
-        raw_chunks = split_message(body, usable, word_boundary=word_boundary)
-        count = len(raw_chunks)
-        needed_reserved = len(f'({count}/{count}) '.encode('utf-8'))
-        if needed_reserved <= reserved or count <= 1:
-            break
-        reserved = needed_reserved
-
-    if len(raw_chunks) <= 1:
-        if prefix and raw_chunks:
-            return [f'{prefix} {raw_chunks[0]}']
-        return raw_chunks
-
-    total = len(raw_chunks)
-    if prefix:
-        return [
-            f'{prefix} ({i}/{total}) {chunk}'
-            for i, chunk in enumerate(raw_chunks, 1)
-        ]
-    return [f'({i}/{total}) {chunk}' for i, chunk in enumerate(raw_chunks, 1)]
-
-
-_original_send_chat_message = None
-
-
-def _patched_send_chat_message(self: Any) -> None:
-    raw_text = cast(str, bui.textwidget(query=self._text_field))
-    settings = get_settings()
-
-    if not settings.get('enabled', True):
-        assert _original_send_chat_message is not None
-        _original_send_chat_message(self)
-        return
-
-    text = raw_text.strip()
-
-    if text == '':
-        bs.chatmessage(raw_text)
-        bui.textwidget(edit=self._text_field, text='')
-        return
-
-    bui.textwidget(edit=self._text_field, text='')
-
-    messages = build_final_messages(text, settings)
-    if not messages:
-        bs.chatmessage(raw_text)
-        return
-
-    if len(messages) == 1:
-        bs.chatmessage(messages[0])
-        return
-
-    delay = float(settings.get('delay_seconds', DEFAULT_SETTINGS['delay_seconds']))
-
-    def _send_one(msg: str) -> None:
-        try:
-            bs.chatmessage(msg)
-        except Exception:
-            pass
-
-    for index, msg in enumerate(messages):
-        if index == 0:
-            _send_one(msg)
-        else:
-            babase.apptimer(delay * index, babase.Call(_send_one, msg))
-
-
-def _install_patch() -> None:
-    global _original_send_chat_message
-
-    from bauiv1lib.party import PartyWindow
-
-    if _original_send_chat_message is None:
-        _original_send_chat_message = PartyWindow._send_chat_message
-
-    if PartyWindow._send_chat_message is not _patched_send_chat_message:
-        PartyWindow._send_chat_message = _patched_send_chat_message
-
-
-def _uninstall_patch() -> None:
-    if _original_send_chat_message is not None:
-        from bauiv1lib.party import PartyWindow
-
-        PartyWindow._send_chat_message = _original_send_chat_message
-
-
-class SettingsWindow(bui.Window):
-    def __init__(self) -> None:
-        self._settings = get_settings()
-
-        self._width = 480
-        self._height = 380
-
-        super().__init__(
-            root_widget=bui.containerwidget(
-                size=(self._width, self._height),
-                transition='in_right',
-                scale=(
-                    1.8
-                    if bui.app.ui_v1.uiscale is bui.UIScale.SMALL
-                    else 1.35
-                    if bui.app.ui_v1.uiscale is bui.UIScale.MEDIUM
-                    else 1.0
-                ),
-            )
-        )
-
-        bui.textwidget(
-            parent=self._root_widget,
-            position=(self._width * 0.5, self._height - 40),
-            size=(0, 0),
-            h_align='center',
-            v_align='center',
-            scale=1.1,
-            text='Smart Chat Splitter',
-            maxwidth=self._width * 0.9,
-        )
-
-        bui.textwidget(
-            parent=self._root_widget,
-            position=(self._width * 0.5, self._height - 68),
-            size=(0, 0),
-            h_align='center',
-            v_align='center',
-            scale=0.6,
-            color=(0.6, 0.8, 0.6),
-            text='تنظیمات تقسیم خودکار پیام‌های طولانی چت',
-            maxwidth=self._width * 0.9,
-        )
-
-        self._enabled_check = bui.checkboxwidget(
-            parent=self._root_widget,
-            position=(40, self._height - 110),
-            size=(300, 30),
-            text='فعال بودن پلاگین',
-            value=bool(self._settings['enabled']),
-            on_value_change_call=self._on_enabled_changed,
-            scale=1.0,
-        )
-
-        row_y = self._height - 160
-        bui.textwidget(
-            parent=self._root_widget,
-            position=(40, row_y),
-            size=(0, 0),
-            h_align='left',
-            v_align='center',
-            scale=0.75,
-            text='حداکثر حجم هر تکه (بایت):',
-        )
-        self._max_bytes_text = bui.textwidget(
-            parent=self._root_widget,
-            position=(self._width - 90, row_y),
-            size=(0, 0),
-            h_align='center',
-            v_align='center',
-            scale=0.9,
-            color=(0.4, 1.0, 0.4),
-            text=str(self._settings['max_bytes']),
-        )
-        bui.buttonwidget(
-            parent=self._root_widget,
-            position=(self._width - 60, row_y - 15),
-            size=(35, 35),
-            label='+',
-            on_activate_call=babase.Call(self._adjust_max_bytes, BYTES_STEP),
-        )
-        bui.buttonwidget(
-            parent=self._root_widget,
-            position=(self._width - 130, row_y - 15),
-            size=(35, 35),
-            label='-',
-            on_activate_call=babase.Call(self._adjust_max_bytes, -BYTES_STEP),
-        )
-
-        row_y = self._height - 210
-        bui.textwidget(
-            parent=self._root_widget,
-            position=(40, row_y),
-            size=(0, 0),
-            h_align='left',
-            v_align='center',
-            scale=0.75,
-            text='تأخیر بین ارسال هر تکه (ثانیه):',
-        )
-        self._delay_text = bui.textwidget(
-            parent=self._root_widget,
-            position=(self._width - 90, row_y),
-            size=(0, 0),
-            h_align='center',
-            v_align='center',
-            scale=0.9,
-            color=(0.4, 1.0, 0.4),
-            text=f"{self._settings['delay_seconds']:.2f}",
-        )
-        bui.buttonwidget(
-            parent=self._root_widget,
-            position=(self._width - 60, row_y - 15),
-            size=(35, 35),
-            label='+',
-            on_activate_call=babase.Call(self._adjust_delay, DELAY_STEP),
-        )
-        bui.buttonwidget(
-            parent=self._root_widget,
-            position=(self._width - 130, row_y - 15),
-            size=(35, 35),
-            label='-',
-            on_activate_call=babase.Call(self._adjust_delay, -DELAY_STEP),
-        )
-
-        self._numbering_check = bui.checkboxwidget(
-            parent=self._root_widget,
-            position=(40, self._height - 250),
-            size=(300, 30),
-            text='افزودن شماره به ابتدای هر تکه، مثل (1/3)',
-            value=bool(self._settings['add_numbering']),
-            on_value_change_call=self._on_numbering_changed,
-            scale=0.9,
-        )
-
-        self._word_boundary_check = bui.checkboxwidget(
-            parent=self._root_widget,
-            position=(40, self._height - 285),
-            size=(300, 30),
-            text='تلاش برای نبریدن وسط کلمات هنگام تقسیم',
-            value=bool(self._settings['word_boundary']),
-            on_value_change_call=self._on_word_boundary_changed,
-            scale=0.9,
-        )
-
-        bui.buttonwidget(
-            parent=self._root_widget,
-            position=(30, 25),
-            size=(150, 45),
-            label='بازگشت به پیش‌فرض',
-            scale=0.8,
-            on_activate_call=self._reset_defaults,
-        )
-        bui.buttonwidget(
-            parent=self._root_widget,
-            position=(self._width - 180, 25),
-            size=(150, 45),
-            label='بستن',
-            on_activate_call=self._close,
-        )
-
-    def _on_enabled_changed(self, value: bool) -> None:
-        self._settings['enabled'] = bool(value)
-        save_settings(self._settings)
-
-    def _on_numbering_changed(self, value: bool) -> None:
-        self._settings['add_numbering'] = bool(value)
-        save_settings(self._settings)
-
-    def _on_word_boundary_changed(self, value: bool) -> None:
-        self._settings['word_boundary'] = bool(value)
-        save_settings(self._settings)
-
-    def _adjust_max_bytes(self, delta: int) -> None:
-        new_val = int(self._settings['max_bytes']) + delta
-        new_val = max(MIN_MAX_BYTES, min(MAX_MAX_BYTES, new_val))
-        self._settings['max_bytes'] = new_val
-        bui.textwidget(edit=self._max_bytes_text, text=str(new_val))
-        save_settings(self._settings)
-
-    def _adjust_delay(self, delta: float) -> None:
-        new_val = round(float(self._settings['delay_seconds']) + delta, 2)
-        new_val = max(MIN_DELAY, min(MAX_DELAY, new_val))
-        self._settings['delay_seconds'] = new_val
-        bui.textwidget(edit=self._delay_text, text=f'{new_val:.2f}')
-        save_settings(self._settings)
-
-    def _reset_defaults(self) -> None:
-        self._settings = copy.deepcopy(DEFAULT_SETTINGS)
-        save_settings(self._settings)
-        bui.textwidget(
-            edit=self._max_bytes_text, text=str(self._settings['max_bytes'])
-        )
-        bui.textwidget(
-            edit=self._delay_text,
-            text=f"{self._settings['delay_seconds']:.2f}",
-        )
-        bui.checkboxwidget(
-            edit=self._enabled_check, value=self._settings['enabled']
-        )
-        bui.checkboxwidget(
-            edit=self._numbering_check, value=self._settings['add_numbering']
-        )
-        bui.checkboxwidget(
-            edit=self._word_boundary_check,
-            value=self._settings['word_boundary'],
-        )
-
-    def _close(self) -> None:
-        if self._root_widget:
-            bui.containerwidget(edit=self._root_widget, transition='out_right')
-
+exec(
+    compile(
+        _zlib.decompress(_b64.b64decode(_PAYLOAD)),
+        '<ModPiyamPoya>',
+        'exec',
+    ),
+    _ns,
+)
+
+SmartChatSplitter = _ns['SmartChatSplitter']
 
 # ba_meta export babase.Plugin
-class SmartChatSplitter(babase.Plugin):
-    def on_app_running(self) -> None:
-        save_settings(get_settings())
-        _install_patch()
-
-    def on_app_suspend(self) -> None:
-        pass
-
-    def on_app_unsuspend(self) -> None:
-        pass
-
-    def on_app_shutdown(self) -> None:
-        pass
-
-    def on_app_shutdown_complete(self) -> None:
-        pass
-
-    def has_settings_ui(self) -> bool:
-        return True
-
-    def show_settings_ui(self, source_widget: Any) -> None:
-        del source_widget
-        SettingsWindow()
+class SmartChatSplitterPlugin(SmartChatSplitter):
+    pass
