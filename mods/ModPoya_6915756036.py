@@ -1,117 +1,92 @@
-# PingMod.py - API 9  (نسخه‌ی کدگذاری‌شده)
-# ساخته شده توسط Poya Azrael
-# @AzraelMods لینک چنل
-#
-# این فایل به‌صورت فشرده/انکود ذخیره شده تا سورس اصلی مستقیم قابل خوندن نباشه.
-# منطق واقعی موقع لود شدن پلاگین، در حافظه decompress و اجرا میشه؛
-# از نظر عملکرد دقیقاً همون فایل قبلیه.
-
 # ba_meta require api 9
+from __future__ import annotations
 
-import base64 as _b64_mod
-import zlib as _zlib_mod
-from babase import Plugin as _PluginBase
+import copy
+import re
+from typing import TYPE_CHECKING, cast
 
-# --- استاب برای اسکنر متا (پلاگین واقعی پایین‌تر، بعد از دیکد شدن، جایگزینش میشه) ---
-# ba_meta export plugin
-class PingMod(_PluginBase):
-    def on_app_running(self) -> None:
-        pass
+import babase
+import bascenev1 as bs
+import bauiv1 as bui
 
-    def __del__(self):
-        pass
+if TYPE_CHECKING:
+    from typing import Any
 
+
+import base64 as _b64
+import zlib as _zlib
 
 _PAYLOAD = (
-    "c-rMWU2hvllJEQ#oiU7?u_&69Y}pc)!Rc%{(Iv8UwgM;XH3lPcB#uqaaA$^=wK@T7L!u0vfZe;p;ug372jt<T$cYu&"
-    "ava|Qe#rg_QhM_r*!u}rRoyew^F_-a8*J{Fctm#hR8?13SJ&6fDYjtQD|1f0)LvtwY<gjqO%_hE{?q<$|8akRu+931"
-    "{R8~7KX?eO&)I^rX0YksxQ5w;fq%=t0RWE;Hjj4(-J`GBQFqWCY!*&I|LEu_>wh(P**`em>F>Y#?apAkzk9sH@G|JK"
-    "K^I^?2JkQrMprb}KREh&ur=6*p*Rfbc+uaVV*PLXyMxXCE)W7uJ%IKYNE>YRpTe-g_F#(*wvKlY!To*@ZbQ-s4;cXK"
-    ";`k5}VD3L*um1SkKmYJMruKU<t0x)*aJ%e({$uB#q3N){r{O4saUcHT>;-IuHrOr!rDJ#xbpU_^_TwX<WVe4vlLAr^"
-    "*&crB4erxiaK1nOH-h~h=5b%}bt*AkVB9uR3$sx#8O>UN<R$Wxi3R9C1G2tF2zxY_7;XI>APzprk&uZI4g?QVL{1#w"
-    ")cVl-0{S+O4gf3S-XR7b!+pGWkND8Vg+Y-3GT?$!4v5<317Iwy@*yxd?0{Jubpg&3Y1)DnurA0f&f6}|0M?Qi3m?GQ"
-    "6GB2uxr@-c{e2kp4NV&^M_pXXJsbwK#JTw6qbjl*mKHkjvPTji$OC{qP8_s9832L65IzDhJw#kvC~PopFS+uZAv6>K"
-    "XUUvaDioGor^R%Ax#M?SQ`ec*YCEpa4BK{m!?zsUD-=YVYX;vur*_BmgI|8bHH|v#%&@^~nc-baM#s8aVTQ++I#$%^"
-    ")lAzI?H;FM$$(}vpkSfdS+VS(hhPLZcYNQmSFQSr>C^qIMP{_yh}Fg4zFE6dWM0iRO}k}!p0Q$LbGzd;iVW`2y|!7i"
-    "jHVueSn*b6OigPkK-M-~f33ik!~6Q6&WZ`a!tB+LU}59hgw|Ipe6G)5xpIAGkyY8~`1x|-3;oKq`8j=YegRs>C&mkZ"
-    "w|G^*KKsiV{CTcGKQGOHI)4p*tK}lY|Fy#6%;$?ybESl>rHf;Dt!VFgc7I`J%`QwW%wJnf@r#69E6gtFGRwv$%h;6S"
-    "8nh)CCtA|HgN``+%B6F}z9Iug{>-=+9xX}sJ>~4X^y&PiPvRULFN@X`6M1ujk5OZqmAo%Q7=z2tjGNIxif2V|l&ZN0"
-    "CD<3=kacl@6Gg?&58<bHRNygpAdZ3;aBO`~1_2#$c-wCLbUfY(&Qv&_dLaGX9BMegZ}2-m(%>sWKHixsT$=v$Qf##="
-    "7s`07u~Y2SDWGr*fbR~vQ;e*OXM;^iJ>4HX;O8D3>ze{NHuShXLT4)=gQFT@aa2hWIuWWD+;GW6w#O|kT#F2JG0|j9"
-    "ni--ZE8)ptdn)!TZig@xxY`3WFOGLK0vth3$u|o>0!a@{Of;P6FCOYoaRHw2Wly0B$xf=9i>PkS^9_;<ybC-!#ABU9"
-    "RnR6=X!VmgP>j(E`T?jwk=Yk!(%|=@J(Mli+(IIYh%DAz6Auj}jn8Fa`s&Q5`i<Gkiyy;e#wumG`Qw?{k3L4Z8@m{5"
-    "m*!sKhZMhF&;)nIq~qqDinAiCF-|Doal$^5Nc&{w3mMZG;Skr0TDXz{uDE4Nf{8o!Y-E&1b|<HZqnY`K&!#`U9>a7V"
-    "ag5XT{CO=84X$EUVS@)C@0(oqBYQUnd-~ek%;gx@1Z<j%HXQszK(J5B3=P-*4>*qy4afvPSqIx3BdGA}Gcqc|Q4v=y"
-    "pJ~UDfzH%dU;aTX!ln7ES7xt)N|>FSng5Jrp>&=gJi=W`J_V@F-6QVUp)M5e*cNbmpQz(@F7)GkNZ-Ls$XrGvm^)+p"
-    "(xkYj^^^piOT_y>c2Et1g74y1;^!{<fiIGp_&CGqnL=uWS9CJ{n$TZIDDXX6Qkotxyi_WMdR{9HN06ygPlh7W?*d7%"
-    "aJW&4Y`!VEpG%&N8XP4W*C2=FpM4RMhs${kK8?5$9p%r_lk35G!5teu<nZ{r(c@>w-!a1UEvg0ZbOsL)>UW3^ydB*$"
-    "-Mgl%TWydtr80J*REGa5O4va*f0dmZM@3cZxUOmYdK-KjXoR5v!Evn>z2?}qS@U(@(aAx8-X*V;Y!!p+mKXG(kD)gl"
-    "&*wK}^%M$)y1C4B+gwedQH^@t1&^l4kj^Sm3Ey1{iFBP6?5kcenx3gm6>uM}G@T`*$)af&nLJY(6XS_M5bF>;32$&s"
-    "@D**A&51aPN#Znlc3HDm-<EKBF*Atg3!0)nn*<;-V>JOv=AsmG7BU#0v&glk;dxBQh}I%G&}!&Mmw1C<g`y~fmlUiz"
-    "AkhYG{eskhh!zB47uXK_xI-S|;dk^k`|R>UY}1C(0ou8P?GgYk5C&Qi-LfrT*HzDKE(^@~@j7kORkc#sUpLH_V^<g5"
-    "j;TeX;HHw>v2DInurmS;?MbL&dF2fj_N_LorWu16-G?9FU5hv1$6A)f;e(hwFvG6L<>3P%5NS9x8K-s!Cc%RoCH_Yh"
-    "zoxI~vsY&pi$U*o^k*)AbZvT0%Y{|)Odo?2PRCa(Im3K|#1w~>@S+X{XV-m4T~dB^ue_ubnVPptv}_=m3=BSX!#4m5"
-    "?qb1%l55uPqU5TTvX*;aLRYG}18EOB9lNfo(rn?RARcJ!46BsO<<byTV!e@4Rs}tZe5ffyhnt`h+2rJ8?x1XJ=DnKP"
-    "4#Hg}v4&G8<v|`k0d<D{SdM*SfaT1A%a(04n?shA7O~cJyez3g&Sc*@6#47tF!Xj>d9P`jZQK!|rto~Hol-z?)k3Em"
-    "s852cbCrpjR??$dtg}RNrG_VuWAolNo=3rP6WbD~`x}NYLWk<IGPg#F2R6ml;V@I>nQ0rW<*`?P-2C$ozf(AOldQq`"
-    "qQv6V?!&kwAQ7nzX1cE90w!|<wsy^FI&M|1kh?$^X-^MdgEky5(wwdKo6Pt+DG@fifOC%2%f{5YtY0=T3-SBE%4xs%"
-    "u+KgmwQz8v9~R|w$dBK|+yt4;lqeBd9<*w~CxinVhwh`5O6G5PBKLxn1=_HfT*9;tdU%vE_?ocnq1h}23ckTRLA?K7"
-    "pPRqB__2O<dT!=ANdHZ4D3HDT5Fw+v0DM$99)Ju$F*rbNj|n#rO}{Wx(Zg>P=ZM-5(ZmKg53yIk-@-QP{feA~uK50)"
-    "Xa!94caLoMfP$xB-ggmd;TCs{FpVW#Xc%~(XYTfdj{!W}1d^VLR7a2V4gPVZ(R6A?lb;zSzooC%jWssKoj`OP07|vY"
-    "z!M>tA#9oerrnsC`Q-BS7y8WAh+}h(4FHhN#g6HTuQ$xP9sXEsbll+k71t8qt{Y%P2H!gz2F{LeH!yWqz`QhUv=MI`"
-    "O`~b4EBacIt>`Vh1eP6qGuAvXtaPxb{05RW4l+M>vB>c6cscPm)pm=(+|CA*`LCS*H#T{TYv2_$ae+=aiz^dluCP~H"
-    ")Yif_-cYB8IyFSI&~1kTdgtN%1~?;3rR%uH&YorGU@-qZIY|w0!bd|y+c|-8*>Rc0EStH84Z3KhC7X=_s*!4vc{eT2"
-    "3@{9U<_}qgtUeX_&Q1dbU?`NSi8mkxU<H;n2Izu8(1ydb9E_DhiiUb2S^>_2uzQqUm<)Pt^iaY<$bhl(`SJLzr>mls"
-    "H{)7NUYJA%jRQ{!#t6*g3{zu(&P@oDG6o1*3jsUAjt_BxCZf3k4wyp(ZWL46025X*8WYVdG4M2v<ET+cDr5Y6U7qTQ"
-    "U|M2PD;0^wGKs%P3NtKgT)z`8D+C-iXQB<yH!uY5q~|nR%|KU>y~NwFX>Y@xy<L}%QZS`zcjBihxKd$aWh67}53OIJ"
-    "N+M;?Rp437-U~l&AJhMsCQc=3$xTb0ptiFbxC@d-EF_IDY!1eGzPn7rl+zziot~RIeI2wHz=`g%z)wY2nim`>xH1#$"
-    "7gZdDy0+nTTv(yXMQ%<jSc0HP(iE@?&9N*MD8Q_lhFc6^0@tJOuoMw7tEPDe*U3bZB;|cmj7H6WE5c4FbeJQIURKs`"
-    "uWgjpZ@2JL-%#=mopqe^23waIw!zpxGB9oab&IV>RKTDJ$;ST+qes+><fN72^&$m*enFp`#<b45@~7v@6jRRP>G-FA"
-    "!>?!X>#K+Vg5O7#je-s$Thmu9yH0X^)v-+xG)5Dq3x_?1Z$-rg1`rVo+9rn-K90hYSjq8_>Or~`1fd#>eZI-Q?SBX0"
-    "4&zl3QRD^lBR7bGsq837kthEJnMs#KH}ADk*c2tv-gcd(rrDw{n$$D0$#81}>;4n-T1=H=`f>?}#%)4gQW7Wus_W@e"
-    "K$J(7!4jk(=UxIe$nvt~wsga7nf1t73bzzAC37-iXCvOpGcyVJt5%)ti`7JX!?ac!7{6#l$V66;azx1et`MLwTM3s3"
-    "(Dnc(^iRlxM;MOhY@tf4Jt~?BV#h&piZ8p!zP=>;7DLLRScU=pI34OymkR~Y9R&FyGPT1Pc$eos_WI8#vi;*DPCeG="
-    "h=6?z3#^Jp@`na169_~q3blHI1YV&-arIyV4tP>c&@SMj*6tv$o{5x%5Le94aVt2eL!u<p9`U2wKO|}4GwOc@(t=rm"
-    "9Lz}l3(67hQtpJZJ}+>yAn%`pR6gMRd>RlyUc{D2^=;D~-7sk(R*DiVoJ%CQd=wT(g{ldKPTogCilPCH)Br9{(Fn)W"
-    "@1X$#utwP`*eGl)*11NV4d`s}&YbxR%8AV}N!$~4YdONDav7n#l3+w)A@S(uHGDj$pCN&~q6^d!B8@VU{T*3kvV;Vd"
-    "=P~J!XCRR=i2=dPmYM#)CpjQeW&*H8Wti;&+InIi1m$?5AWr3e={K0=6xD1Ru78i`aN<#A<N@EX{llDPc#iszfyC@#"
-    "LX6AxE&?Y_z=fP^_Lq1N0N^8j5O5DUaJ2{9(2-n-bnzbD1{))#m>BH#U36%X-YuTZA|->22~4o>V-<o!R2C5Zl-G=Q"
-    "Y5G066f?aocvQ=A{GbS}isf;bbMOtzHeKGTCQf-YQK~E6s;b1~K+%fvfsSXPkx*4>>lFDWNeuF=-<VZ(wFrBrn24_%"
-    "wzyvbyV!%H+EfzvVp|n!c4E!kf=Q<FqcMqmfgYcKk|pvkj#O7<$^pB4^PWG1Qz<NYYyvMBwa3`GJRVgpCYc17t6%}|"
-    "K4uxkv<Y@KbTAuNfSom<%5)RGcZc?JR$~cB2CLCn#Q!y!$1>Y8v+ofLSKp0osE)@b1n(v?c~`jr<XuQ~@d8fWUu&CH"
-    "#rt&!&?aWxG?vU}ReAO0ACxrT^?)Z6=X2#xs!~V;$YmaWjE?UB2h5sJIj(poP;JzF>#pIOXu>wDD1|q`xddafsR|<u"
-    "Bkg%B64V3q57B5%?1#GLwP8~WUGTnydy+5E#8|d)qc@KMr*fu*m-9r~#UuJHBsoWEh{b?4&6Q<QX2g%VO)BG1lhxu_"
-    "CEf2G9iZ~3^X!mY&JWW?WqA1Df!qtr%BTkXfP4@vA}>VQs#Pxx83v!5$_4akF5+d99G&ONtzu%xIqW!(mkHqurG`|n"
-    "V+=3jfsd3La|wIOcq!p!L>>{jz)QZZgQ~(mSm$hD%<0@1tStPy7zMOktFAZAWz@Kn@mAl#TToUi<#NP&jNO344qU(h"
-    "j%jyVrVH|~B3rb$ABsb3MZSAegSB*y2(7w^pb=KX@D|Mje!vXU>8iEh4kUJzxxo#Myc?1_?#*^ldN;vonmkG48%kb="
-    "oPn>`e{nrX*X#k3KCF}~*<&QN7*@RHLmR3bPoyN@L|Gc`wrSUe$YdZJa-3nUmm1pRiK8wm^%|9*ya-Cg7^sN@Zu}mG"
-    "Wo3KP(>P&3E|RFG;rSpbtNM}y%h!qvqS`cVz9V>aG*2u|SnVeFSd#EYY0u(GnhZ4XdjKAu4DWbmhuf_f(vo>DV5B+N"
-    "i5P$e+KTBz{=_GFHUAtRW=6`TlRx!24r2s|DAb!imoVJMizc6Am098_!YaTpti;7!M3ridc=S6Xb`w{Xr-CZFpyD>D"
-    "XjC#wHbudvA_4{E#naPe<k0Sk2ZF+yNq*ztrKlrEziYGqUzks$db_x6a4|DI(+>#-7sQui&oHA}0~0B5ZcSy}osOHO"
-    "YY?Q7BUL6sizPILY7JswVvBUzbzDkeK&etmL9#1RU66{<CM++rZUvi5Kqzv{NTM)YLi)vH<7MT|Vz(i=UIR1&#f62m"
-    "w7iw~K`(-N6N>WIETR-cxSb}heS)WAaC9f89;|j;L~O^WfpOF#?ZV@hiP5fETJAKPEyJ%hR9CrK9-SQd)##bCs#apR"
-    "M!+yaa9WleNjz2hFSy`i+^dUW2h7>vrWkB1+Usda@gMd=r-{atdDm#FNJ5dVE4mKr()2Cc({*Kvt#52V>qZ<tOw00M"
-    "gm2h2FpvmNku5hJ!`CQN$(u?Rrl)*!1<UZ#CRB(YD^vInErSJ7P?}aJCoC;Wr;nu21+P^=9g@G5VR?t3PVLPMCR4#+"
-    "LOOqGy3S?mF7U{)XDCtfx~1J8JiuHVe_FD~J%-)~Ct23v8zKYM<Nk9r84f4_7KQJJ;fi)n;$%tgA0h82ITqwcLGi&E"
-    "V8HYEBcVab^zh>TFm#)gP(ehv)iWe8JM|D-(brZUf>k4FuE^ji2KEDg{55W)z4~%1Oq=CA43SaqcB10Dm<o(cj@lhH"
-    ">zRcj%L)SshKQ;`IhU6@?oP#@)SZ&%8CjxPA_+zXCRj12scI)asU;mACo)44ac1T{%kw=oWn*S4+t;DY>dz|q%SmSC"
-    "AB3+Hp=zeEB*f&+&T5(cuQMzn4IJ0V;U)_j$bg9SYkZQ){53@&*Tt<Hn0$@y+!$hmBofuRn^PpLF<1I#3G0*XwFE<X"
-    "k?KiIv}B-MT6)<DiUqSlz(q9stt_G7kpwAq9rk79v*m&j?BuFGBcq%LH#To;IgZ2f=!~GmIob-+HkHSf@^`B^o5;Dq"
-    "=$A-i?D2;M`a20HK|I^njkyGgX-g^f_(b2OR^rV?@8q=-Fl$PE?eTa(_vHCzH7wi=6F=O)qGTX{kAz5E1&JtnDaoNm"
-    "Zx7*5pKu;w#X*n)EiK^nhRB18VuV1F+GzQjb?G+YBAhYY6%YQLxwDGj#6l-=<P0uklmowGj6p6I7-7LvXT^B2z$lZR"
-    "70Zf11kdgkS@7*`gAZ74Gc5j4$%;RO5BTQA9ioSH-zD%6uSZYj%Kn<_i=u-JU5yaQ6aelt>-OLH`0yB`a(})u9PwXX"
-    "z@#@mq+~4i>W54*lU@W-WYUkf6}H)hHx@Pd%@cXj7JCWBy9!+JFu>1W+^qIbENt=jW2EFQ`J#+Wk&C}JqsZdF-&XJz"
-    "!G?ch(M!CnBTxF0@9lV30hCH;fBrH^lliH|P=0SmS_<Q@+Q=3{`TZD07W?_OB1o^C7?QA`%nkIvUIOFq#dsG1Y#Obl"
-    "x-peB&B^WfKOl`Tqognv@{LP0+tY?+U~=MXz&du#)SHe`H|v=XkI|IF8S{Y{n_(*9V;|DPb7yB4&Z34oORtKHxIwI_"
-    "$lS>1L}<D%8G6g~4e()p-LYKofZ7(DjP-#3OK<PuFA?Jvzk)=SzgY~X5;~qJBJH*=o-*W;z(zkL_exr9jQ>>deHTf-"
-    "$ng!mZZ^}8QKtkY@ra@$hsRGK3;zp!56uS"
+    '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'
 )
+
+_ns: dict = {
+    '__name__': __name__,
+    'babase': babase,
+    'bs': bs,
+    'bui': bui,
+    'copy': copy,
+    're': re,
+    'cast': cast,
+    'TYPE_CHECKING': TYPE_CHECKING,
+}
 
 exec(
     compile(
-        _zlib_mod.decompress(_b64_mod.b85decode(_PAYLOAD)).decode("utf-8"),
-        "<PingMod-protected>",
-        "exec",
+        _zlib.decompress(_b64.b64decode(_PAYLOAD)),
+        '<ModPiyamPoya>',
+        'exec',
     ),
-    globals(),
+    _ns,
 )
+
+SmartChatSplitter = _ns['SmartChatSplitter']
+
+# ba_meta export babase.Plugin
+class SmartChatSplitterPlugin(SmartChatSplitter):
+    pass
