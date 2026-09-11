@@ -944,6 +944,25 @@
           "md5sum": "b22ef09b5ae2b910014e066f45c1c917"
         }
       }
+    },
+    "Xhc_6915756036": {
+      "description": "Td off",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "POYAAZR",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "97b1931cb8b5f57899a8c591127bae417db2fdbe",
+          "released_on": "12-09-2026",
+          "md5sum": "2e328cb9cee206624764244f4b00c5a2"
+        }
+      }
     }
   }
 }
