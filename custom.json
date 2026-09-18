@@ -1000,6 +1000,25 @@
           "md5sum": "977dc0cb55602f74f9e67898a80a6d7d"
         }
       }
+    },
+    "Inventory_v2_6723251168": {
+      "description": "با این مود بخش Inventory بازی به شدت خفن میشه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "BsRush",
+          "email": "tahabsrush@gmail.com",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "2f2bcae65046f0569af1dc16f0bf1657ffcc3d2a",
+          "released_on": "18-09-2026",
+          "md5sum": "a92f104523f1be3cac92038164e0685b"
+        }
+      }
     }
   }
 }
