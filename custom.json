@@ -1025,6 +1025,25 @@
           "md5sum": "a92f104523f1be3cac92038164e0685b"
         }
       }
+    },
+    "Chat_8783762668": {
+      "description": "کد زدن در حالت افلاین",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "8783762668",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "76f0dede9c1e9101d9bd2d1e3f9592be82486230",
+          "released_on": "19-09-2026",
+          "md5sum": "ee666a289e34c7ceca1d64ed977de4ce"
+        }
+      }
     }
   }
 }
