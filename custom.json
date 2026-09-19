@@ -900,7 +900,7 @@
       "external_url": "",
       "authors": [
         {
-          "name": "POYAAZR",
+          "name": "6915756036",
           "email": "",
           "discord": ""
         }
@@ -941,6 +941,12 @@
           "commit_sha": "67e241a080bb93215b7a7f989c6c09b1aedd083f",
           "released_on": "12-09-2026",
           "md5sum": "7a18dc843bdca8b16307163ce1397aac"
+        },
+        "1.0.6": {
+          "api_version": 9,
+          "commit_sha": "e1f5eda7460635dff7dd7351c43f3d3884969af7",
+          "released_on": "19-09-2026",
+          "md5sum": "4922d2f3acb8f9725061158cda4cd269"
         }
       }
     },
