@@ -1061,6 +1061,12 @@
           "commit_sha": "1226cd01ea0583552683e04f0b0775f289c62fab",
           "released_on": "19-09-2026",
           "md5sum": "d9474adeba0a88b5bf893426aecfa5a2"
+        },
+        "1.0.1": {
+          "api_version": 9,
+          "commit_sha": "c0bd83a3564d4158907889f4492bcf6d64bcb274",
+          "released_on": "19-09-2026",
+          "md5sum": "1a7a1407f1e465cec19216425d0bc0f7"
         }
       }
     }
