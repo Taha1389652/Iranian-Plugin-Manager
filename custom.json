@@ -1044,6 +1044,25 @@
           "md5sum": "ee666a289e34c7ceca1d64ed977de4ce"
         }
       }
+    },
+    "Chat_Cmd_6723251168": {
+      "description": "Chat Cmd",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "1226cd01ea0583552683e04f0b0775f289c62fab",
+          "released_on": "19-09-2026",
+          "md5sum": "d9474adeba0a88b5bf893426aecfa5a2"
+        }
+      }
     }
   }
 }
