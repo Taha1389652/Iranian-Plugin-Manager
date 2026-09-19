@@ -12,7 +12,7 @@
 import threading
 import time
 from bascenev1 import get_foreground_host_activity, get_foreground_host_session, get_game_roster, get_chat_messages, chatmessage as cmsg
-from bauiv1 import set_party_icon_always_visible, screenmessage as smsg
+from bauiv1 import screenmessage as smsg
 import babase
 import bauiv1 as bui
 import bascenev1 as bs
@@ -550,8 +550,9 @@ class _cmds:
 class NewMainMenuWindow(mainmenu.MainMenuWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Display chat icon, but if user open/close gather it may disappear
-        bui.set_party_icon_always_visible(True)
+        # In api 9 the party/chat icon is always visible by default now,
+        # so bauiv1.set_party_icon_always_visible() was removed and is
+        # no longer needed here.
 
 # bs.timer(0.05, _update, repeat=True)
 
