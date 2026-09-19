@@ -1,31 +1,12 @@
-# ModPoya.py - API 9
+# PingMod.py - API 9
 # ساخته شده توسط Poya Azrael
 # @AzraelMods لینک چنل
-#
-# --- آپدیت‌های این نسخه ---
-# 1) دکمه‌ی ساعت: حالا تاریخ شمسی هم می‌فرسته و کنار ساعت از ☀️ (روز) یا 🌑 (شب) استفاده می‌کنه.
-# 2) یه مود «ماشین حساب حرفه‌ای» اضافه شد: دکمه‌ی چهارم (Calc) یه پنل وسط صفحه باز می‌کنه،
-#    همه‌ی دکمه‌ها (اعداد، عملگرها، تایید، بستن) داخل خود پنل هستن، پشت پنل هم چیز اضافه‌ای کشیده نمیشه.
-#    برای ارسال نتیجه به چت باید دکمه‌ی «=» رو دو بار پشت سر هم بزنی (بار اول محاسبه می‌کنه، بار دوم می‌فرسته).
-# 3) تنظیمات رنگ آیکون‌ها (پس‌زمینه + نوشته‌ی هر ۴ دکمه) اضافه شد و از داخل خود بازی قابل تغییره؛
-#    دیگه لازم نیست برای تغییر رنگ‌ها این فایل پایتون رو باز/ویرایش کنی.
-#    برای بازکردنش: توی صفحه‌ی افزونه‌ها (Plugins) روی همین مود بزن، دکمه‌ی «تنظیمات» که کنارش
-#    ظاهر میشه رو بزن (دقیقاً مثل چیزی که برای ModPiyamPoya.SmartChatSplitter می‌بینی).
-#    هیچ دکمه‌ی پنجمی به پنجره‌ی پارتی اضافه نشده.
-# 4) دکمه‌های تنظیمات رنگ بزرگ‌تر و با فاصله‌ی بیشتر شدن (راحت‌تر لمس میشن) و کل پنل
-#    اسکرول‌پذیره تا هر چندتا دکمه/رنگ بعداً اضافه بشه، جا داشته باشه بدون تغییر طراحی.
-#    همچنین یه «هاب تنظیمات» اضافه شد: دکمه‌ی «تنظیمات» حالا اول یه لیست شماره‌دار نشون
-#    می‌ده (فعلاً فقط «۱. رنگ آیکون‌ها») و هر پنل تنظیماتِ جدیدی که بعداً اضافه بشه،
-#    خودکار به‌صورت «۲.»، «۳.» و... کنارش قرار می‌گیره.
-# 5) پنل تنظیماتِ جدید «۲. جا / اندازه / شکل آیکون‌ها» اضافه شد: از همینجا می‌تونی
-#    موقعیت (X/Y)، اندازه و شکلِ هر ۴ دکمه (Ping/IP/Time/Calc) رو بین مربع و مستطیل
-#    عوض کنی (این نسخه از بازی از دکمه‌ی دایره‌ای پشتیبانی نمی‌کنه، برای همین حذف
-#    شد). تغییرات هم ذخیره میشن، هم جا/اندازه فوری روی پنجره‌ی بازِ پارتی اعمال میشن.
 
 from __future__ import annotations
 
 import re
 import socket
+import textwrap
 import threading
 import time
 import weakref
@@ -37,197 +18,2596 @@ from babase import Plugin
 from bauiv1 import buttonwidget as bw, apptimer as teck, screenmessage as push, get_special_widget as gsw
 from bauiv1lib import party
 
-import base64 as _b64
-import zlib as _zlib
 
-_PAYLOAD = (
-    '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'
-)
+def _widget_exists(widget):
+    """چک امنِ زنده‌بودنِ یه ویجت.
+    توی بعضی نسخه‌های بازی (مثل همینی که الان داری) bui.exists اصلاً وجود
+    نداره و صدا زدنش AttributeError می‌ده. برای همین اول خودِ bui.exists رو
+    امتحان می‌کنیم، بعد babase.exists، و اگه هیچ‌کدوم در دسترس نبود به‌جای
+    کرش کردن، True برمی‌گردونیم و اجازه می‌دیم تلاشِ واقعیِ کار با ویجت
+    (که همه‌جا توی try/except پیچیده شده) خودش خطای ReferenceError رو
+    بگیره و رد کنه."""
+    if widget is None:
+        return False
+    try:
+        return bui.exists(widget)
+    except AttributeError:
+        pass
+    except Exception:
+        return False
+    try:
+        return babase.exists(widget)
+    except AttributeError:
+        pass
+    except Exception:
+        return False
+    return True
 
-exec(
-    compile(
-        _zlib.decompress(_b64.b64decode(_PAYLOAD)),
-        '<ModPoya>',
-        'exec',
-    ),
-    globals(),
-)
 
-_ModPoyaImpl = ModPoya
+X_OFFSET = -350
+Y_FROM_TOP = 363
+BTN_SIZE = 34
+
+IP_X_OFFSET = -290
+IP_Y_FROM_TOP = 363
+IP_BTN_SIZE = 34
+
+CLOCK_X_OFFSET = -230
+CLOCK_Y_FROM_TOP = 363
+CLOCK_BTN_SIZE = 34
+
+CALC_X_OFFSET = -170
+CALC_Y_FROM_TOP = 363
+CALC_BTN_SIZE = 34
+
+CALC_PANEL_WIDTH = 300
+CALC_PANEL_HEIGHT = 380
+CALC_PANEL_X_OFFSET = 0
+CALC_PANEL_COLOR = (0.12, 0.12, 0.17)
+CALC_KEY_COLOR = (0.22, 0.22, 0.28)
+CALC_EQUALS_COLOR = (0.25, 0.35, 0.55)
+CALC_EQUALS_ARMED_COLOR = (0.15, 0.55, 0.2)
+CALC_CLOSE_COLOR = (0.5, 0.15, 0.15)
+CALC_CONFIRM_TIMEOUT = 2.5
+
+NOTES_X_OFFSET = -110
+NOTES_Y_FROM_TOP = 363
+NOTES_BTN_SIZE = 34
+
+NOTES_PANEL_WIDTH = 460
+NOTES_PANEL_HEIGHT = 560
+NOTES_MAX_CHARS = 4000
+NOTES_WRAP_CHARS = 40
+
+
+_DEFAULT_COLORS = {
+    "ping":  {"bg": (0.0, 0.0, 0.0), "text": (1.0, 0.82, 0.1)},
+    "ip":    {"bg": (0.0, 0.0, 0.0), "text": (0.4, 0.8, 1.0)},
+    "clock": {"bg": (0.0, 0.0, 0.0), "text": (1.0, 1.0, 1.0)},
+    "calc":  {"bg": (0.0, 0.0, 0.0), "text": (0.8, 0.5, 1.0)},
+    "notes": {"bg": (0.0, 0.0, 0.0), "text": (0.6, 1.0, 0.6)},
+}
+
+_LABELS = {"ping": "Ping", "ip": "IP", "clock": "Time", "calc": "Calc", "notes": "Notes"}
+
+_LABEL_TEXT_SCALE = {"calc": 0.9, "notes": 0.8}
+
+_CONFIG_KEY = "PingMod Icon Colors"
+
+
+def _load_colors():
+    """رنگ‌های ذخیره‌شده رو از کانفیگ بازی می‌خونه؛ اگه چیزی ذخیره نشده بود، پیش‌فرض می‌ذاره."""
+    saved = {}
+    try:
+        raw = babase.app.config.get(_CONFIG_KEY)
+        if isinstance(raw, dict):
+            saved = raw
+    except Exception:
+        saved = {}
+
+    colors = {}
+    for key, default in _DEFAULT_COLORS.items():
+        entry = saved.get(key) if isinstance(saved.get(key), dict) else {}
+        try:
+            bg = tuple(entry.get("bg", default["bg"]))
+            if len(bg) != 3:
+                bg = default["bg"]
+        except Exception:
+            bg = default["bg"]
+        try:
+            text = tuple(entry.get("text", default["text"]))
+            if len(text) != 3:
+                text = default["text"]
+        except Exception:
+            text = default["text"]
+        colors[key] = {"bg": bg, "text": text}
+    return colors
+
+
+_colors = _load_colors()
+
+_live_buttons = {"ping": None, "ip": None, "clock": None, "calc": None, "notes": None}
+
+
+def _save_colors():
+    try:
+        babase.app.config[_CONFIG_KEY] = {
+            key: {"bg": list(val["bg"]), "text": list(val["text"])}
+            for key, val in _colors.items()
+        }
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving settings: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _apply_color(key, which, color):
+    """رنگ یه آیکون رو عوض می‌کنه، ذخیره می‌کنه و اگه پنجره‌ی پارتی بازه، فوری روش اعمال می‌کنه."""
+    _colors[key][which] = color
+    _save_colors()
+    widget = _live_buttons.get(key)
+    if widget is not None and _widget_exists(widget):
+        try:
+            if which == "bg":
+                bw(edit=widget, color=color)
+            else:
+                bw(edit=widget, textcolor=color)
+        except Exception:
+            pass
+
+_DEFAULT_PANEL_COLORS = {
+    "ping":  (0.1, 0.1, 0.14),
+    "ip":    (0.12, 0.12, 0.17),
+    "calc":  CALC_PANEL_COLOR,
+    "notes": (0.12, 0.12, 0.17),
+}
+
+_PANEL_LABELS = {
+    "ping": "Ping Panel",
+    "ip": "IP Panel",
+    "calc": "Calculator Panel",
+    "notes": "Notes Panel",
+}
+
+_PANEL_SECTION_ORDER = ["ping", "ip", "calc", "notes"]
+
+_CONFIG_KEY_PANEL_COLORS = "PingMod Panel Colors"
+
+
+def _load_panel_colors():
+    saved = {}
+    try:
+        raw = babase.app.config.get(_CONFIG_KEY_PANEL_COLORS)
+        if isinstance(raw, dict):
+            saved = raw
+    except Exception:
+        saved = {}
+
+    colors = {}
+    for key, default in _DEFAULT_PANEL_COLORS.items():
+        try:
+            color = tuple(saved.get(key, default))
+            if len(color) != 3:
+                color = default
+        except Exception:
+            color = default
+        colors[key] = color
+    return colors
+
+
+_panel_colors = _load_panel_colors()
+
+_live_panels = {"ping": None, "ip": None, "calc": None, "notes": None}
+
+
+def _save_panel_colors():
+    try:
+        babase.app.config[_CONFIG_KEY_PANEL_COLORS] = {
+            key: list(val) for key, val in _panel_colors.items()
+        }
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving panel colors: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _apply_panel_color(key, color):
+    """رنگ یه پنل رو عوض می‌کنه، ذخیره می‌کنه و اگه همون پنل الان بازه، فوری اعمال می‌کنه."""
+    _panel_colors[key] = color
+    _save_panel_colors()
+    widget = _live_panels.get(key)
+    if widget is not None and _widget_exists(widget):
+        try:
+            bui.containerwidget(edit=widget, color=color)
+        except Exception:
+            pass
+
+_DEFAULT_LAYOUT = {
+    "ping":  {"x": X_OFFSET, "y": Y_FROM_TOP, "size": BTN_SIZE, "shape": "square"},
+    "ip":    {"x": IP_X_OFFSET, "y": IP_Y_FROM_TOP, "size": IP_BTN_SIZE, "shape": "square"},
+    "clock": {"x": CLOCK_X_OFFSET, "y": CLOCK_Y_FROM_TOP, "size": CLOCK_BTN_SIZE, "shape": "square"},
+    "calc":  {"x": CALC_X_OFFSET, "y": CALC_Y_FROM_TOP, "size": CALC_BTN_SIZE, "shape": "square"},
+    "notes": {"x": NOTES_X_OFFSET, "y": NOTES_Y_FROM_TOP, "size": NOTES_BTN_SIZE, "shape": "square"},
+}
+
+_LAYOUT_LIMITS = {
+    "x": (-500, 0),
+    "y": (20, 600),
+    "size": (18, 70),
+}
+_LAYOUT_STEP = {"x": 10, "y": 10, "size": 4}
+_SHAPES = ["square", "rectangle"]
+_SHAPE_LABELS = {"square": "🔲 Square", "rectangle": "▭ Rectangle"}
+
+_CONFIG_KEY_LAYOUT = "PingMod Icon Layout"
+
+
+def _load_layout():
+    saved = {}
+    try:
+        raw = babase.app.config.get(_CONFIG_KEY_LAYOUT)
+        if isinstance(raw, dict):
+            saved = raw
+    except Exception:
+        saved = {}
+
+    layout = {}
+    for key, default in _DEFAULT_LAYOUT.items():
+        entry = saved.get(key) if isinstance(saved.get(key), dict) else {}
+        try:
+            x = int(entry.get("x", default["x"]))
+        except Exception:
+            x = default["x"]
+        try:
+            y = int(entry.get("y", default["y"]))
+        except Exception:
+            y = default["y"]
+        try:
+            size = int(entry.get("size", default["size"]))
+        except Exception:
+            size = default["size"]
+        shape = entry.get("shape", default["shape"])
+        if shape not in _SHAPES:
+            shape = default["shape"]
+        layout[key] = {"x": x, "y": y, "size": size, "shape": shape}
+    return layout
+
+
+_layout = _load_layout()
+
+_live_party_window_ref = None
+_live_party_root = None
+_live_party_dims = (0, 0)
+
+
+def _get_live_party_window():
+    if _live_party_window_ref is None:
+        return None
+    return _live_party_window_ref()
+
+
+def _save_layout():
+    try:
+        babase.app.config[_CONFIG_KEY_LAYOUT] = {
+            key: {"x": val["x"], "y": val["y"], "size": val["size"], "shape": val["shape"]}
+            for key, val in _layout.items()
+        }
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving position/size: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _clamp(value, field):
+    lo, hi = _LAYOUT_LIMITS[field]
+    return max(lo, min(hi, value))
+
+
+def _shape_button_type(shape):
+    return "square"
+
+
+def _shape_size(base_size, shape):
+    if shape == "rectangle":
+        return (int(base_size * 1.6), base_size)
+    return (base_size, base_size)
+
+
+def _create_icon_button(key):
+    """دکمه‌ی یه آیکون رو با جا/اندازه/شکل/رنگِ فعلی، توی پنجره‌ی پارتیِ زنده می‌سازه."""
+    if _live_party_root is None or not _widget_exists(_live_party_root):
+        return None
+    cfg = _layout[key]
+    size = _shape_size(cfg["size"], cfg["shape"])
+    px, py = _live_party_dims
+    try:
+        btn = bw(
+            parent=_live_party_root,
+            position=(px + cfg["x"], py - cfg["y"]),
+            size=size,
+            button_type=_shape_button_type(cfg["shape"]),
+            label=_LABELS[key],
+            text_scale=_LABEL_TEXT_SCALE.get(key, 1.1),
+            color=_colors[key]["bg"],
+            textcolor=_colors[key]["text"],
+            autoselect=True,
+            on_activate_call=_BUTTON_CALLBACKS[key],
+        )
+    except Exception:
+        return None
+    _live_buttons[key] = btn
+    return btn
+
+
+def _refresh_icon_button(key, shape_changed):
+    """بعد از تغییر جا/اندازه/شکل از تنظیمات، دکمه‌ی واقعیِ توی پنجره‌ی پارتی رو آپدیت می‌کنه."""
+    widget = _live_buttons.get(key)
+    cfg = _layout[key]
+    if widget is None or not _widget_exists(widget):
+        return
+    if shape_changed:
+        deleted = False
+        try:
+            bui.widget(edit=widget, delete=True)
+            deleted = True
+        except Exception:
+            deleted = False
+        if deleted:
+            _create_icon_button(key)
+            return
+    try:
+        size = _shape_size(cfg["size"], cfg["shape"])
+        px, py = _live_party_dims
+        bw(edit=widget, position=(px + cfg["x"], py - cfg["y"]), size=size)
+    except Exception:
+        pass
+
+
+def _apply_layout(key, **updates):
+    for field in ("x", "y", "size"):
+        if field in updates:
+            _layout[key][field] = _clamp(int(updates[field]), field)
+    shape_changed = False
+    if "shape" in updates and updates["shape"] in _SHAPES:
+        shape_changed = _layout[key]["shape"] != updates["shape"]
+        _layout[key]["shape"] = updates["shape"]
+    _save_layout()
+    _refresh_icon_button(key, shape_changed)
+
+_server_ip = "127.0.0.1"
+_server_port = 43210
+current_ping = 0.0
+
+IP_AUTO_SEND_DELAY = 2.5
+
+_ip_auto_sent_key = None
+
+_orig_connect_to_party = bs.connect_to_party
+_orig_disconnect_from_host = bs.disconnect_from_host
+
+
+def _auto_send_ip(address, port):
+    global _ip_auto_sent_key
+    try:
+        if _server_ip != address or _server_port != port:
+            return
+        key = (address, port)
+        if _ip_auto_sent_key == key:
+            return
+        _ip_auto_sent_key = key
+        bs.chatmessage(f"Server IP : {address}:{port} 🌐")
+    except Exception as e:
+        try:
+            push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _new_connect_to_party(address, port=43210, print_progress=False):
+    global _server_ip, _server_port
+    _server_ip = address
+    _server_port = port
+    result = _orig_connect_to_party(address, port, print_progress)
+    teck(IP_AUTO_SEND_DELAY, lambda a=address, p=port: _auto_send_ip(a, p))
+    return result
+
+
+def _new_disconnect_from_host():
+    global _server_ip, _server_port, _ip_auto_sent_key
+    _server_ip = "127.0.0.1"
+    _server_port = 43210
+    _ip_auto_sent_key = None
+    return _orig_disconnect_from_host()
+
+
+bs.connect_to_party = _new_connect_to_party
+bs.disconnect_from_host = _new_disconnect_from_host
+
+
+class _PingThread(threading.Thread):
+    """پینگ واقعی رو با یه پکت کوچیک UDP اندازه می‌گیره."""
+
+    def __init__(self):
+        super().__init__(daemon=True)
+        self.running = True
+
+    def run(self):
+        global current_ping
+        while self.running:
+            try:
+                if _server_ip != "127.0.0.1" and _server_port != 43210:
+                    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                    sock.settimeout(1)
+                    start = time.time()
+                    sock.sendto(b"\x0b", (_server_ip, _server_port))
+                    try:
+                        data, _addr = sock.recvfrom(10)
+                        current_ping = (
+                            round((time.time() - start) * 1000.0)
+                            if data == b"\x0c"
+                            else 999
+                        )
+                    except socket.timeout:
+                        current_ping = 999
+                    except Exception:
+                        current_ping = 0
+                    finally:
+                        sock.close()
+                else:
+                    current_ping = 0
+            except Exception:
+                current_ping = 0
+            time.sleep(1)
+
+    def stop(self):
+        self.running = False
+
+
+_ping_thread = _PingThread()
+_ping_thread.start()
+
+
+PING_GOOD_MAX = 80
+PING_WARN_MAX = 150
+
+PING_PANEL_WIDTH = 210
+PING_PANEL_HEIGHT = 150
+PING_REFRESH_INTERVAL = 1.0
+
+PING_ALERT_COOLDOWN = 15.0
+PING_ALERT_CHECK_INTERVAL = 2.0
+
+_CONFIG_KEY_PING_ALERT = "PingMod Ping Alert Enabled"
+
+_ping_panel = None
+_ping_alert_state = {"was_red": False, "last_alert": 0.0}
+
+
+def _load_ping_alert_enabled():
+    try:
+        val = babase.app.config.get(_CONFIG_KEY_PING_ALERT)
+        if isinstance(val, bool):
+            return val
+    except Exception:
+        pass
+    return True
+
+
+_ping_alert_enabled = _load_ping_alert_enabled()
+
+
+def _save_ping_alert_enabled():
+    try:
+        babase.app.config[_CONFIG_KEY_PING_ALERT] = _ping_alert_enabled
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving alert setting: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _ping_color_for(value):
+    if value <= 0:
+        return (0.6, 0.6, 0.6)
+    if value <= PING_GOOD_MAX:
+        return (0.3, 0.85, 0.3)
+    if value <= PING_WARN_MAX:
+        return (1.0, 0.85, 0.1)
+    return (1.0, 0.2, 0.2)
+
+
+def _send_ping_to_chat():
+    try:
+        bs.chatmessage(f"My Ping : {int(current_ping)} ms ☄️")
+    except Exception as e:
+        try:
+            push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+class _PingPanelWindow:
+    def __init__(self):
+        w = PING_PANEL_WIDTH
+        h = PING_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=_panel_colors["ping"],
+        )
+        self._root_widget = self.root_widget
+        _live_panels["ping"] = self.root_widget
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 22),
+            size=(w, 18),
+            text="Live Ping",
+            h_align="center",
+            v_align="center",
+            scale=0.9,
+            color=(0.9, 0.9, 0.95),
+        )
+
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - 14 - 20, h - 28),
+            size=(20, 20),
+            button_type="square",
+            label="✕",
+            text_scale=0.7,
+            color=CALC_CLOSE_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        self._value_btn = bw(
+            parent=self._root_widget,
+            position=(15, h - 78),
+            size=(w - 30, 46),
+            button_type="square",
+            label=f"{int(current_ping)} ms",
+            text_scale=1.1,
+            color=_ping_color_for(current_ping),
+            textcolor=(0, 0, 0),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._send_ping),
+        )
+
+        self._alert_btn = bw(
+            parent=self._root_widget,
+            position=(10, 14),
+            size=(w - 20, 32),
+            button_type="square",
+            label=self._alert_label(),
+            text_scale=0.75,
+            color=self._alert_color(),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._toggle_alert),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+        self._tick()
+
+    def _alert_label(self):
+        return "Ping Alert: ON ✅" if _ping_alert_enabled else "Ping Alert: OFF ❌"
+
+    def _alert_color(self):
+        return (0.2, 0.5, 0.25) if _ping_alert_enabled else (0.5, 0.2, 0.2)
+
+    def _toggle_alert(self):
+        global _ping_alert_enabled
+        _ping_alert_enabled = not _ping_alert_enabled
+        _save_ping_alert_enabled()
+        if _widget_exists(self._alert_btn):
+            try:
+                bw(edit=self._alert_btn, label=self._alert_label(), color=self._alert_color())
+            except Exception:
+                pass
+
+    def _send_ping(self):
+        _send_ping_to_chat()
+
+    def _tick(self):
+        if not _widget_exists(self._root_widget):
+            return
+        try:
+            bw(
+                edit=self._value_btn,
+                label=f"{int(current_ping)} ms",
+                color=_ping_color_for(current_ping),
+            )
+        except Exception:
+            pass
+        teck(PING_REFRESH_INTERVAL, bui.WeakCall(self._tick))
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _ping_panel
+        _ping_panel = None
+        _live_panels["ping"] = None
+
+
+def _on_ping_press():
+    global _ping_panel
+    try:
+        if _ping_panel is not None and _widget_exists(_ping_panel.root_widget):
+            _ping_panel._close()
+            return
+        _ping_panel = _PingPanelWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _ping_alert_tick():
+    """هر PING_ALERT_CHECK_INTERVAL ثانیه چک می‌کنه؛ اگه تازه پینگ وارد محدوده‌ی
+    قرمز شده باشه (و وصل به یه سرور واقعی باشیم و هشدار از تنظیماتِ پنل خاموش
+    نشده باشه)، یه هشدار تو چتِ پارتی می‌فرسته. این تابع خودش رو دوباره
+    زمان‌بندی می‌کنه، پس همیشه (چه پنل باز باشه چه نه) در حال اجراست."""
+    try:
+        connected = _server_ip != "127.0.0.1"
+        is_red = connected and current_ping > PING_WARN_MAX
+        if is_red and not _ping_alert_state["was_red"]:
+            if _ping_alert_enabled:
+                now = time.time()
+                if now - _ping_alert_state["last_alert"] >= PING_ALERT_COOLDOWN:
+                    try:
+                        bs.chatmessage(f"My Ping : {int(current_ping)} Ms ⚠️")
+                    except Exception:
+                        pass
+                    _ping_alert_state["last_alert"] = now
+        _ping_alert_state["was_red"] = is_red
+    except Exception:
+        pass
+    teck(PING_ALERT_CHECK_INTERVAL, _ping_alert_tick)
+
+
+IP_PANEL_WIDTH = 380
+IP_PANEL_HEIGHT = 320
+IP_PANEL_COLOR = (0.12, 0.12, 0.17)
+
+_ip_window = None
+
+
+def _get_server_name():
+    """اسمِ سرورِ فعلی رو در صورت امکان از خودِ بازی می‌گیره؛ اگه در دسترس نبود،
+    رشته‌ی خالی برمی‌گردونه (به‌جای کرش کردن یا حدس زدن)."""
+    for fn_name in ("get_connection_to_host_info_2", "get_connection_to_host_info"):
+        fn = getattr(bs, fn_name, None)
+        if fn is None:
+            continue
+        try:
+            info = fn()
+        except Exception:
+            continue
+        if info is None:
+            continue
+        if isinstance(info, dict):
+            for k in ("name", "party_name", "display_string"):
+                name = info.get(k)
+                if isinstance(name, str) and name.strip():
+                    return name.strip()
+            continue
+        for attr in ("name", "party_name", "display_string"):
+            name = getattr(info, attr, None)
+            if isinstance(name, str) and name.strip():
+                return name.strip()
+    return ""
+
+
+def _ip_row_ip_text():
+    return f"{_server_ip}:{_server_port}"
+
+
+def _ip_row_server_name_text():
+    return _get_server_name() or "—"
+
+
+_IP_PANEL_ROWS = [
+    {
+        "icon": "🌐",
+        "title": "Server IP",
+        "get_text": _ip_row_ip_text,
+        "send": lambda: f"Server IP : {_server_ip}:{_server_port} 🌐",
+    },
+    {
+        "icon": "🏷️",
+        "title": "Server Name",
+        "get_text": _ip_row_server_name_text,
+        "send": lambda: f"Server Name : {_get_server_name() or '—'} 🏷️",
+    },
+]
+
+
+class _IpPanelWindow:
+    def __init__(self):
+        w = IP_PANEL_WIDTH
+        h = IP_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=_panel_colors["ip"],
+        )
+        self._root_widget = self.root_widget
+        _live_panels["ip"] = self.root_widget
+
+        margin = 20
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 34),
+            size=(w, 24),
+            text="🌐 IP / Server Name",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 22, h - 36),
+            size=(22, 22),
+            button_type="square",
+            label="✕",
+            text_scale=0.8,
+            color=CALC_CLOSE_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+        bottom_bar_h = 14
+        scroll_y = bottom_bar_h
+        scroll_h = h - 60 - bottom_bar_h
+        scroll_w = w - 2 * margin
+
+        row_h = 78
+        content_h = max(scroll_h, 20 + len(_IP_PANEL_ROWS) * row_h)
+
+        try:
+            self._scroll = bui.scrollwidget(
+                parent=self._root_widget,
+                position=(margin, scroll_y),
+                size=(scroll_w, scroll_h),
+                highlight=False,
+                capture_arrows=True,
+            )
+            self._content = bui.containerwidget(
+                parent=self._scroll,
+                size=(scroll_w, content_h),
+                background=False,
+            )
+        except Exception:
+            self._scroll = None
+            self._content = self._root_widget
+
+        self._value_labels = {}
+        top = content_h - 14
+        for index, row in enumerate(_IP_PANEL_ROWS):
+            self._build_row(index, row, 6, top, scroll_w - 12)
+            top -= row_h
+
+    def _build_row(self, index, row, x, top, width):
+        bui.textwidget(
+            parent=self._content,
+            position=(x, top),
+            size=(width, 20),
+            text=f"{row['icon']} {row['title']}",
+            h_align="left",
+            v_align="center",
+            scale=0.85,
+            color=(0.85, 0.85, 0.9),
+        )
+        value_widget = bui.textwidget(
+            parent=self._content,
+            position=(x, top - 22),
+            size=(width, 20),
+            text=row["get_text"](),
+            h_align="left",
+            v_align="center",
+            scale=0.8,
+            color=(1, 1, 0.6),
+            maxwidth=width,
+        )
+        self._value_labels[index] = value_widget
+
+        bw(
+            parent=self._content,
+            position=(x, top - 50),
+            size=(width, 26),
+            button_type="square",
+            label="Send to Chat",
+            text_scale=0.8,
+            color=(0.25, 0.35, 0.55),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._send_row, index, row),
+        )
+
+    def _send_row(self, index, row):
+        try:
+            bs.chatmessage(row["send"]())
+        except Exception as e:
+            try:
+                push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+            except Exception:
+                pass
+        widget = self._value_labels.get(index)
+        if widget is not None and _widget_exists(widget):
+            try:
+                bui.textwidget(edit=widget, text=row["get_text"]())
+            except Exception:
+                pass
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _ip_window
+        _ip_window = None
+        _live_panels["ip"] = None
+
+
+def _open_ip_panel():
+    global _ip_window
+    try:
+        if _ip_window is not None and _widget_exists(_ip_window.root_widget):
+            return
+        _ip_window = _IpPanelWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _on_ip_press():
+    _open_ip_panel()
+
+
+_WEEKDAY_EN = [
+    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday",
+]
+
+
+def _gregorian_to_jalali(g_y, g_m, g_d):
+    g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    j_days_in_month = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
+
+    gy = g_y - 1600
+    gm = g_m - 1
+    gd = g_d - 1
+
+    g_day_no = 365 * gy + (gy + 3) // 4 - (gy + 99) // 100 + (gy + 399) // 400
+    for i in range(gm):
+        g_day_no += g_days_in_month[i]
+    if gm > 1 and ((g_y % 4 == 0 and g_y % 100 != 0) or (g_y % 400 == 0)):
+        g_day_no += 1
+    g_day_no += gd
+
+    j_day_no = g_day_no - 79
+
+    j_np = j_day_no // 12053
+    j_day_no %= 12053
+
+    jy = 979 + 33 * j_np + 4 * (j_day_no // 1461)
+    j_day_no %= 1461
+
+    if j_day_no >= 366:
+        jy += (j_day_no - 1) // 365
+        j_day_no = (j_day_no - 1) % 365
+
+    jm = 12
+    jd = j_day_no + 1
+    for i in range(11):
+        if j_day_no < j_days_in_month[i]:
+            jm = i + 1
+            jd = j_day_no + 1
+            break
+        j_day_no -= j_days_in_month[i]
+
+    return jy, jm, jd
+
+
+def _clock_shamsi_text():
+    """متنِ یک‌خطیِ روزِ هفته + تاریخِ عددیِ شمسی (1405.06.28) + ساعت."""
+    now = time.localtime()
+    current_time = time.strftime("%H:%M:%S", now)
+    icon = "☀️" if 6 <= now.tm_hour < 18 else "🌑"
+    weekday_en = _WEEKDAY_EN[now.tm_wday]
+    jy, jm, jd = _gregorian_to_jalali(now.tm_year, now.tm_mon, now.tm_mday)
+    return f"{icon} {weekday_en}, {jy}.{jm:02d}.{jd:02d}  |  {current_time}"
+
+
+def _on_clock_press():
+    try:
+        bs.chatmessage(_clock_shamsi_text())
+    except Exception as e:
+        try:
+            push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+_OP_MAP = {"÷": "/", "×": "*", "−": "-"}
+_calc_window = None
+
+
+class _CalcWindow:
+    def __init__(self, party_window):
+        self._expr = ""
+        self._problem = ""
+        self._confirm_armed = False
+
+        w = CALC_PANEL_WIDTH
+        h = CALC_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = party_window._width, party_window._height
+        pos_x = (sw - w) / 2 + CALC_PANEL_X_OFFSET
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=_panel_colors["calc"],
+        )
+        self._root_widget = self.root_widget
+        _live_panels["calc"] = self.root_widget
+
+        margin = 16
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 32),
+            size=(w, 24),
+            text="🧮 Calculator",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 22, h - 36),
+            size=(22, 22),
+            button_type="square",
+            label="✕",
+            text_scale=0.8,
+            color=CALC_CLOSE_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+        self._display_margin = margin + 22
+        self._display = bui.textwidget(
+            parent=self._root_widget,
+            position=(self._display_margin, h - 88),
+            size=(w - 2 * self._display_margin, 40),
+            text="0",
+            h_align="right",
+            v_align="center",
+            scale=1.2,
+            maxwidth=w - 2 * self._display_margin,
+            color=(1, 1, 0.6),
+        )
+
+        rows = [
+            ["7", "8", "9", "÷"],
+            ["4", "5", "6", "×"],
+            ["1", "2", "3", "−"],
+            ["C", "0", ".", "+"],
+        ]
+        btn_w, btn_h, gap = 58, 44, 10
+        grid_left = (w - (4 * btn_w + 3 * gap)) / 2
+        grid_top = h - 130
+
+        for r, row in enumerate(rows):
+            for c, label in enumerate(row):
+                x = grid_left + c * (btn_w + gap)
+                y = grid_top - r * (btn_h + gap)
+                bw(
+                    parent=self._root_widget,
+                    position=(x, y),
+                    size=(btn_w, btn_h),
+                    button_type="square",
+                    label=label,
+                    text_scale=1.1,
+                    color=CALC_KEY_COLOR,
+                    textcolor=(1, 1, 1),
+                    autoselect=True,
+                    on_activate_call=bui.WeakCall(self._append, label),
+                )
+
+        last_row_bottom = grid_top - (len(rows) - 1) * (btn_h + gap)
+        equals_y = last_row_bottom - gap - 36
+        self._equals_btn = bw(
+            parent=self._root_widget,
+            position=(grid_left, equals_y),
+            size=(4 * btn_w + 3 * gap, 36),
+            button_type="square",
+            label="=",
+            text_scale=1.2,
+            color=CALC_EQUALS_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._on_equals_press),
+        )
+
+
+    def _append(self, ch):
+        if self._confirm_armed:
+            self._reset_confirm_state()
+        if ch == "C":
+            self._expr = ""
+        else:
+            self._expr += _OP_MAP.get(ch, ch)
+        self._update_display()
+
+    def _update_display(self):
+        text = self._expr if self._expr else "0"
+        n = len(text)
+        if n <= 6:
+            scale = 1.2
+        elif n <= 9:
+            scale = 1.0
+        elif n <= 12:
+            scale = 0.8
+        elif n <= 15:
+            scale = 0.65
+        elif n <= 19:
+            scale = 0.52
+        else:
+            scale = 0.42
+        try:
+            bui.textwidget(
+                edit=self._display,
+                text=text,
+                scale=scale,
+                maxwidth=self._width - 2 * self._display_margin,
+            )
+        except Exception:
+            pass
+
+    def _show_error(self, msg):
+        try:
+            bui.textwidget(edit=self._display, text=msg)
+        except Exception:
+            pass
+        self._expr = ""
+
+    def _calculate(self):
+        expr = self._expr.strip()
+        if not expr:
+            return False
+        if not re.fullmatch(r"[0-9+\-*/(). ]+", expr):
+            self._show_error("Invalid expression")
+            return False
+        try:
+            result = eval(expr, {"__builtins__": {}}, {})
+            if isinstance(result, float) and result.is_integer():
+                result = int(result)
+            self._problem = expr
+            self._expr = str(result)
+            self._update_display()
+            return True
+        except ZeroDivisionError:
+            self._show_error("Division by zero!")
+            return False
+        except Exception:
+            self._show_error("Calculation error")
+            return False
+
+    def _on_equals_press(self):
+        if not self._confirm_armed:
+            if self._calculate():
+                self._confirm_armed = True
+                try:
+                    bw(edit=self._equals_btn, label="Tap to Send ✅", color=CALC_EQUALS_ARMED_COLOR)
+                except Exception:
+                    pass
+                teck(CALC_CONFIRM_TIMEOUT, bui.WeakCall(self._confirm_timeout))
+        else:
+            self._send_to_chat()
+            self._reset_confirm_state()
+
+    def _confirm_timeout(self):
+        if _widget_exists(self._root_widget):
+            self._reset_confirm_state()
+
+    def _reset_confirm_state(self):
+        self._confirm_armed = False
+        try:
+            bw(edit=self._equals_btn, label="=", color=CALC_EQUALS_COLOR)
+        except Exception:
+            pass
+
+    def _send_to_chat(self):
+        try:
+            problem = self._problem if self._problem else self._expr
+            bs.chatmessage(f"🧮 {problem} = {self._expr}")
+        except Exception as e:
+            try:
+                push(f"CalcMod error: {e}", color=(1, 0.3, 0.3))
+            except Exception:
+                pass
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _calc_window
+        _calc_window = None
+        _live_panels["calc"] = None
+
+
+def _on_calc_press(party_window):
+    global _calc_window
+    try:
+        if _calc_window is not None and _widget_exists(_calc_window.root_widget):
+            return
+        _calc_window = _CalcWindow(party_window)
+    except Exception as e:
+        try:
+            push(f"CalcMod error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+_PALETTE = [
+    (0.0, 0.0, 0.0),
+    (1.0, 1.0, 1.0),
+    (0.5, 0.5, 0.5),
+    (1.0, 0.2, 0.2),
+    (1.0, 0.55, 0.1),
+    (1.0, 0.85, 0.1),
+    (0.3, 0.85, 0.3),
+    (0.2, 0.85, 0.85),
+    (0.3, 0.5, 1.0),
+    (0.7, 0.3, 1.0),
+]
+
+SETTINGS_PANEL_WIDTH = 560
+SETTINGS_PANEL_HEIGHT = 460
+SETTINGS_PANEL_COLOR = (0.12, 0.12, 0.17)
+
+SWATCH_SIZE = 32
+SWATCH_GAP = 12
+
+_SECTION_ORDER = ["ping", "ip", "clock", "calc", "notes"]
+_color_window = None
+
+
+class _ColorSettingsWindow:
+    def __init__(self):
+        w = SETTINGS_PANEL_WIDTH
+        h = SETTINGS_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+        self._previews = {}
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=SETTINGS_PANEL_COLOR,
+        )
+        self._root_widget = self.root_widget
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 34),
+            size=(w, 24),
+            text="🎨 Settings 1 - Icon Colors",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        margin = 20
+        bottom_bar_h = 56
+        scroll_y = bottom_bar_h
+        scroll_h = h - 60 - bottom_bar_h
+        scroll_w = w - 2 * margin
+
+        sec_h = 140
+        content_h = max(scroll_h, 20 + len(_SECTION_ORDER) * sec_h)
+
+        try:
+            self._scroll = bui.scrollwidget(
+                parent=self._root_widget,
+                position=(margin, scroll_y),
+                size=(scroll_w, scroll_h),
+                highlight=False,
+                capture_arrows=True,
+            )
+            self._content = bui.containerwidget(
+                parent=self._scroll,
+                size=(scroll_w, content_h),
+                background=False,
+            )
+        except Exception:
+            self._scroll = None
+            self._content = self._root_widget
+
+        sec_top = content_h - 20
+        for key in _SECTION_ORDER:
+            self._build_section(key, 10, sec_top)
+            sec_top -= sec_h
+
+        bw(
+            parent=self._root_widget,
+            position=(margin, 14),
+            size=(160, 34),
+            button_type="square",
+            label="Reset All",
+            text_scale=0.8,
+            color=(0.35, 0.35, 0.4),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._reset_all),
+        )
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 160, 14),
+            size=(160, 34),
+            button_type="square",
+            label="Close",
+            text_scale=0.85,
+            color=(0.2, 0.45, 0.25),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+    def _build_section(self, key, x, top):
+        c = _colors[key]
+        label = _LABELS[key]
+
+        bui.textwidget(
+            parent=self._content,
+            position=(x, top),
+            size=(70, 22),
+            text=label,
+            h_align="left",
+            v_align="center",
+            scale=1.0,
+            color=(1, 1, 1),
+        )
+
+        preview = bw(
+            parent=self._content,
+            position=(x + 60, top - 4),
+            size=(54, 28),
+            button_type="square",
+            label=label,
+            text_scale=0.8,
+            color=c["bg"],
+            textcolor=c["text"],
+            autoselect=True,
+            on_activate_call=lambda: None,
+        )
+        self._previews[key] = preview
+
+        self._add_swatch_row(x, top - 44, "Background", key, "bg")
+        self._add_swatch_row(x, top - 44 - (SWATCH_SIZE + 16), "Text", key, "text")
+
+    def _add_swatch_row(self, x, y, row_label, key, which):
+        bui.textwidget(
+            parent=self._content,
+            position=(x, y + SWATCH_SIZE / 2 - 8),
+            size=(52, 18),
+            text=row_label,
+            h_align="left",
+            v_align="center",
+            scale=0.75,
+            color=(0.8, 0.8, 0.85),
+        )
+        sx = x + 56
+        for color in _PALETTE:
+            bw(
+                parent=self._content,
+                position=(sx, y),
+                size=(SWATCH_SIZE, SWATCH_SIZE),
+                button_type="square",
+                label="",
+                color=color,
+                autoselect=True,
+                on_activate_call=bui.WeakCall(self._pick, key, which, color),
+            )
+            sx += SWATCH_SIZE + SWATCH_GAP
+
+    def _pick(self, key, which, color):
+        _apply_color(key, which, color)
+        preview = self._previews.get(key)
+        if preview is not None and _widget_exists(preview):
+            try:
+                if which == "bg":
+                    bw(edit=preview, color=color)
+                else:
+                    bw(edit=preview, textcolor=color)
+            except Exception:
+                pass
+
+    def _reset_all(self):
+        for key, default in _DEFAULT_COLORS.items():
+            _apply_color(key, "bg", default["bg"])
+            _apply_color(key, "text", default["text"])
+            preview = self._previews.get(key)
+            if preview is not None and _widget_exists(preview):
+                try:
+                    bw(edit=preview, color=default["bg"], textcolor=default["text"])
+                except Exception:
+                    pass
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _color_window
+        _color_window = None
+
+
+def _open_color_settings():
+    global _color_window
+    try:
+        if _color_window is not None and _widget_exists(_color_window.root_widget):
+            return
+        _color_window = _ColorSettingsWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod settings error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+_panel_color_window = None
+
+
+class _PanelColorSettingsWindow:
+    def __init__(self):
+        w = SETTINGS_PANEL_WIDTH
+        h = SETTINGS_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+        self._previews = {}
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=SETTINGS_PANEL_COLOR,
+        )
+        self._root_widget = self.root_widget
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 34),
+            size=(w, 24),
+            text="🖌️ Settings 2 - Panel Colors",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        margin = 20
+        bottom_bar_h = 56
+        scroll_y = bottom_bar_h
+        scroll_h = h - 60 - bottom_bar_h
+        scroll_w = w - 2 * margin
+
+        sec_h = 110
+        content_h = max(scroll_h, 20 + len(_PANEL_SECTION_ORDER) * sec_h)
+
+        try:
+            self._scroll = bui.scrollwidget(
+                parent=self._root_widget,
+                position=(margin, scroll_y),
+                size=(scroll_w, scroll_h),
+                highlight=False,
+                capture_arrows=True,
+            )
+            self._content = bui.containerwidget(
+                parent=self._scroll,
+                size=(scroll_w, content_h),
+                background=False,
+            )
+        except Exception:
+            self._scroll = None
+            self._content = self._root_widget
+
+        sec_top = content_h - 20
+        for key in _PANEL_SECTION_ORDER:
+            self._build_section(key, 10, sec_top)
+            sec_top -= sec_h
+
+        bw(
+            parent=self._root_widget,
+            position=(margin, 14),
+            size=(160, 34),
+            button_type="square",
+            label="Reset All",
+            text_scale=0.8,
+            color=(0.35, 0.35, 0.4),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._reset_all),
+        )
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 160, 14),
+            size=(160, 34),
+            button_type="square",
+            label="Close",
+            text_scale=0.85,
+            color=(0.2, 0.45, 0.25),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+    def _build_section(self, key, x, top):
+        color = _panel_colors[key]
+        label = _PANEL_LABELS[key]
+
+        bui.textwidget(
+            parent=self._content,
+            position=(x, top),
+            size=(220, 22),
+            text=label,
+            h_align="left",
+            v_align="center",
+            scale=1.0,
+            color=(1, 1, 1),
+        )
+
+        preview = bw(
+            parent=self._content,
+            position=(x + 230, top - 4),
+            size=(60, 28),
+            button_type="square",
+            label="Preview",
+            text_scale=0.7,
+            color=color,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=lambda: None,
+        )
+        self._previews[key] = preview
+
+        sx = x
+        sy = top - 44
+        for c in _PALETTE:
+            bw(
+                parent=self._content,
+                position=(sx, sy),
+                size=(SWATCH_SIZE, SWATCH_SIZE),
+                button_type="square",
+                label="",
+                color=c,
+                autoselect=True,
+                on_activate_call=bui.WeakCall(self._pick, key, c),
+            )
+            sx += SWATCH_SIZE + SWATCH_GAP
+
+    def _pick(self, key, color):
+        _apply_panel_color(key, color)
+        preview = self._previews.get(key)
+        if preview is not None and _widget_exists(preview):
+            try:
+                bw(edit=preview, color=color)
+            except Exception:
+                pass
+
+    def _reset_all(self):
+        for key, default in _DEFAULT_PANEL_COLORS.items():
+            _apply_panel_color(key, default)
+            preview = self._previews.get(key)
+            if preview is not None and _widget_exists(preview):
+                try:
+                    bw(edit=preview, color=default)
+                except Exception:
+                    pass
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _panel_color_window
+        _panel_color_window = None
+
+
+def _open_panel_color_settings():
+    global _panel_color_window
+    try:
+        if _panel_color_window is not None and _widget_exists(_panel_color_window.root_widget):
+            return
+        _panel_color_window = _PanelColorSettingsWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod settings error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+LAYOUT_PANEL_WIDTH = SETTINGS_PANEL_WIDTH
+LAYOUT_PANEL_HEIGHT = SETTINGS_PANEL_HEIGHT
+LAYOUT_PANEL_COLOR = SETTINGS_PANEL_COLOR
+
+_layout_window = None
+
+
+class _LayoutSettingsWindow:
+    def __init__(self):
+        w = LAYOUT_PANEL_WIDTH
+        h = LAYOUT_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+        self._previews = {}
+        self._preview_pos = {}
+        self._value_labels = {}
+        self._shape_buttons = {}
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=LAYOUT_PANEL_COLOR,
+        )
+        self._root_widget = self.root_widget
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 34),
+            size=(w, 24),
+            text="📐 Settings 3 - Icon Position/Size/Shape",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        margin = 20
+        bottom_bar_h = 56
+        scroll_y = bottom_bar_h
+        scroll_h = h - 60 - bottom_bar_h
+        scroll_w = w - 2 * margin
+
+        self._row_w = scroll_w - 20
+        sec_h = 205
+        content_h = max(scroll_h, 20 + len(_SECTION_ORDER) * sec_h)
+
+        try:
+            self._scroll = bui.scrollwidget(
+                parent=self._root_widget,
+                position=(margin, scroll_y),
+                size=(scroll_w, scroll_h),
+                highlight=False,
+                capture_arrows=True,
+            )
+            self._content = bui.containerwidget(
+                parent=self._scroll,
+                size=(scroll_w, content_h),
+                background=False,
+            )
+        except Exception:
+            self._scroll = None
+            self._content = self._root_widget
+
+        sec_top = content_h - 20
+        for key in _SECTION_ORDER:
+            self._build_section(key, 10, sec_top)
+            sec_top -= sec_h
+
+        bw(
+            parent=self._root_widget,
+            position=(margin, 14),
+            size=(160, 34),
+            button_type="square",
+            label="Reset All",
+            text_scale=0.8,
+            color=(0.35, 0.35, 0.4),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._reset_all),
+        )
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 160, 14),
+            size=(160, 34),
+            button_type="square",
+            label="Close",
+            text_scale=0.85,
+            color=(0.2, 0.45, 0.25),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+    def _build_section(self, key, x, top):
+        cfg = _layout[key]
+        label = _LABELS[key]
+        row_w = self._row_w
+
+        bui.textwidget(
+            parent=self._content,
+            position=(x, top),
+            size=(70, 22),
+            text=label,
+            h_align="left",
+            v_align="center",
+            scale=1.0,
+            color=(1, 1, 1),
+        )
+
+        preview_pos = (x + 60, top - 4)
+        self._preview_pos[key] = preview_pos
+        preview = bw(
+            parent=self._content,
+            position=preview_pos,
+            size=(44, 44),
+            button_type=_shape_button_type(cfg["shape"]),
+            label=label,
+            text_scale=0.7,
+            color=_colors[key]["bg"],
+            textcolor=_colors[key]["text"],
+            autoselect=True,
+            on_activate_call=lambda: None,
+        )
+        self._previews[key] = preview
+
+        row1_y = top - 56
+        self._build_stepper(key, "x", "X", x, row1_y, row_w / 2 - 10)
+        self._build_stepper(key, "y", "Y", x + row_w / 2 + 10, row1_y, row_w / 2 - 10)
+
+        row2_y = row1_y - 42
+        self._build_stepper(key, "size", "Size", x, row2_y, row_w)
+
+        row3_y = row2_y - 48
+        self._build_shape_row(key, x, row3_y, row_w)
+
+    def _build_stepper(self, key, field, label, x, y, width):
+        cfg = _layout[key]
+        btn_size = 26
+        minus_x = x + width - (btn_size * 2 + 6)
+        plus_x = x + width - btn_size
+        text_w = max(40, width - 2 * btn_size - 14)
+
+        value_widget = bui.textwidget(
+            parent=self._content,
+            position=(x, y + 4),
+            size=(text_w, 18),
+            text=f"{label}: {cfg[field]}",
+            h_align="left",
+            v_align="center",
+            scale=0.8,
+            color=(0.85, 0.85, 0.9),
+        )
+        self._value_labels[f"{key}_{field}"] = value_widget
+
+        bw(
+            parent=self._content,
+            position=(minus_x, y),
+            size=(btn_size, btn_size),
+            button_type="square",
+            label="-",
+            text_scale=1.0,
+            color=(0.3, 0.3, 0.38),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._step, key, field, -1, label),
+        )
+        bw(
+            parent=self._content,
+            position=(plus_x, y),
+            size=(btn_size, btn_size),
+            button_type="square",
+            label="+",
+            text_scale=1.0,
+            color=(0.3, 0.3, 0.38),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._step, key, field, 1, label),
+        )
+
+    def _build_shape_row(self, key, x, y, width):
+        btn_w = (width - 2 * 10) / 3
+        bx = x
+        self._shape_buttons[key] = {}
+        for shape in _SHAPES:
+            selected = _layout[key]["shape"] == shape
+            btn = bw(
+                parent=self._content,
+                position=(bx, y),
+                size=(btn_w, 30),
+                button_type="square",
+                label=_SHAPE_LABELS[shape],
+                text_scale=0.75,
+                color=(0.25, 0.55, 0.3) if selected else (0.25, 0.25, 0.32),
+                textcolor=(1, 1, 1),
+                autoselect=True,
+                on_activate_call=bui.WeakCall(self._pick_shape, key, shape),
+            )
+            self._shape_buttons[key][shape] = btn
+            bx += btn_w + 10
+
+
+    def _step(self, key, field, direction, label):
+        step = _LAYOUT_STEP[field]
+        current = _layout[key][field]
+        _apply_layout(key, **{field: current + direction * step})
+        new_val = _layout[key][field]
+        widget = self._value_labels.get(f"{key}_{field}")
+        if widget is not None and _widget_exists(widget):
+            try:
+                bui.textwidget(edit=widget, text=f"{label}: {new_val}")
+            except Exception:
+                pass
+
+    def _pick_shape(self, key, shape):
+        _apply_layout(key, shape=shape)
+        for s, btn in self._shape_buttons.get(key, {}).items():
+            if _widget_exists(btn):
+                try:
+                    bw(edit=btn, color=(0.25, 0.55, 0.3) if s == shape else (0.25, 0.25, 0.32))
+                except Exception:
+                    pass
+        self._rebuild_preview(key)
+
+    def _rebuild_preview(self, key):
+        old = self._previews.get(key)
+        pos = self._preview_pos.get(key)
+        if old is None or pos is None or not _widget_exists(old):
+            return
+        cfg = _layout[key]
+        try:
+            bui.widget(edit=old, delete=True)
+        except Exception:
+            return
+        try:
+            new_preview = bw(
+                parent=self._content,
+                position=pos,
+                size=(44, 44),
+                button_type=_shape_button_type(cfg["shape"]),
+                label=_LABELS[key],
+                text_scale=0.7,
+                color=_colors[key]["bg"],
+                textcolor=_colors[key]["text"],
+                autoselect=True,
+                on_activate_call=lambda: None,
+            )
+            self._previews[key] = new_preview
+        except Exception:
+            pass
+
+    def _reset_all(self):
+        field_labels = {"x": "X", "y": "Y", "size": "Size"}
+        for key, default in _DEFAULT_LAYOUT.items():
+            _apply_layout(
+                key,
+                x=default["x"],
+                y=default["y"],
+                size=default["size"],
+                shape=default["shape"],
+            )
+            for field, flabel in field_labels.items():
+                widget = self._value_labels.get(f"{key}_{field}")
+                if widget is not None and _widget_exists(widget):
+                    try:
+                        bui.textwidget(edit=widget, text=f"{flabel}: {default[field]}")
+                    except Exception:
+                        pass
+            for s, btn in self._shape_buttons.get(key, {}).items():
+                if _widget_exists(btn):
+                    try:
+                        bw(edit=btn, color=(0.25, 0.55, 0.3) if s == default["shape"] else (0.25, 0.25, 0.32))
+                    except Exception:
+                        pass
+            self._rebuild_preview(key)
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _layout_window
+        _layout_window = None
+
+
+def _open_layout_settings():
+    global _layout_window
+    try:
+        if _layout_window is not None and _widget_exists(_layout_window.root_widget):
+            return
+        _layout_window = _LayoutSettingsWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod settings error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+_CONFIG_KEY_NOTES_TEXT = "PingMod Notes Text"
+
+
+def _load_notes_text():
+    try:
+        val = babase.app.config.get(_CONFIG_KEY_NOTES_TEXT)
+        if isinstance(val, str):
+            return val
+    except Exception:
+        pass
+    return ""
+
+
+_notes_text = _load_notes_text()
+
+
+def _save_notes_text():
+    try:
+        babase.app.config[_CONFIG_KEY_NOTES_TEXT] = _notes_text
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving note: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _read_textwidget(widget, fallback=""):
+    """متنِ فعلیِ یه textwidget قابل‌ویرایش رو می‌خونه. نسخه‌های مختلفِ بازی این
+    قابلیت رو با اسم‌های متفاوتی پیاده کردن، برای همین چندتا روش رو امتحان
+    می‌کنیم (دقیقاً مثل _widget_exists) و اگه هیچ‌کدوم جواب نداد، آخرین مقدارِ
+    شناخته‌شده رو برمی‌گردونیم به‌جای کرش کردن."""
+    if widget is None or not _widget_exists(widget):
+        return fallback
+    try:
+        val = bui.textwidget(query=widget)
+        if isinstance(val, str):
+            return val
+    except Exception:
+        pass
+    try:
+        val = bui.textwidget(edit=widget)
+        if isinstance(val, str):
+            return val
+    except Exception:
+        pass
+    return fallback
+
+
+def _wrap_notes_paragraphs(text, width):
+    """متنِ یادداشت رو بر اساسِ خط‌هایی که خودِ کاربر با اینتر جدا کرده، به
+    پاراگراف تقسیم می‌کنه و هر پاراگراف رو برای جا‌شدن توی عرضِ کادر می‌شکنه.
+    هر پاراگراف یه لیستِ جداگونه‌ست تا بینِ پاراگراف‌ها (نه بینِ خط‌های شکسته‌شده‌ی
+    خودِ یه پاراگراف) بشه یه فاصله‌ی اضافه گذاشت."""
+    paragraphs = []
+    for para in (text or "").split("\n"):
+        if para == "":
+            paragraphs.append([""])
+            continue
+        wrapped = textwrap.wrap(
+            para, width=width, break_long_words=True, replace_whitespace=False
+        )
+        paragraphs.append(wrapped if wrapped else [""])
+    return paragraphs or [[""]]
+
+
+_notes_window = None
+
+
+class _NotesPanelWindow:
+    def __init__(self):
+        w = NOTES_PANEL_WIDTH
+        h = NOTES_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=_panel_colors["notes"],
+        )
+        self._root_widget = self.root_widget
+        _live_panels["notes"] = self.root_widget
+
+        margin = 10
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 32),
+            size=(w, 24),
+            text="📝 Notebook",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 22, h - 36),
+            size=(22, 22),
+            button_type="square",
+            label="✕",
+            text_scale=0.8,
+            color=CALC_CLOSE_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        title_bottom = h - 8 - 24
+        bottom_margin = 8
+        btn_row_h = 34
+        edit_h = 34
+        gap = 6
+        scroll_bottom = bottom_margin + btn_row_h + gap + edit_h + gap
+        scroll_top = title_bottom - 4
+        scroll_h = max(scroll_top - scroll_bottom, 40)
+        scroll_w = w - 2 * margin
+
+        self._scroll_w = scroll_w
+        self._scroll_h = scroll_h
+        self._line_h = 26
+        try:
+            self._scroll = bui.scrollwidget(
+                parent=self._root_widget,
+                position=(margin, scroll_bottom),
+                size=(scroll_w, scroll_h),
+                highlight=False,
+                capture_arrows=True,
+            )
+            self._content = bui.containerwidget(
+                parent=self._scroll,
+                size=(scroll_w, scroll_h),
+                background=False,
+            )
+        except Exception:
+            self._scroll = None
+            self._content = None
+
+        edit_bottom = bottom_margin + btn_row_h + gap
+        self._text_field = bui.textwidget(
+            parent=self._root_widget,
+            position=(margin, edit_bottom),
+            size=(scroll_w, edit_h),
+            text=_notes_text,
+            editable=True,
+            max_chars=NOTES_MAX_CHARS,
+            maxwidth=scroll_w - 10,
+            v_align="center",
+            h_align="left",
+            scale=0.8,
+            color=(1, 1, 0.9),
+            description="Edit note",
+        )
+
+        half_w = (scroll_w - 10) / 2
+        bw(
+            parent=self._root_widget,
+            position=(margin, bottom_margin),
+            size=(half_w, btn_row_h),
+            button_type="square",
+            label="Save",
+            text_scale=0.85,
+            color=(0.2, 0.45, 0.25),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._save),
+        )
+        bw(
+            parent=self._root_widget,
+            position=(margin + half_w + 10, bottom_margin),
+            size=(half_w, btn_row_h),
+            button_type="square",
+            label="Send to Chat",
+            text_scale=0.8,
+            color=(0.25, 0.35, 0.55),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._send),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+        self._last_preview_text = None
+        self._refresh_preview(_notes_text)
+        self._auto_tick()
+
+    def _auto_tick(self):
+        """هر یه ثانیه، تا وقتی پنل بازه، پیش‌نمایش رو با متنِ داخلِ فیلدِ ویرایش
+        هماهنگ نگه می‌داره (بدون اینکه به خودِ فیلدِ ویرایش دست بزنه، پس تایپ‌کردن
+        دچار پرش/قطعی نمیشه)."""
+        if not _widget_exists(self._root_widget):
+            return
+        try:
+            current = _read_textwidget(self._text_field, _notes_text)
+            self._refresh_preview(current)
+        except Exception:
+            pass
+        teck(1.0, bui.WeakCall(self._auto_tick))
+
+    def _refresh_preview(self, text):
+        if self._content is None or not _widget_exists(self._content):
+            return
+        if text == self._last_preview_text:
+            return
+        self._last_preview_text = text
+
+        try:
+            for child in self._content.get_children():
+                child.delete()
+        except Exception:
+            pass
+
+        paragraphs = _wrap_notes_paragraphs(text, NOTES_WRAP_CHARS)
+        rows = []
+        for i, para_lines in enumerate(paragraphs):
+            if i > 0:
+                rows.append(None)
+            rows.extend(para_lines)
+
+        line_h = self._line_h
+        scroll_h = self._scroll_h
+        total_h = len(rows) * line_h
+        content_h = max(scroll_h, total_h + 8)
+
+        try:
+            bui.containerwidget(edit=self._content, size=(self._scroll_w, content_h))
+        except Exception:
+            pass
+
+        if total_h <= scroll_h:
+            top = (content_h + total_h) / 2 - line_h
+        else:
+            top = content_h - line_h - 4
+
+        for row in rows:
+            if row is not None:
+                bui.textwidget(
+                    parent=self._content,
+                    position=(2, top),
+                    size=(self._scroll_w - 4, line_h),
+                    text=row if row else " ",
+                    h_align="center",
+                    v_align="center",
+                    scale=0.85,
+                    color=(1, 1, 0.9),
+                )
+            top -= line_h
+
+    def _save(self):
+        global _notes_text
+        _notes_text = _read_textwidget(self._text_field, _notes_text)
+        _save_notes_text()
+        self._refresh_preview(_notes_text)
+
+    def _send(self):
+        self._save()
+        text = _notes_text.strip()
+        if not text:
+            return
+        try:
+            bs.chatmessage(f"📝 {text}")
+        except Exception as e:
+            try:
+                push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+            except Exception:
+                pass
+
+    def _close(self):
+        self._save()
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _notes_window
+        _notes_window = None
+        _live_panels["notes"] = None
+
+
+def _open_notes_panel():
+    global _notes_window
+    try:
+        if _notes_window is not None and _widget_exists(_notes_window.root_widget):
+            return
+        _notes_window = _NotesPanelWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _on_notes_press():
+    _open_notes_panel()
+
+
+_DEFAULT_ICON_ENABLED = {"ping": True, "ip": True, "clock": True, "calc": True, "notes": True}
+_CONFIG_KEY_ICON_ENABLED = "PingMod Icon Enabled"
+
+
+def _load_icon_enabled():
+    saved = {}
+    try:
+        raw = babase.app.config.get(_CONFIG_KEY_ICON_ENABLED)
+        if isinstance(raw, dict):
+            saved = raw
+    except Exception:
+        saved = {}
+    enabled = {}
+    for key, default in _DEFAULT_ICON_ENABLED.items():
+        val = saved.get(key, default)
+        enabled[key] = bool(val) if isinstance(val, bool) else default
+    return enabled
+
+
+_icon_enabled = _load_icon_enabled()
+
+
+def _save_icon_enabled():
+    try:
+        babase.app.config[_CONFIG_KEY_ICON_ENABLED] = dict(_icon_enabled)
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving icon states: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _set_icon_enabled(key, enabled):
+    _icon_enabled[key] = enabled
+    _save_icon_enabled()
+    if enabled:
+        widget = _live_buttons.get(key)
+        if widget is None or not _widget_exists(widget):
+            _create_icon_button(key)
+    else:
+        widget = _live_buttons.get(key)
+        if widget is not None and _widget_exists(widget):
+            try:
+                bui.widget(edit=widget, delete=True)
+            except Exception:
+                pass
+        _live_buttons[key] = None
+
+
+ICON_TOGGLE_PANEL_WIDTH = SETTINGS_PANEL_WIDTH
+ICON_TOGGLE_PANEL_COLOR = SETTINGS_PANEL_COLOR
+
+_icon_toggle_window = None
+
+
+class _IconToggleSettingsWindow:
+    def __init__(self):
+        w = ICON_TOGGLE_PANEL_WIDTH
+        h = max(300, 130 + len(_SECTION_ORDER) * 52)
+        self._width = w
+        self._height = h
+        self._row_buttons = {}
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=ICON_TOGGLE_PANEL_COLOR,
+        )
+        self._root_widget = self.root_widget
+
+        margin = 20
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 34),
+            size=(w, 24),
+            text="🧩 Settings 4 - Add/Remove Icons",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 22, h - 38),
+            size=(22, 22),
+            button_type="square",
+            label="✕",
+            text_scale=0.8,
+            color=CALC_CLOSE_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        row_top = h - 80
+        row_h = 52
+        for key in _SECTION_ORDER:
+            self._build_row(key, margin, row_top, w - 2 * margin)
+            row_top -= row_h
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+    def _row_label(self, key):
+        state = "ON ✅" if _icon_enabled.get(key, True) else "OFF ❌"
+        return f"{_LABELS[key]}  —  {state}"
+
+    def _row_color(self, key):
+        return (0.2, 0.5, 0.25) if _icon_enabled.get(key, True) else (0.5, 0.2, 0.2)
+
+    def _build_row(self, key, x, top, width):
+        btn = bw(
+            parent=self._root_widget,
+            position=(x, top - 40),
+            size=(width, 40),
+            button_type="square",
+            label=self._row_label(key),
+            text_scale=0.9,
+            color=self._row_color(key),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._toggle, key),
+        )
+        self._row_buttons[key] = btn
+
+    def _toggle(self, key):
+        _set_icon_enabled(key, not _icon_enabled.get(key, True))
+        btn = self._row_buttons.get(key)
+        if btn is not None and _widget_exists(btn):
+            try:
+                bw(edit=btn, label=self._row_label(key), color=self._row_color(key))
+            except Exception:
+                pass
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _icon_toggle_window
+        _icon_toggle_window = None
+
+
+def _open_icon_toggle_settings():
+    global _icon_toggle_window
+    try:
+        if _icon_toggle_window is not None and _widget_exists(_icon_toggle_window.root_widget):
+            return
+        _icon_toggle_window = _IconToggleSettingsWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod settings error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+_SETTINGS_MODULES = [
+    {"title": "Icon Colors", "icon": "🎨", "open": _open_color_settings},
+    {"title": "Panel Colors", "icon": "🖌️", "open": _open_panel_color_settings},
+    {"title": "Icon Position/Size/Shape", "icon": "📐", "open": _open_layout_settings},
+    {"title": "Add/Remove Icons", "icon": "🧩", "open": _open_icon_toggle_settings},
+]
+
+HUB_PANEL_WIDTH = 420
+HUB_PANEL_HEIGHT = 300
+HUB_PANEL_COLOR = (0.12, 0.12, 0.17)
+
+_hub_window = None
+
+
+class _SettingsHubWindow:
+    def __init__(self):
+        w = HUB_PANEL_WIDTH
+        h = max(HUB_PANEL_HEIGHT, 110 + len(_SETTINGS_MODULES) * 56)
+        self._width = w
+        self._height = h
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=HUB_PANEL_COLOR,
+        )
+        self._root_widget = self.root_widget
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 34),
+            size=(w, 24),
+            text="⚙️ PingMod Settings",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - 16 - 26, h - 40),
+            size=(26, 26),
+            button_type="square",
+            label="✕",
+            text_scale=0.8,
+            color=CALC_CLOSE_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+        margin = 20
+        row_top = h - 74
+        row_h = 56
+        for i, module in enumerate(_SETTINGS_MODULES, start=1):
+            self._build_row(i, module, margin, row_top)
+            row_top -= row_h
+
+    def _build_row(self, number, module, margin, top):
+        icon = module.get("icon", "🔧")
+        label = f"{number}. {icon}  {module['title']}"
+        bw(
+            parent=self._root_widget,
+            position=(margin, top - 40),
+            size=(self._width - 2 * margin, 40),
+            button_type="square",
+            label=label,
+            text_scale=0.95,
+            color=(0.2, 0.2, 0.28),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._open_module, module),
+        )
+
+    def _open_module(self, module):
+        self._close()
+        module["open"]()
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _hub_window
+        _hub_window = None
+
+
+def _open_settings_hub():
+    global _hub_window
+    try:
+        if _hub_window is not None and _widget_exists(_hub_window.root_widget):
+            return
+        _hub_window = _SettingsHubWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod settings error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+_BUTTON_CALLBACKS = {
+    "ping": _on_ping_press,
+    "ip": _on_ip_press,
+    "clock": _on_clock_press,
+    "calc": lambda: _on_calc_press(_get_live_party_window()) if _get_live_party_window() is not None else None,
+    "notes": _on_notes_press,
+}
+
+_orig_party_init = party.PartyWindow.__init__
+
+
+def _patched_party_init(self, *args, **kwargs):
+    _orig_party_init(self, *args, **kwargs)
+
+    global _live_party_window_ref, _live_party_root, _live_party_dims
+    _live_party_window_ref = weakref.ref(self)
+    _live_party_root = self._root_widget
+    _live_party_dims = (self._width, self._height)
+
+    for key in _SECTION_ORDER:
+        if not _icon_enabled.get(key, True):
+            continue
+        try:
+            if _create_icon_button(key) is None:
+                raise RuntimeError("couldn't create button widget")
+        except Exception as e:
+            try:
+                push(f"PingMod error: {e}", color=(1, 0.3, 0.3))
+            except Exception:
+                pass
+            print(f"PingMod: couldn't add {key} button: {e}")
+
+
+party.PartyWindow.__init__ = _patched_party_init
+
+
+def _announce_loaded():
+    try:
+        push("PingMod loaded ✅ (Party > Ping/IP/Time/Calc/Notes)", color=(0.3, 1, 0.3))
+    except Exception:
+        pass
+
 
 # ba_meta require api 9
 
 
 # ba_meta export plugin
-class ModPoya(_ModPoyaImpl):
-    pass
+class PingMod(Plugin):
+
+    def on_app_running(self) -> None:
+        teck(1.5, _announce_loaded)
+        teck(2.0, _ping_alert_tick)
+
+    def has_settings_ui(self) -> bool:
+        return True
+
+    def show_settings_ui(self, source_widget) -> None:
+        _open_settings_hub()
+
+    def __del__(self):
+        try:
+            _ping_thread.stop()
+        except Exception:
+            pass
