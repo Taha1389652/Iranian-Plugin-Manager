@@ -1050,6 +1050,25 @@
           "md5sum": "1a7a1407f1e465cec19216425d0bc0f7"
         }
       }
+    },
+    "Squid_6723251168": {
+      "description": "Squid",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "ccd8029f181ec261a436fa8f4d08c67068c301ee",
+          "released_on": "22-09-2026",
+          "md5sum": "6b65497e7af1c45e55f094dd9ae74085"
+        }
+      }
     }
   }
 }
