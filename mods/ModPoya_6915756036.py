@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+import random
 import re
 import socket
 import textwrap
@@ -20,13 +21,6 @@ from bauiv1lib import party
 
 
 def _widget_exists(widget):
-    """چک امنِ زنده‌بودنِ یه ویجت.
-    توی بعضی نسخه‌های بازی (مثل همینی که الان داری) bui.exists اصلاً وجود
-    نداره و صدا زدنش AttributeError می‌ده. برای همین اول خودِ bui.exists رو
-    امتحان می‌کنیم، بعد babase.exists، و اگه هیچ‌کدوم در دسترس نبود به‌جای
-    کرش کردن، True برمی‌گردونیم و اجازه می‌دیم تلاشِ واقعیِ کار با ویجت
-    (که همه‌جا توی try/except پیچیده شده) خودش خطای ReferenceError رو
-    بگیره و رد کنه."""
     if widget is None:
         return False
     try:
@@ -79,6 +73,13 @@ NOTES_PANEL_HEIGHT = 560
 NOTES_MAX_CHARS = 4000
 NOTES_WRAP_CHARS = 40
 
+PARTY_X_OFFSET = -50
+PARTY_Y_FROM_TOP = 363
+PARTY_BTN_SIZE = 34
+
+PARTY_PANEL_WIDTH = 380
+PARTY_PANEL_HEIGHT = 160
+
 
 _DEFAULT_COLORS = {
     "ping":  {"bg": (0.0, 0.0, 0.0), "text": (1.0, 0.82, 0.1)},
@@ -86,9 +87,10 @@ _DEFAULT_COLORS = {
     "clock": {"bg": (0.0, 0.0, 0.0), "text": (1.0, 1.0, 1.0)},
     "calc":  {"bg": (0.0, 0.0, 0.0), "text": (0.8, 0.5, 1.0)},
     "notes": {"bg": (0.0, 0.0, 0.0), "text": (0.6, 1.0, 0.6)},
+    "party": {"bg": (0.0, 0.0, 0.0), "text": (1.0, 0.55, 0.15)},
 }
 
-_LABELS = {"ping": "Ping", "ip": "IP", "clock": "Time", "calc": "Calc", "notes": "Notes"}
+_LABELS = {"ping": "Ping", "ip": "IP", "clock": "Time", "calc": "Calc", "notes": "Notes", "party": "Party"}
 
 _LABEL_TEXT_SCALE = {"calc": 0.9, "notes": 0.8}
 
@@ -96,7 +98,6 @@ _CONFIG_KEY = "PingMod Icon Colors"
 
 
 def _load_colors():
-    """رنگ‌های ذخیره‌شده رو از کانفیگ بازی می‌خونه؛ اگه چیزی ذخیره نشده بود، پیش‌فرض می‌ذاره."""
     saved = {}
     try:
         raw = babase.app.config.get(_CONFIG_KEY)
@@ -126,7 +127,7 @@ def _load_colors():
 
 _colors = _load_colors()
 
-_live_buttons = {"ping": None, "ip": None, "clock": None, "calc": None, "notes": None}
+_live_buttons = {"ping": None, "ip": None, "clock": None, "calc": None, "notes": None, "party": None}
 
 
 def _save_colors():
@@ -144,7 +145,6 @@ def _save_colors():
 
 
 def _apply_color(key, which, color):
-    """رنگ یه آیکون رو عوض می‌کنه، ذخیره می‌کنه و اگه پنجره‌ی پارتی بازه، فوری روش اعمال می‌کنه."""
     _colors[key][which] = color
     _save_colors()
     widget = _live_buttons.get(key)
@@ -216,7 +216,6 @@ def _save_panel_colors():
 
 
 def _apply_panel_color(key, color):
-    """رنگ یه پنل رو عوض می‌کنه، ذخیره می‌کنه و اگه همون پنل الان بازه، فوری اعمال می‌کنه."""
     _panel_colors[key] = color
     _save_panel_colors()
     widget = _live_panels.get(key)
@@ -232,6 +231,7 @@ _DEFAULT_LAYOUT = {
     "clock": {"x": CLOCK_X_OFFSET, "y": CLOCK_Y_FROM_TOP, "size": CLOCK_BTN_SIZE, "shape": "square"},
     "calc":  {"x": CALC_X_OFFSET, "y": CALC_Y_FROM_TOP, "size": CALC_BTN_SIZE, "shape": "square"},
     "notes": {"x": NOTES_X_OFFSET, "y": NOTES_Y_FROM_TOP, "size": NOTES_BTN_SIZE, "shape": "square"},
+    "party": {"x": PARTY_X_OFFSET, "y": PARTY_Y_FROM_TOP, "size": PARTY_BTN_SIZE, "shape": "square"},
 }
 
 _LAYOUT_LIMITS = {
@@ -320,7 +320,6 @@ def _shape_size(base_size, shape):
 
 
 def _create_icon_button(key):
-    """دکمه‌ی یه آیکون رو با جا/اندازه/شکل/رنگِ فعلی، توی پنجره‌ی پارتیِ زنده می‌سازه."""
     if _live_party_root is None or not _widget_exists(_live_party_root):
         return None
     cfg = _layout[key]
@@ -346,7 +345,6 @@ def _create_icon_button(key):
 
 
 def _refresh_icon_button(key, shape_changed):
-    """بعد از تغییر جا/اندازه/شکل از تنظیمات، دکمه‌ی واقعیِ توی پنجره‌ی پارتی رو آپدیت می‌کنه."""
     widget = _live_buttons.get(key)
     cfg = _layout[key]
     if widget is None or not _widget_exists(widget):
@@ -386,7 +384,34 @@ current_ping = 0.0
 
 IP_AUTO_SEND_DELAY = 2.5
 
+_CONFIG_KEY_IP_AUTO_SEND = "PingMod IP Auto Send Enabled"
+
 _ip_auto_sent_key = None
+
+
+def _load_ip_auto_send_enabled():
+    try:
+        val = babase.app.config.get(_CONFIG_KEY_IP_AUTO_SEND)
+        if isinstance(val, bool):
+            return val
+    except Exception:
+        pass
+    return True
+
+
+_ip_auto_send_enabled = _load_ip_auto_send_enabled()
+
+
+def _save_ip_auto_send_enabled():
+    try:
+        babase.app.config[_CONFIG_KEY_IP_AUTO_SEND] = _ip_auto_send_enabled
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving IP auto send setting: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
 
 _orig_connect_to_party = bs.connect_to_party
 _orig_disconnect_from_host = bs.disconnect_from_host
@@ -395,6 +420,8 @@ _orig_disconnect_from_host = bs.disconnect_from_host
 def _auto_send_ip(address, port):
     global _ip_auto_sent_key
     try:
+        if not _ip_auto_send_enabled:
+            return
         if _server_ip != address or _server_port != port:
             return
         key = (address, port)
@@ -431,7 +458,6 @@ bs.disconnect_from_host = _new_disconnect_from_host
 
 
 class _PingThread(threading.Thread):
-    """پینگ واقعی رو با یه پکت کوچیک UDP اندازه می‌گیره."""
 
     def __init__(self):
         super().__init__(daemon=True)
@@ -673,10 +699,6 @@ def _on_ping_press():
 
 
 def _ping_alert_tick():
-    """هر PING_ALERT_CHECK_INTERVAL ثانیه چک می‌کنه؛ اگه تازه پینگ وارد محدوده‌ی
-    قرمز شده باشه (و وصل به یه سرور واقعی باشیم و هشدار از تنظیماتِ پنل خاموش
-    نشده باشه)، یه هشدار تو چتِ پارتی می‌فرسته. این تابع خودش رو دوباره
-    زمان‌بندی می‌کنه، پس همیشه (چه پنل باز باشه چه نه) در حال اجراست."""
     try:
         connected = _server_ip != "127.0.0.1"
         is_red = connected and current_ping > PING_WARN_MAX
@@ -703,8 +725,6 @@ _ip_window = None
 
 
 def _get_server_name():
-    """اسمِ سرورِ فعلی رو در صورت امکان از خودِ بازی می‌گیره؛ اگه در دسترس نبود،
-    رشته‌ی خالی برمی‌گردونه (به‌جای کرش کردن یا حدس زدن)."""
     for fn_name in ("get_connection_to_host_info_2", "get_connection_to_host_info"):
         fn = getattr(bs, fn_name, None)
         if fn is None:
@@ -809,7 +829,20 @@ class _IpPanelWindow:
             on_outside_click_call=bui.WeakCall(self._close),
         )
 
-        bottom_bar_h = 14
+        self._auto_btn = bw(
+            parent=self._root_widget,
+            position=(margin, 12),
+            size=(w - 2 * margin, 32),
+            button_type="square",
+            label=self._auto_label(),
+            text_scale=0.8,
+            color=self._auto_color(),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._toggle_auto),
+        )
+
+        bottom_bar_h = 52
         scroll_y = bottom_bar_h
         scroll_h = h - 60 - bottom_bar_h
         scroll_w = w - 2 * margin
@@ -876,6 +909,22 @@ class _IpPanelWindow:
             autoselect=True,
             on_activate_call=bui.WeakCall(self._send_row, index, row),
         )
+
+    def _auto_label(self):
+        return "Auto Send IP: ON ✅" if _ip_auto_send_enabled else "Auto Send IP: OFF ❌"
+
+    def _auto_color(self):
+        return (0.2, 0.5, 0.25) if _ip_auto_send_enabled else (0.5, 0.2, 0.2)
+
+    def _toggle_auto(self):
+        global _ip_auto_send_enabled
+        _ip_auto_send_enabled = not _ip_auto_send_enabled
+        _save_ip_auto_send_enabled()
+        if _widget_exists(self._auto_btn):
+            try:
+                bw(edit=self._auto_btn, label=self._auto_label(), color=self._auto_color())
+            except Exception:
+                pass
 
     def _send_row(self, index, row):
         try:
@@ -964,7 +1013,6 @@ def _gregorian_to_jalali(g_y, g_m, g_d):
 
 
 def _clock_shamsi_text():
-    """متنِ یک‌خطیِ روزِ هفته + تاریخِ عددیِ شمسی (1405.06.28) + ساعت."""
     now = time.localtime()
     current_time = time.strftime("%H:%M:%S", now)
     icon = "☀️" if 6 <= now.tm_hour < 18 else "🌑"
@@ -1244,7 +1292,7 @@ SETTINGS_PANEL_COLOR = (0.12, 0.12, 0.17)
 SWATCH_SIZE = 32
 SWATCH_GAP = 12
 
-_SECTION_ORDER = ["ping", "ip", "clock", "calc", "notes"]
+_SECTION_ORDER = ["ping", "ip", "clock", "calc", "notes", "party"]
 _color_window = None
 
 
@@ -1975,10 +2023,6 @@ def _save_notes_text():
 
 
 def _read_textwidget(widget, fallback=""):
-    """متنِ فعلیِ یه textwidget قابل‌ویرایش رو می‌خونه. نسخه‌های مختلفِ بازی این
-    قابلیت رو با اسم‌های متفاوتی پیاده کردن، برای همین چندتا روش رو امتحان
-    می‌کنیم (دقیقاً مثل _widget_exists) و اگه هیچ‌کدوم جواب نداد، آخرین مقدارِ
-    شناخته‌شده رو برمی‌گردونیم به‌جای کرش کردن."""
     if widget is None or not _widget_exists(widget):
         return fallback
     try:
@@ -1997,10 +2041,6 @@ def _read_textwidget(widget, fallback=""):
 
 
 def _wrap_notes_paragraphs(text, width):
-    """متنِ یادداشت رو بر اساسِ خط‌هایی که خودِ کاربر با اینتر جدا کرده، به
-    پاراگراف تقسیم می‌کنه و هر پاراگراف رو برای جا‌شدن توی عرضِ کادر می‌شکنه.
-    هر پاراگراف یه لیستِ جداگونه‌ست تا بینِ پاراگراف‌ها (نه بینِ خط‌های شکسته‌شده‌ی
-    خودِ یه پاراگراف) بشه یه فاصله‌ی اضافه گذاشت."""
     paragraphs = []
     for para in (text or "").split("\n"):
         if para == "":
@@ -2150,9 +2190,6 @@ class _NotesPanelWindow:
         self._auto_tick()
 
     def _auto_tick(self):
-        """هر یه ثانیه، تا وقتی پنل بازه، پیش‌نمایش رو با متنِ داخلِ فیلدِ ویرایش
-        هماهنگ نگه می‌داره (بدون اینکه به خودِ فیلدِ ویرایش دست بزنه، پس تایپ‌کردن
-        دچار پرش/قطعی نمیشه)."""
         if not _widget_exists(self._root_widget):
             return
         try:
@@ -2258,7 +2295,7 @@ def _on_notes_press():
     _open_notes_panel()
 
 
-_DEFAULT_ICON_ENABLED = {"ping": True, "ip": True, "clock": True, "calc": True, "notes": True}
+_DEFAULT_ICON_ENABLED = {"ping": True, "ip": True, "clock": True, "calc": True, "notes": True, "party": True}
 _CONFIG_KEY_ICON_ENABLED = "PingMod Icon Enabled"
 
 
@@ -2430,11 +2467,314 @@ def _open_icon_toggle_settings():
             pass
 
 
+ADS_INTERVAL = 180.0
+ADS_CHECK_INTERVAL = 5.0
+
+_CONFIG_KEY_ADS = "PingMod Ads Enabled"
+
+_ADS_MESSAGES = [
+    "🔥 Using PoyaMod! Get it and more BombSquad mods on Telegram: @AzraelMods",
+    "⚡ PoyaMod - a handy toolkit for your party window. Download: @AzraelMods",
+    "📢 Best mods for BombSquad? Join our Telegram channel: @AzraelMods",
+    "☄️ Want this mod? Find it on our Telegram channel: @AzraelMods",
+]
+
+_ads_state = {"next_time": 0.0, "last_index": -1, "last_sent": 0.0, "chain": 0}
+
+
+def _load_ads_enabled():
+    try:
+        val = babase.app.config.get(_CONFIG_KEY_ADS)
+        if isinstance(val, bool):
+            return val
+    except Exception:
+        pass
+    return False
+
+
+_ads_enabled = _load_ads_enabled()
+
+
+def _save_ads_enabled():
+    try:
+        babase.app.config[_CONFIG_KEY_ADS] = _ads_enabled
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving ads setting: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _set_ads_enabled(enabled):
+    global _ads_enabled
+    _ads_enabled = bool(enabled)
+    _ads_state["next_time"] = 0.0
+    _save_ads_enabled()
+
+
+def _ads_connected():
+    if _server_ip != "127.0.0.1":
+        return True
+    for fn_name in ("get_connection_to_host_info_2", "get_connection_to_host_info"):
+        fn = getattr(bs, fn_name, None)
+        if fn is None:
+            continue
+        try:
+            info = fn()
+        except Exception:
+            continue
+        if info:
+            return True
+    return False
+
+
+def _ads_shared_last_sent():
+    try:
+        return float(getattr(bs, "_poyamod_ads_last_sent", 0.0))
+    except Exception:
+        return 0.0
+
+
+def _ads_mark_sent(now):
+    _ads_state["last_sent"] = now
+    try:
+        setattr(bs, "_poyamod_ads_last_sent", now)
+    except Exception:
+        pass
+
+
+def _ads_schedule_next():
+    _ads_state["next_time"] = time.time() + ADS_INTERVAL
+
+
+def _ads_pick_message():
+    count = len(_ADS_MESSAGES)
+    index = random.randrange(count)
+    if count > 1 and index == _ads_state["last_index"]:
+        index = (index + 1) % count
+    _ads_state["last_index"] = index
+    return _ADS_MESSAGES[index]
+
+
+def _ads_send():
+    now = time.time()
+    last = max(_ads_state["last_sent"], _ads_shared_last_sent())
+    if 0.0 <= now - last < ADS_INTERVAL:
+        return None
+    message = _ads_pick_message()
+    try:
+        bs.chatmessage(message)
+    except Exception as e:
+        try:
+            push(f"PingMod ads error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+        return None
+    _ads_mark_sent(now)
+    return message
+
+
+def _ads_status_text():
+    if not _ads_enabled:
+        return "Status: OFF"
+    if not _ads_connected():
+        return "Status: waiting for a server connection"
+    next_time = _ads_state["next_time"]
+    if next_time <= 0.0:
+        return "Status: starting..."
+    remaining = max(0, int(next_time - time.time()))
+    return f"Status: next ad in {remaining // 60}:{remaining % 60:02d}"
+
+
+def _ads_start():
+    _ads_state["chain"] += 1
+    _ads_tick(_ads_state["chain"])
+
+
+def _ads_tick(chain_id):
+    if chain_id != _ads_state["chain"]:
+        return
+    try:
+        if _ads_enabled and _ads_connected():
+            if _ads_state["next_time"] <= 0.0:
+                _ads_schedule_next()
+            elif time.time() >= _ads_state["next_time"]:
+                _ads_send()
+                _ads_schedule_next()
+        else:
+            _ads_state["next_time"] = 0.0
+    except Exception as e:
+        try:
+            push(f"PingMod ads error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+    teck(ADS_CHECK_INTERVAL, lambda c=chain_id: _ads_tick(c))
+
+
+ADS_PANEL_WIDTH = 420
+ADS_PANEL_HEIGHT = 300
+ADS_PANEL_COLOR = SETTINGS_PANEL_COLOR
+
+_ads_window = None
+
+
+class _AdsSettingsWindow:
+    def __init__(self):
+        w = ADS_PANEL_WIDTH
+        h = ADS_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=ADS_PANEL_COLOR,
+        )
+        self._root_widget = self.root_widget
+
+        margin = 20
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 34),
+            size=(w, 24),
+            text="📣 Settings 5 - Ads",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 22, h - 38),
+            size=(22, 22),
+            button_type="square",
+            label="✕",
+            text_scale=0.8,
+            color=CALC_CLOSE_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        info_lines = [
+            ("Help promote PoyaMod!", 0.95, (1, 1, 0.6)),
+            ("When ON, a short message about @AzraelMods is", 0.75, (0.85, 0.85, 0.9)),
+            ("sent to the party chat every 3 minutes while", 0.75, (0.85, 0.85, 0.9)),
+            ("you are connected to a server.", 0.75, (0.85, 0.85, 0.9)),
+            ("When OFF, nothing is sent.", 0.75, (0.85, 0.85, 0.9)),
+        ]
+        line_top = h - 66
+        for text, scale, color in info_lines:
+            bui.textwidget(
+                parent=self._root_widget,
+                position=(margin, line_top - 20),
+                size=(w - 2 * margin, 20),
+                text=text,
+                h_align="center",
+                v_align="center",
+                scale=scale,
+                color=color,
+                maxwidth=w - 2 * margin,
+            )
+            line_top -= 26
+
+        self._status_text = bui.textwidget(
+            parent=self._root_widget,
+            position=(margin, line_top - 24),
+            size=(w - 2 * margin, 20),
+            text=_ads_status_text(),
+            h_align="center",
+            v_align="center",
+            scale=0.8,
+            color=(0.6, 1, 0.8),
+            maxwidth=w - 2 * margin,
+        )
+
+        self._toggle_btn = bw(
+            parent=self._root_widget,
+            position=(margin, 24),
+            size=(w - 2 * margin, 44),
+            button_type="square",
+            label=self._toggle_label(),
+            text_scale=0.95,
+            color=self._toggle_color(),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._toggle),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+        self._tick()
+
+    def _toggle_label(self):
+        return "Help Promote: ON ✅" if _ads_enabled else "Help Promote: OFF ❌"
+
+    def _toggle_color(self):
+        return (0.2, 0.5, 0.25) if _ads_enabled else (0.5, 0.2, 0.2)
+
+    def _toggle(self):
+        _set_ads_enabled(not _ads_enabled)
+        if _widget_exists(self._toggle_btn):
+            try:
+                bw(edit=self._toggle_btn, label=self._toggle_label(), color=self._toggle_color())
+            except Exception:
+                pass
+
+    def _tick(self):
+        if not _widget_exists(self._root_widget):
+            return
+        try:
+            bui.textwidget(edit=self._status_text, text=_ads_status_text())
+        except Exception:
+            pass
+        teck(1.0, bui.WeakCall(self._tick))
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _ads_window
+        _ads_window = None
+
+
+def _open_ads_settings():
+    global _ads_window
+    try:
+        if _ads_window is not None and _widget_exists(_ads_window.root_widget):
+            return
+        _ads_window = _AdsSettingsWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod settings error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
 _SETTINGS_MODULES = [
     {"title": "Icon Colors", "icon": "🎨", "open": _open_color_settings},
     {"title": "Panel Colors", "icon": "🖌️", "open": _open_panel_color_settings},
     {"title": "Icon Position/Size/Shape", "icon": "📐", "open": _open_layout_settings},
     {"title": "Add/Remove Icons", "icon": "🧩", "open": _open_icon_toggle_settings},
+    {"title": "Ads", "icon": "📣", "open": _open_ads_settings},
 ]
 
 HUB_PANEL_WIDTH = 420
@@ -2547,13 +2887,246 @@ def _open_settings_hub():
             pass
 
 
+PARTY_TINT_INTERVAL = 3.0
+
+_CONFIG_KEY_PARTY_TINT = "PingMod Party Tint Enabled"
+
+_party_tint_state = {"chain": 0}
+
+
+def _load_bool_setting(key, default=False):
+    try:
+        val = babase.app.config.get(key)
+        if isinstance(val, bool):
+            return val
+    except Exception:
+        pass
+    return default
+
+
+def _save_bool_setting(key, value):
+    try:
+        babase.app.config[key] = bool(value)
+        babase.app.config.commit()
+    except Exception as e:
+        try:
+            push(f"PingMod: Error saving setting: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+_party_tint_enabled = _load_bool_setting(_CONFIG_KEY_PARTY_TINT, False)
+
+
+def _set_party_tint_enabled(enabled):
+    global _party_tint_enabled
+    _party_tint_enabled = bool(enabled)
+    _save_bool_setting(_CONFIG_KEY_PARTY_TINT, _party_tint_enabled)
+    if _party_tint_enabled:
+        _party_tint_state["chain"] += 1
+        _party_tint_tick(_party_tint_state["chain"])
+
+
+# A curated set of visually distinct, saturated tints (each channel 0-9).
+# Random-per-channel picks tended to cluster on muddy/grayish colors and
+# could repeat a similar shade back-to-back. Instead we shuffle this whole
+# palette and hand tints out one at a time, so every color in a cycle is
+# used exactly once and neighboring colors are guaranteed to look distinct.
+_PARTY_TINT_PALETTE = [
+    (9, 0, 0),  # red
+    (0, 9, 0),  # green
+    (0, 0, 9),  # blue
+    (9, 9, 0),  # yellow
+    (0, 9, 9),  # cyan
+    (9, 0, 9),  # magenta
+    (9, 5, 0),  # orange
+    (5, 0, 9),  # purple
+    (0, 9, 5),  # mint
+    (9, 0, 5),  # pink/rose
+    (5, 9, 0),  # lime
+    (0, 5, 9),  # sky blue
+    (9, 9, 9),  # white
+    (5, 9, 9),  # light cyan
+    (9, 9, 5),  # pale yellow
+    (9, 5, 9),  # light magenta
+]
+
+_party_tint_queue = []
+_party_tint_last = None
+
+
+def _party_tint_pick():
+    # server command example: /T 6 9 1
+    global _party_tint_queue, _party_tint_last
+
+    if not _party_tint_queue:
+        pool = list(_PARTY_TINT_PALETTE)
+        random.shuffle(pool)
+        # Don't let the first tint of a new cycle match the last tint
+        # sent at the end of the previous cycle.
+        if _party_tint_last is not None and pool[0] == _party_tint_last and len(pool) > 1:
+            swap_at = random.randint(1, len(pool) - 1)
+            pool[0], pool[swap_at] = pool[swap_at], pool[0]
+        _party_tint_queue = pool
+
+    r, g, b = _party_tint_queue.pop(0)
+    _party_tint_last = (r, g, b)
+    return f"/T {r} {g} {b}"
+
+
+def _party_tint_tick(chain_id):
+    if chain_id != _party_tint_state["chain"] or not _party_tint_enabled:
+        return
+    try:
+        if _ads_connected():
+            bs.chatmessage(_party_tint_pick())
+    except Exception as e:
+        try:
+            push(f"PingMod tint error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+    teck(PARTY_TINT_INTERVAL, lambda c=chain_id: _party_tint_tick(c))
+
+
+PARTY_PANEL_COLOR = SETTINGS_PANEL_COLOR
+
+_party_window = None
+
+
+class _PartyPanelWindow:
+    def __init__(self):
+        w = PARTY_PANEL_WIDTH
+        h = PARTY_PANEL_HEIGHT
+        self._width = w
+        self._height = h
+
+        try:
+            sw, sh = bui.get_virtual_screen_size()
+        except Exception:
+            sw, sh = w, h
+        pos_x = (sw - w) / 2
+        pos_y = (sh - h) / 2
+
+        self.root_widget = bui.containerwidget(
+            parent=gsw("overlay_stack"),
+            position=(pos_x, pos_y),
+            size=(w, h),
+            transition="in_scale",
+            scale=1.0,
+            color=PARTY_PANEL_COLOR,
+        )
+        self._root_widget = self.root_widget
+
+        margin = 20
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(0, h - 34),
+            size=(w, 24),
+            text="🎉 Party",
+            h_align="center",
+            v_align="center",
+            scale=1.1,
+            color=(1, 1, 1),
+        )
+
+        close_btn = bw(
+            parent=self._root_widget,
+            position=(w - margin - 22, h - 38),
+            size=(22, 22),
+            button_type="square",
+            label="✕",
+            text_scale=0.8,
+            color=CALC_CLOSE_COLOR,
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._close),
+        )
+
+        bui.textwidget(
+            parent=self._root_widget,
+            position=(margin, 90),
+            size=(w - 2 * margin, 20),
+            text="Color/Tint: sends a random /T tint every 3s",
+            h_align="center",
+            v_align="center",
+            scale=0.72,
+            color=(0.85, 0.85, 0.9),
+            maxwidth=w - 2 * margin,
+        )
+
+        self._tint_btn = bw(
+            parent=self._root_widget,
+            position=(margin, 35),
+            size=(w - 2 * margin, 44),
+            button_type="square",
+            label=self._tint_label(),
+            text_scale=0.9,
+            color=self._tint_color(),
+            textcolor=(1, 1, 1),
+            autoselect=True,
+            on_activate_call=bui.WeakCall(self._toggle_tint),
+        )
+
+        bui.containerwidget(
+            edit=self._root_widget,
+            cancel_button=close_btn,
+            on_outside_click_call=bui.WeakCall(self._close),
+        )
+
+    def _tint_label(self):
+        return "Color/Tint: ON ✅" if _party_tint_enabled else "Color/Tint: OFF ❌"
+
+    def _tint_color(self):
+        return (0.2, 0.5, 0.25) if _party_tint_enabled else (0.5, 0.2, 0.2)
+
+    def _toggle_tint(self):
+        _set_party_tint_enabled(not _party_tint_enabled)
+        if _widget_exists(self._tint_btn):
+            try:
+                bw(edit=self._tint_btn, label=self._tint_label(), color=self._tint_color())
+            except Exception:
+                pass
+
+    def _close(self):
+        try:
+            bui.containerwidget(edit=self._root_widget, transition="out_scale")
+        except Exception:
+            pass
+        global _party_window
+        _party_window = None
+
+
+def _open_party_panel():
+    global _party_window
+    try:
+        if _party_window is not None and _widget_exists(_party_window.root_widget):
+            return
+        _party_window = _PartyPanelWindow()
+    except Exception as e:
+        try:
+            push(f"PingMod party panel error: {e}", color=(1, 0.3, 0.3))
+        except Exception:
+            pass
+
+
+def _on_party_press():
+    _open_party_panel()
+
+
 _BUTTON_CALLBACKS = {
     "ping": _on_ping_press,
     "ip": _on_ip_press,
     "clock": _on_clock_press,
     "calc": lambda: _on_calc_press(_get_live_party_window()) if _get_live_party_window() is not None else None,
     "notes": _on_notes_press,
+    "party": _on_party_press,
 }
+
+def _party_tint_start():
+    if _party_tint_enabled:
+        _party_tint_state["chain"] += 1
+        _party_tint_tick(_party_tint_state["chain"])
 
 _orig_party_init = party.PartyWindow.__init__
 
@@ -2599,6 +3172,8 @@ class PingMod(Plugin):
     def on_app_running(self) -> None:
         teck(1.5, _announce_loaded)
         teck(2.0, _ping_alert_tick)
+        teck(3.0, _ads_start)
+        teck(3.0, _party_tint_start)
 
     def has_settings_ui(self) -> bool:
         return True
