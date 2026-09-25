@@ -1151,6 +1151,25 @@
           "md5sum": "817265b89c056c111aea35e862796447"
         }
       }
+    },
+    "Arian_7974429481": {
+      "description": "Football",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "TheArian7",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "3df997e47c0e5b3aa0ff3a7a3f2a72d7878805af",
+          "released_on": "26-09-2026",
+          "md5sum": "30a368742a31634cf89dfbbed767330d"
+        }
+      }
     }
   }
 }
