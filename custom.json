@@ -1113,6 +1113,25 @@
           "md5sum": "8ee1e8f2c12f4f583172ff371318da91"
         }
       }
+    },
+    "AriA_7974429481": {
+      "description": "فوتبال",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "آرین",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "8f0d7ead0c90ded46e82392d78309ad91a83ab37",
+          "released_on": "25-09-2026",
+          "md5sum": "9df18f87cf7ecac9f5a8458d7ab4bbfb"
+        }
+      }
     }
   }
 }
