@@ -1189,6 +1189,25 @@
           "md5sum": "30a368742a31634cf89dfbbed767330d"
         }
       }
+    },
+    "Ufo_5817007309": {
+      "description": "میدونم مینی گیمه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "bedabaaab8c18ab85548895dc36d967e07bdf3f2",
+          "released_on": "29-09-2026",
+          "md5sum": "00f9791e1688197d4bce9f1c697863f4"
+        }
+      }
     }
   }
 }
