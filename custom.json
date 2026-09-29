@@ -1227,6 +1227,25 @@
           "md5sum": "25cd1905022e158db326d05b3569231d"
         }
       }
+    },
+    "For_test2_5817007309": {
+      "description": "Teryak",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "900db1c0474ccf9e318ba508898d31b02d45e6ee",
+          "released_on": "29-09-2026",
+          "md5sum": "f2e5e0f59e959ac33516dea42fdf3084"
+        }
+      }
     }
   }
 }
