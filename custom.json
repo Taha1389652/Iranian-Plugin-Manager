@@ -1246,6 +1246,25 @@
           "md5sum": "f2e5e0f59e959ac33516dea42fdf3084"
         }
       }
+    },
+    "For_test3_5817007309": {
+      "description": "API 9",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "7367fccdf5575e134d7fd53fd85aac8b342e24a3",
+          "released_on": "29-09-2026",
+          "md5sum": "9816c04ad475e05be15dd50dd16d51fe"
+        }
+      }
     }
   }
 }
