@@ -1208,6 +1208,25 @@
           "md5sum": "00f9791e1688197d4bce9f1c697863f4"
         }
       }
+    },
+    "For_test_5817007309": {
+      "description": "Teste",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "MmdPvB",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "0db3d902f5f32fe8eb1e413bb65f9527a0ac8775",
+          "released_on": "29-09-2026",
+          "md5sum": "25cd1905022e158db326d05b3569231d"
+        }
+      }
     }
   }
 }
