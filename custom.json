@@ -1341,6 +1341,25 @@
           "md5sum": "d4b209051b9ca973b34fbb37c8bf9eab"
         }
       }
+    },
+    "Soccer_real_5817007309": {
+      "description": "Football",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "672b3f0c909452ab805fdb03459eb25a395c9d32",
+          "released_on": "30-09-2026",
+          "md5sum": "b8462a33d343e6965f712034b0eba50d"
+        }
+      }
     }
   }
 }
