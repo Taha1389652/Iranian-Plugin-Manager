@@ -1436,6 +1436,25 @@
           "md5sum": "0c280030e2e07acbbea1a48098d3f429"
         }
       }
+    },
+    "For_test_nahyi_5817007309": {
+      "description": "Fottvall",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "43120d4c7d14043abb901922242a3df9ee3f1ae8",
+          "released_on": "30-09-2026",
+          "md5sum": "7fe58eb30410536202e7cc8f2c614193"
+        }
+      }
     }
   }
 }
