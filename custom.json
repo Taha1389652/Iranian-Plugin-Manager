@@ -1361,25 +1361,6 @@
         }
       }
     },
-    "Ufc_5817007309": {
-      "description": "API 9",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "ممد بکن طاها",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "6d3e39fe8aa298df03db982752bd6baba6477f98",
-          "released_on": "30-09-2026",
-          "md5sum": "d4b209051b9ca973b34fbb37c8bf9eab"
-        }
-      }
-    },
     "Fortest7_5817007309": {
       "description": "API 9",
       "external_url": "",
