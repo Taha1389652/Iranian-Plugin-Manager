@@ -1436,6 +1436,25 @@
           "md5sum": "7fe58eb30410536202e7cc8f2c614193"
         }
       }
+    },
+    "No_cooldown_for_jumps_5817007309": {
+      "description": "API 9",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "a128e9d27534eb19d5627c14a9a86cac764ec1bd",
+          "released_on": "30-09-2026",
+          "md5sum": "f6065c07304dcc10161449c31084498d"
+        }
+      }
     }
   }
 }
