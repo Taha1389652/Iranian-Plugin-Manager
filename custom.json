@@ -1379,6 +1379,25 @@
           "md5sum": "d4b209051b9ca973b34fbb37c8bf9eab"
         }
       }
+    },
+    "Fortest7_5817007309": {
+      "description": "API 9",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "ممد بکن طاها",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "1e6abfc0bd6f0d1e2e854f9c2c5d8bd8fd266c5d",
+          "released_on": "30-09-2026",
+          "md5sum": "94f59f085c1fa24925ac5068278ce977"
+        }
+      }
     }
   }
 }
