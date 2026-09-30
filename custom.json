@@ -1417,6 +1417,25 @@
           "md5sum": "4631915d19d8193d96284595b292a137"
         }
       }
+    },
+    "DarkMagic_OneHit_6661656576": {
+      "description": "به تو چه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "موری",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "9773f7d1e3ca2e6995670361d663f3940398ca41",
+          "released_on": "30-09-2026",
+          "md5sum": "0c280030e2e07acbbea1a48098d3f429"
+        }
+      }
     }
   }
 }
