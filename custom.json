@@ -541,25 +541,6 @@
         }
       }
     },
-    "Buffon_Creators_6502587028": {
-      "description": "شوت خودکار",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "Buffon",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "60594ac5bc8f20cd526afc4ab1902b8eedcac69e",
-          "released_on": "28-08-2026",
-          "md5sum": "303d6a47d57d3fb99e4fd69dcb4ffdcd"
-        }
-      }
-    },
     "Buffon_6502587028": {
       "description": "God",
       "external_url": "",
