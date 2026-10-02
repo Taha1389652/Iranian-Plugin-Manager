@@ -1,0 +1,82 @@
+{
+  "channels": [
+    {
+      "active": 1,
+      "added_date": "2026-09-25 23:29",
+      "channel_id": -1003912430226,
+      "channel_name": "B",
+      "channel_username": "@BsNokia",
+      "owner_id": 7465401342
+    },
+    {
+      "active": 1,
+      "added_date": "2026-09-20 22:47",
+      "channel_id": -1002573312035,
+      "channel_name": "⚡BsRush Mod",
+      "channel_username": "@BsRush_Mod",
+      "owner_id": 6723251168
+    }
+  ],
+  "groups": [
+    {
+      "active": 0,
+      "added_date": "2026-09-20 22:47",
+      "goodbye_enabled": 0,
+      "group_id": -2072573312035,
+      "group_name": "⚡BsRush Mod",
+      "locked": 0,
+      "owner_id": 0,
+      "rules": "",
+      "welcome_enabled": 0,
+      "welcome_message": ""
+    },
+    {
+      "active": 1,
+      "added_date": "2026-09-06 12:03",
+      "goodbye_enabled": 0,
+      "group_id": -1004469999337,
+      "group_name": "Azrael",
+      "locked": 0,
+      "owner_id": 0,
+      "rules": "",
+      "welcome_enabled": 0,
+      "welcome_message": ""
+    },
+    {
+      "active": 0,
+      "added_date": "2026-08-26 14:26",
+      "goodbye_enabled": 0,
+      "group_id": -1004449473486,
+      "group_name": "ǤØĐ FɌƗɆNĐ | GAP",
+      "locked": 0,
+      "owner_id": 0,
+      "rules": "",
+      "welcome_enabled": 0,
+      "welcome_message": ""
+    },
+    {
+      "active": 1,
+      "added_date": "2026-08-19 20:38",
+      "goodbye_enabled": 1,
+      "group_id": -1002629648248,
+      "group_name": "⚡️BsRush Group",
+      "locked": 0,
+      "owner_id": 0,
+      "rules": "",
+      "welcome_enabled": 1,
+      "welcome_message": ""
+    },
+    {
+      "active": 0,
+      "added_date": "2026-09-25 04:43",
+      "goodbye_enabled": 0,
+      "group_id": -1002295458092,
+      "group_name": "BigRome 🚩",
+      "locked": 0,
+      "owner_id": 6723251168,
+      "rules": "",
+      "welcome_enabled": 0,
+      "welcome_message": ""
+    }
+  ]
+}
