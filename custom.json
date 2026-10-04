@@ -1455,6 +1455,25 @@
           "md5sum": "a92f104523f1be3cac92038164e0685b"
         }
       }
+    },
+    "Bslifemod_8329471917": {
+      "description": "تو منو سرور هارو بالا میاره",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Sfjjhfhh",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 7,
+          "commit_sha": "4ad3f1c97c693f39eecba71b2232f3717630f0b9",
+          "released_on": "04-10-2026",
+          "md5sum": "30e627f5067e4bb0d55aca56bb69b509"
+        }
+      }
     }
   }
 }
