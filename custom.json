@@ -1474,6 +1474,25 @@
           "md5sum": "30e627f5067e4bb0d55aca56bb69b509"
         }
       }
+    },
+    "Advance_colorPicker_6723251168": {
+      "description": "تنظیم رنگ حرفه ای 👍",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "BsRush",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "031431a49d571706a131ae382e06bc857365dffe",
+          "released_on": "07-10-2026",
+          "md5sum": "fa763e6ecb074a370d61b181b9bcb590"
+        }
+      }
     }
   }
 }
