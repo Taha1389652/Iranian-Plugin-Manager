@@ -1493,6 +1493,25 @@
           "md5sum": "fa763e6ecb074a370d61b181b9bcb590"
         }
       }
+    },
+    "Ar_6998308758": {
+      "description": "00",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "PV0SHOP",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 7,
+          "commit_sha": "d26f3d7b82a719692253c17c4f860bd70a507086",
+          "released_on": "11-10-2026",
+          "md5sum": "60a80c7b2e4278f216902a7e5286af60"
+        }
+      }
     }
   }
 }
