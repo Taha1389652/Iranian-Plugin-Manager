@@ -1493,6 +1493,25 @@
           "md5sum": "fa763e6ecb074a370d61b181b9bcb590"
         }
       }
+    },
+    "Jahani_6998308758": {
+      "description": "001",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Ar",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 7,
+          "commit_sha": "ab1922f78265df8ae4118d2a3f3e4e4ecd13d0b2",
+          "released_on": "11-10-2026",
+          "md5sum": "f2859132978578b07045ca1b43a14b06"
+        }
+      }
     }
   }
 }
