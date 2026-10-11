@@ -1493,25 +1493,6 @@
           "md5sum": "fa763e6ecb074a370d61b181b9bcb590"
         }
       }
-    },
-    "Buy_jahani_6998308758": {
-      "description": "Jahani",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "PV0SHOP",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 7,
-          "commit_sha": "e6912a67a5537a6502fa17c6a4c456b6cbc3a24f",
-          "released_on": "11-10-2026",
-          "md5sum": "362195577814db3f2a3f48365209b9f3"
-        }
-      }
     }
   }
 }
