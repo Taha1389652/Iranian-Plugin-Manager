@@ -1537,25 +1537,6 @@
           "md5sum": "08e8361267da52dd6fa8214a88f69d7d"
         }
       }
-    },
-    "001_7249125713": {
-      "description": "00",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "Id_shop001",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "6258cd396d5ea885af9404582bff37130addbb5f",
-          "released_on": "14-10-2026",
-          "md5sum": "04105e3c2e07ee334088034b154f84c2"
-        }
-      }
     }
   }
 }
