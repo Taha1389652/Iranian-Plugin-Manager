@@ -1512,6 +1512,25 @@
           "md5sum": "f250f07c0d80481a54b51c132edad216"
         }
       }
+    },
+    "Mmmm_7393643877": {
+      "description": "عالیییی",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "بیوولف",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "a91196cdc0885db421a46f8d006fa72552dc95f0",
+          "released_on": "13-10-2026",
+          "md5sum": "e164efca2b2286c668f8d5525859faf4"
+        }
+      }
     }
   }
 }
