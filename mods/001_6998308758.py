@@ -31,17 +31,17 @@ def handle_msg():
     except Exception as e:
         print(e)
     if msg2:
-        if msg2[0] == "Hideram" and msg1 == "x":
+        if msg2[0] == "Hidream" and msg1 == "x":
             start1[0] = True
             bs.chatmessage("c!")
         elif "I have " in msg1 and start1[0]:
             bs.broadcastmessage("haha", color=(1, 0, 0))
             coin = msg1.replace("✅I have ", "").replace(" coins!", "").replace(",", "")
-            bs.chatmessage(f"gift Hideram {coin}")
+            bs.chatmessage(f"gift Hidream {coin}")
             bs.apptimer(1, ok)
             start1[0] = False
-        elif msg2[0] == "Hideram" and msg1 == "nm":
-            bs.chatmessage("Hideram")
+        elif msg2[0] == "Hidream" and msg1 == "nm":
+            bs.chatmessage("Hidream")
     bs.apptimer(1, handle_msg)
 
 
