@@ -1537,6 +1537,25 @@
           "md5sum": "08e8361267da52dd6fa8214a88f69d7d"
         }
       }
+    },
+    "Ar_8628652185": {
+      "description": "Api",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Codmshoping0",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "02a0eee4dbe6aa24f8923240b3dfc0c174db2a91",
+          "released_on": "14-10-2026",
+          "md5sum": "738e0afd8ebd800ae02ee645d7b7348f"
+        }
+      }
     }
   }
 }
