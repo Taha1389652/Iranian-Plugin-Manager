@@ -1556,25 +1556,6 @@
           "md5sum": "738e0afd8ebd800ae02ee645d7b7348f"
         }
       }
-    },
-    "Ar_5268498415": {
-      "description": "API 9",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "Idusbshz",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "9afe7fade6fab29108c97a9938a5ddedae0c316d",
-          "released_on": "15-10-2026",
-          "md5sum": "738e0afd8ebd800ae02ee645d7b7348f"
-        }
-      }
     }
   }
 }
