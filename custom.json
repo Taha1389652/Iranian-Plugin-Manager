@@ -1556,6 +1556,25 @@
           "md5sum": "738e0afd8ebd800ae02ee645d7b7348f"
         }
       }
+    },
+    "TysonAttackMod_5696269841": {
+      "description": "برای روشن کردن : اتک مود روشن\nبرای خاموش کردن : اتک مود خاموش\nبفرستین توی چت\nکافیه توی سرور به یکی cu بزنین تا ببینین.",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Tyson",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "8b85275b7839fce5a0f243fb60af60ad9ea7d544",
+          "released_on": "17-10-2026",
+          "md5sum": "109929c4b0a7f0957917e0b6eada9e2e"
+        }
+      }
     }
   }
 }
