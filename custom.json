@@ -1575,6 +1575,25 @@
           "md5sum": "109929c4b0a7f0957917e0b6eada9e2e"
         }
       }
+    },
+    "Ar_5268498415": {
+      "description": "Ar",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Idusbshz",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "dbd4c623aeba34e9c26b3f8ee8e1bac57da88530",
+          "released_on": "17-10-2026",
+          "md5sum": "515c5e523c854d9d0cda41070eb07901"
+        }
+      }
     }
   }
 }
