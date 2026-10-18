@@ -1575,25 +1575,6 @@
           "md5sum": "109929c4b0a7f0957917e0b6eada9e2e"
         }
       }
-    },
-    "Jahani_7428229786": {
-      "description": "موده جهانی مرتضی",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "Morteza",
-          "email": "",
-          "discord": "Mori_001"
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "f41e0a403ea2e83e87febad9d37c5ca931bfe51c",
-          "released_on": "18-10-2026",
-          "md5sum": "fc0be4dc75ada97f7654a30271d27284"
-        }
-      }
     }
   }
 }
