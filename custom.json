@@ -1575,6 +1575,25 @@
           "md5sum": "109929c4b0a7f0957917e0b6eada9e2e"
         }
       }
+    },
+    "Jahani_7428229786": {
+      "description": "شوخ",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Morteza",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "4e7c83e7e80219bd3c57210aeb11dd96680dbb0d",
+          "released_on": "18-10-2026",
+          "md5sum": "fc0be4dc75ada97f7654a30271d27284"
+        }
+      }
     }
   }
 }
