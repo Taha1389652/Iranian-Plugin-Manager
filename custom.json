@@ -1594,6 +1594,25 @@
           "md5sum": "b771084aa9ee6ad57459ba08f1fb665f"
         }
       }
+    },
+    "Buffon_7049184343": {
+      "description": "مود برا بوفون سیو گلری",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Buffon",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "e62e8c8d77e1a28278461dc56e3b2aa5db6c2c0c",
+          "released_on": "20-10-2026",
+          "md5sum": "457d1695311aa4120302c09771c8504e"
+        }
+      }
     }
   }
 }
