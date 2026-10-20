@@ -1594,25 +1594,6 @@
           "md5sum": "b771084aa9ee6ad57459ba08f1fb665f"
         }
       }
-    },
-    "Naj_7049184343": {
-      "description": "Nxjej",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "Amir_googooriyo",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "fa383e7323f037ce80728d3690046e1553555ade",
-          "released_on": "21-10-2026",
-          "md5sum": "996a715e201e4d4dcfed5a1918b9ead8"
-        }
-      }
     }
   }
 }
