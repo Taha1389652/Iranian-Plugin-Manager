@@ -1594,25 +1594,6 @@
           "md5sum": "b771084aa9ee6ad57459ba08f1fb665f"
         }
       }
-    },
-    "O_8839188064": {
-      "description": "حطری",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "WindowsAr",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "3b788d1c80401955dd4e9594a788d99af67084b5",
-          "released_on": "21-10-2026",
-          "md5sum": "edca33c787a0b4e520b537c85a31d42a"
-        }
-      }
     }
   }
 }
