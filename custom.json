@@ -1613,25 +1613,6 @@
           "md5sum": "dda4781f6749b0e34abfa1e87efff713"
         }
       }
-    },
-    "Gk_7049184343": {
-      "description": "اقا این مود برا اینکه شوت بزنی گلر بگیره",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "Amir_googooriyo",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "646561d1bb27df6ceebf2fc5abe1036c06cced2c",
-          "released_on": "22-10-2026",
-          "md5sum": "ccd9cd1a7bb2ee7100ed44be698ca294"
-        }
-      }
     }
   }
 }
