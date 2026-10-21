@@ -1613,25 +1613,6 @@
           "md5sum": "dda4781f6749b0e34abfa1e87efff713"
         }
       }
-    },
-    "Jsj_7049184343": {
-      "description": "Hdhsj",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "Amir_googooriyo",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "6a91859d5d6be2fd7ddfd31d24f9c9f20d671cac",
-          "released_on": "22-10-2026",
-          "md5sum": "906824c656bb5f04e4c27b17a322da11"
-        }
-      }
     }
   }
 }
