@@ -1594,25 +1594,6 @@
           "md5sum": "b771084aa9ee6ad57459ba08f1fb665f"
         }
       }
-    },
-    "A_8839188064": {
-      "description": "مود خطری",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "خشن",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "32ace5cff0d1a8b102d2522497891c45a387d4b2",
-          "released_on": "21-10-2026",
-          "md5sum": "edca33c787a0b4e520b537c85a31d42a"
-        }
-      }
     }
   }
 }
