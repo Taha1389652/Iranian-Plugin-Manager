@@ -1594,6 +1594,25 @@
           "md5sum": "b771084aa9ee6ad57459ba08f1fb665f"
         }
       }
+    },
+    "Duel_7049184343": {
+      "description": "مثله سرور کاپه بی اس لایفه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "Amir_googooriyo",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "e6ea475fd3191415efe9ae9a2458e9c4dc331f71",
+          "released_on": "22-10-2026",
+          "md5sum": "dda4781f6749b0e34abfa1e87efff713"
+        }
+      }
     }
   }
 }
