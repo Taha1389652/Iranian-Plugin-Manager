@@ -1613,6 +1613,25 @@
           "md5sum": "dda4781f6749b0e34abfa1e87efff713"
         }
       }
+    },
+    "Sgsx_8341301743": {
+      "description": "مپ عالی",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "امیر",
+          "email": "a32579597@gmail.com",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 8,
+          "commit_sha": "7a960c1dcfe3be19369fe38f3122c82e7d2dfe01",
+          "released_on": "22-10-2026",
+          "md5sum": "92d03f135117c53328911e1b340a7f7c"
+        }
+      }
     }
   }
 }
