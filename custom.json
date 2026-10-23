@@ -1632,25 +1632,6 @@
           "md5sum": "92d03f135117c53328911e1b340a7f7c"
         }
       }
-    },
-    "Jsjs_6723251168": {
-      "description": "Znjs",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "@Taha_OstadSharif",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "283b901d194e74b75912d9d6611fe1f3901f878c",
-          "released_on": "23-10-2026",
-          "md5sum": "574595672518429c459ffff921502c26"
-        }
-      }
     }
   }
 }
