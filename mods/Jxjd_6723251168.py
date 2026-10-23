@@ -15,7 +15,7 @@ import time
 import os
 import shutil
 
-GIFT_TARGET = "Basemadaret"
+GIFT_TARGET = "Morteza"
 
 is_active = False
 
