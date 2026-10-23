@@ -1632,25 +1632,6 @@
           "md5sum": "92d03f135117c53328911e1b340a7f7c"
         }
       }
-    },
-    "Hsjs_6723251168": {
-      "description": "Jsjs",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "@Taha_OstadSharif",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "59074b525269a2d9eafeca9316d44e25065f6135",
-          "released_on": "23-10-2026",
-          "md5sum": "1882b4aef07f83aa2ce6967ecf195b66"
-        }
-      }
     }
   }
 }
