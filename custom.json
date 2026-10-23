@@ -1657,6 +1657,25 @@
           "md5sum": "706c000ebb617da03d3e6944018c79da"
         }
       }
+    },
+    "Gurd_6723251168": {
+      "description": "Gurd",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "@Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "c9ecdf323d0903cc963d83e165ccb72b6998d721",
+          "released_on": "23-10-2026",
+          "md5sum": "529e60931ec4fca43555809a91f4f5a8"
+        }
+      }
     }
   }
 }
