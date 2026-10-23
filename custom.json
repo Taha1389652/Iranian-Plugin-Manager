@@ -1657,25 +1657,6 @@
           "md5sum": "706c000ebb617da03d3e6944018c79da"
         }
       }
-    },
-    "Gurd_6723251168": {
-      "description": "محافظ برای دزدیده نشدن سکه",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "@Taha_OstadSharif",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "d21ee6ecbe83b9414ad2054fb9706cff699d1220",
-          "released_on": "23-10-2026",
-          "md5sum": "4dfbc5e0659321f3137d8c7c44855902"
-        }
-      }
     }
   }
 }
