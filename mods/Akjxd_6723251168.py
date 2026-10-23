@@ -1,5 +1,4 @@
 # ba_meta require api 9
-# ba_meta export babase.Plugin
 
 import re
 import time
@@ -9,6 +8,7 @@ import bauiv1 as bui
 import bascenev1 as bs
 
 
+# ba_meta export babase.Plugin
 class Akjxd(babase.Plugin):
 
     def __init__(self):
