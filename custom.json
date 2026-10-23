@@ -1657,25 +1657,6 @@
           "md5sum": "706c000ebb617da03d3e6944018c79da"
         }
       }
-    },
-    "Jsjsakalalchc_6723251168": {
-      "description": "Nsna",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "@Taha_OstadSharif",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "be026695e64269b019c0a003f12a4565234834ef",
-          "released_on": "23-10-2026",
-          "md5sum": "8203116ded367fb95727323ce0c45d5f"
-        }
-      }
     }
   }
 }
