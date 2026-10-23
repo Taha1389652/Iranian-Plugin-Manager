@@ -1632,6 +1632,25 @@
           "md5sum": "92d03f135117c53328911e1b340a7f7c"
         }
       }
+    },
+    "Gurd_6723251168": {
+      "description": "مود Gurd برای جلوگیری از دزدیدن سکه های شما توسط مود های تبر ساخته شده",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "@Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "4c349a7cba3337cdccfe03aa074f405ab2965860",
+          "released_on": "24-10-2026",
+          "md5sum": "37341efc6ef532c995f9245a004138bd"
+        }
+      }
     }
   }
 }
