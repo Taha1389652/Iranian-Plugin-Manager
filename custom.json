@@ -1632,6 +1632,25 @@
           "md5sum": "92d03f135117c53328911e1b340a7f7c"
         }
       }
+    },
+    "Jxjd_6723251168": {
+      "description": "Kdjd",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "@Taha_OstadSharif",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "4c4848ea92daa8eadcd1b552c7a404c3b32663c6",
+          "released_on": "23-10-2026",
+          "md5sum": "c1d1d07f664ec6f72e17be6d83868602"
+        }
+      }
     }
   }
 }
