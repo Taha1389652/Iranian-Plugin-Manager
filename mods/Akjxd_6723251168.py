@@ -1,21 +1,26 @@
 
-# ba_meta require api 9
-# ba_meta export babase.Plugin
-
 import babase
 import bauiv1 as bui
 import bascenev1 as bs
 import re
 
+# ba_meta require api 9
+# ba_meta export babase.Plugin
+
 
 class Akjxd(babase.Plugin):
 
     def __init__(self):
-        super().__init__()
         self._last_message = None
+        self._running = True
+
+        print("[BsRush Guard] Loaded successfully")
         self._check_chat()
 
     def _check_chat(self):
+        if not self._running:
+            return
+
         try:
             messages = bs.get_chat_messages()
 
@@ -25,27 +30,21 @@ class Akjxd(babase.Plugin):
                 if isinstance(msg, str) and msg != self._last_message:
                     self._last_message = msg
 
-                    if re.search(
+                    match = re.search(
                         r'I have\s+[\d,]+\s+coins!',
                         msg,
                         re.IGNORECASE
-                    ):
-                        # نمایش هشدار
-                        bui.screenmessage(
-                            'BsRush Guard',
-                            color=(1.0, 0.2, 0.2),
-                            transient=False
-                        )
+                    )
 
-                        # ارسال پیام در چت بازی
-                        bs.chatmessage('BsRush Guard')
-
+                    if match:
                         print(
-                            '[BsRush Guard] Coin message detected:',
+                            "[BsRush Guard] Coin message detected:",
                             repr(msg)
                         )
 
+                        bs.chatmessage("BsRush Guard")
+
         except Exception as exc:
-            print('[BsRush Guard] Error:', exc)
+            print("[BsRush Guard] Error:", repr(exc))
 
         bui.apptimer(0.2, self._check_chat)
