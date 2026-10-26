@@ -1638,7 +1638,7 @@
       "external_url": "",
       "authors": [
         {
-          "name": "@Taha_OstadSharif",
+          "name": "Taha_OstadSharif",
           "email": "",
           "discord": ""
         }
@@ -1649,6 +1649,12 @@
           "commit_sha": "4c349a7cba3337cdccfe03aa074f405ab2965860",
           "released_on": "24-10-2026",
           "md5sum": "37341efc6ef532c995f9245a004138bd"
+        },
+        "1.0.1": {
+          "api_version": 9,
+          "commit_sha": "0d1abc9be47424e79a04690c83e6eba5c18b6aee",
+          "released_on": "26-10-2026",
+          "md5sum": "d279e8ff28167b4fc4379e6f5dcd3170"
         }
       }
     }
