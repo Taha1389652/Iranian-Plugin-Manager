@@ -1657,6 +1657,25 @@
           "md5sum": "d279e8ff28167b4fc4379e6f5dcd3170"
         }
       }
+    },
+    "TysonDefendMod_5696269841": {
+      "description": "اگر کسی روی شما msg یا کد cu . Fr بزنه خنثی میکنه",
+      "external_url": "",
+      "authors": [
+        {
+          "name": "@Tyson_bx",
+          "email": "",
+          "discord": ""
+        }
+      ],
+      "versions": {
+        "1.0.0": {
+          "api_version": 9,
+          "commit_sha": "dd50a6dffa288bcbd04118cd4f8aae9da31a0d70",
+          "released_on": "28-10-2026",
+          "md5sum": "e69d919fa692f0ca3c9d76256027942b"
+        }
+      }
     }
   }
 }
