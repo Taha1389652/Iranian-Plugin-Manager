@@ -1676,25 +1676,6 @@
           "md5sum": "e69d919fa692f0ca3c9d76256027942b"
         }
       }
-    },
-    "AllianceManager_6723251168": {
-      "description": "مود مدیریت اتحاد در بی اس لایف",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "@Taha_OstadSharif",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "388874306c8b99c4e3f6f792cdcc08a6e09e20c0",
-          "released_on": "05-11-2026",
-          "md5sum": "33d6655bfaf2accfda4e38dfe8c3a61c"
-        }
-      }
     }
   }
 }
