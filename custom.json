@@ -402,25 +402,6 @@
         }
       }
     },
-    "PluginTokhmi1_5817007309": {
-      "description": "اگر کار نکرد به تخمم",
-      "external_url": "",
-      "authors": [
-        {
-          "name": "ممد بکن طاها",
-          "email": "",
-          "discord": ""
-        }
-      ],
-      "versions": {
-        "1.0.0": {
-          "api_version": 9,
-          "commit_sha": "6276c5ce678aa38554cdf9a7c9300ff04e7cccbb",
-          "released_on": "28-08-2026",
-          "md5sum": "ee4f7e3e88c2982bc8290e204b10b050"
-        }
-      }
-    },
     "Buffon_Creator_api9_6502587028": {
       "description": "قابلیت شوت خودکار",
       "external_url": "",
